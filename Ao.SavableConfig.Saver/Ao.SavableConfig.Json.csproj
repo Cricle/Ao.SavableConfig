@@ -4,7 +4,7 @@
     <TargetFrameworks>net452;netstandard2.0;net461</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Can save configuration</Description>
-    <Version>2.1.0</Version>
+    <Version>2.1.2</Version>
     <PackageId>Ao.SavableConfig.Json</PackageId>
     <Authors>Ao.SavableConfig.Json</Authors>
     <Company>Ao.SavableConfig.Json</Company>

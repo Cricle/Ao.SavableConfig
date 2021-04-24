@@ -13,9 +13,16 @@ namespace Ao.SavableConfig.Saver
             if (report.Provider is FileConfigurationProvider provider
                 && string.Equals(Path.GetExtension(provider.Source.Path),".json", System.StringComparison.OrdinalIgnoreCase))
             {
-                var datas = File.ReadAllText(provider.Source.Path);
-                var obj = JObject.Parse(datas);
-                return new JsonChangeTransfer(obj);
+                if (File.Exists(provider.Source.Path))
+                {
+                    var datas = File.ReadAllText(provider.Source.Path);
+                    var obj = JObject.Parse(datas);
+                    return new JsonChangeTransfer(obj);
+                }
+                else
+                {
+                    return new JsonChangeTransfer(new JObject());
+                }
             }
             return null;
         }

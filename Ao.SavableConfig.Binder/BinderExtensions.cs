@@ -13,12 +13,16 @@ namespace Microsoft.Extensions.Configuration
 {
     public static class BinderExtensions
     {
+        public static dynamic CreateDynamic(this IConfiguration configuration)
+        {
+            return new DynamicConfiguration(configuration);
+        }
         public static IDisposable BindTwoWay(this IConfigurationChangeNotifyable notifyable, object value,params IChangeTransferCondition[] changeTransferConditions)
         {
             var setting = new BindSettings(value, BindSettings.DefaultDelayTime, changeTransferConditions);
-            return BindTwoWay(notifyable,setting);
+            return Bind(notifyable, setting, ConfigBindMode.TwoWay);
         }
-        public static IDisposable BindTwoWay(this IConfigurationChangeNotifyable notifyable, BindSettings bindSettings)
+        public static IDisposable Bind(this IConfigurationChangeNotifyable notifyable, BindSettings bindSettings, ConfigBindMode configBindMode)
         {
             var updater = bindSettings.Updater;
             if (updater is null)
@@ -27,8 +31,11 @@ namespace Microsoft.Extensions.Configuration
             }
             var once = new ConcurrentOnce();
             var watcher = notifyable.CreateWatcher();
-            notifyable.GetReloadToken()
-                .RegisterChangeCallback(Reload, null);
+            if (configBindMode == ConfigBindMode.OneWay || configBindMode == ConfigBindMode.TwoWay)
+            {
+                notifyable.GetReloadToken()
+                    .RegisterChangeCallback(Reload, null);
+            }
             notifyable.Bind(bindSettings.Value);
             void Reload(object state)
             {
@@ -48,7 +55,10 @@ namespace Microsoft.Extensions.Configuration
                     updater(() => notifyable.Bind(bindSettings.Value));
                 }
             }
-            watcher.ChangePushed += handler;
+            if (configBindMode == ConfigBindMode.TwoWay)
+            {
+                watcher.ChangePushed += handler;
+            }
             return new BindToken
             {
                 Disposed = () =>

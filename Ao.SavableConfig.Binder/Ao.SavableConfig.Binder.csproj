@@ -11,10 +11,12 @@
 
       var inst = config.CreateProxy{Settings}();
       config.BindTwoWay(inst, JsonChangeTransferCondition.Instance);
-      
+
       You can receive property change when in set time.
+
+      The prox can run at bool/(u)int8/(u)int32/(u)int64/string/float/double
     </Description>
-    <Version>2.1.0</Version>
+    <Version>2.1.2</Version>
     <PackageId>Ao.SavableConfig.Binder</PackageId>
     <Authors>Ao.SavableConfig.Binder</Authors>
     <Company>Ao.SavableConfig.Binder</Company>

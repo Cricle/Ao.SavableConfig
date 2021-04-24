@@ -40,14 +40,30 @@ namespace Ao.SavableConfig.Binder
             }
             return name;
         }
+        public static IReadOnlyDictionary<Type,INameTransfer> FromTypesAttributes(params Type[] types)
+        {
+            return types.ToDictionary(x => x, x => (INameTransfer)FromTypeAttributes(x));
+        }
         public static IdentityMapNameTransfer FromTypeAttributes(Type type)
         {
-            var baseName = type.GetCustomAttribute<ConfigPathAttribute>();
+            return FromTypeAttributes(null, type, true);
+        }
+        public static IdentityMapNameTransfer FromTypeAttributes(string prevPathName,Type type,bool usingClassPathName)
+        {
+            var baseName = prevPathName;
+            if (usingClassPathName)
+            {
+                var className = type.GetCustomAttribute<ConfigPathAttribute>();
+                if (className!=null)
+                {
+                    baseName = ConfigurationPath.Combine(baseName, className.Name);
+                }
+            }
             var map = type.GetProperties()
                 .Select(x => new { Property = x, Attribute = x.GetCustomAttribute<ConfigPathAttribute>() })
                 .Where(x=>x.Attribute!=null)
                 .ToDictionary(x=>new PropertyIdentity(type,x.Property.Name),x=> x.Attribute.Name);
-            return new IdentityMapNameTransfer(baseName.Name,map);
+            return new IdentityMapNameTransfer(baseName,map);
         }
     }
 }

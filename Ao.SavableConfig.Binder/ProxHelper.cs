@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Ao.SavableConfig.Binder.Annotations;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,17 @@ namespace Ao.SavableConfig.Binder
 {
     public class ProxyHelper
     {
-        private static readonly AssemblyBuilder DefaultDynamicAssembly = AssemblyBuilder.DefineDynamicAssembly(new AssemblyName("AoDynamicAssembly"), AssemblyBuilderAccess.RunAndCollect);
+        private static readonly Type INameTransferType = typeof(INameTransfer);
+        private static readonly Type ObjectType = typeof(object);
+        private static readonly Type StringType = typeof(string);
+        private static readonly Type IConfigurationType = typeof(IConfiguration);
+
+        private static readonly PropertyInfo ConfigurationIndexProperty = IConfigurationType.GetProperties().Where(x => x.GetIndexParameters().Length == 1).First();
+        private static readonly MethodInfo NameTransferTransferMethod = INameTransferType.GetMethod(nameof(INameTransfer.Transfer));
+        private static readonly MethodInfo ConfigurationBinderGetValueMethod = typeof(ConfigurationBinder).GetMethod(nameof(ConfigurationBinder.GetValue), new Type[] { typeof(IConfiguration), typeof(string) });
+        private static readonly MethodAttributes PropertyMethodAttr = MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.SpecialName | MethodAttributes.HideBySig;
+        private static readonly MethodInfo ToStringMethod = ObjectType.GetMethod(nameof(object.ToString), Type.EmptyTypes);
+        private static readonly AssemblyBuilder DefaultDynamicAssembly = AssemblyBuilder.DefineDynamicAssembly(new AssemblyName("AoDynamicAssembly"), AssemblyBuilderAccess.Run);
         private static readonly ModuleBuilder DefaultDynamicModule = DefaultDynamicAssembly.DefineDynamicModule("AoDyModule");
 
         public static readonly ProxyHelper Default = new ProxyHelper(DefaultDynamicAssembly, DefaultDynamicModule);
@@ -32,6 +43,14 @@ namespace Ao.SavableConfig.Binder
         public bool HasTypeProxy(Type type)
         {
             return proxMap.ContainsKey(type);
+        }
+        public Type GetProxyType(Type type)
+        {
+            if (HasTypeProxy(type))
+            {
+                return proxMap[type];
+            }
+            return null;
         }
         public object CreateProxy(Type type, IConfiguration configuration, INameTransfer nameTransfer)
         {
@@ -60,13 +79,11 @@ namespace Ao.SavableConfig.Binder
             @class.SetParent(type);
             var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .ToArray();
-            var transferMethod = typeof(INameTransfer).GetMethod(nameof(INameTransfer.Transfer));
-            var transferField = @class.DefineField("transfer", typeof(INameTransfer), FieldAttributes.Private | FieldAttributes.InitOnly);
-            var configurationField = @class.DefineField("configuration", typeof(IConfiguration), FieldAttributes.Private | FieldAttributes.InitOnly);
+            var transferField = @class.DefineField("transfer", INameTransferType, FieldAttributes.Private | FieldAttributes.InitOnly);
+            var configurationField = @class.DefineField("configuration", IConfigurationType, FieldAttributes.Private | FieldAttributes.InitOnly);
             var constract = @class.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, new Type[] { typeof(INameTransfer), typeof(IConfiguration) });
-            var objectConst = typeof(object).GetConstructor(Type.EmptyTypes);
+            var objectConst = ObjectType.GetConstructor(Type.EmptyTypes);
             var constractIl = constract.GetILGenerator();
-            var constractThrowLabel = constractIl.DefineLabel();
             constractIl.Emit(OpCodes.Ldarg_0);
             constractIl.Emit(OpCodes.Call, objectConst);
             constractIl.Emit(OpCodes.Ldarg_0);
@@ -76,49 +93,67 @@ namespace Ao.SavableConfig.Binder
             constractIl.Emit(OpCodes.Ldarg_2);
             constractIl.Emit(OpCodes.Stfld, configurationField);
             constractIl.Emit(OpCodes.Ret);
-            var configurationIndexProperty = typeof(IConfiguration)
-                .GetProperties()
-                .Where(x => x.GetIndexParameters().Length == 1)
-                .First();
 
             foreach (var item in properties)
             {
+                if (!item.PropertyType.IsPrimitive && item.PropertyType != StringType)
+                {
+                    continue;
+                }
+                var implExtGetMethod = ConfigurationBinderGetValueMethod.MakeGenericMethod(item.PropertyType);
                 if (item.GetMethod.IsVirtual && item.GetMethod.IsPublic)
                 {
-                    var attr = MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.SpecialName | MethodAttributes.HideBySig;
-                    var get = @class.DefineMethod("get_" + item.Name, attr, item.PropertyType, Type.EmptyTypes);
+                    var get = @class.DefineMethod("get_" + item.Name, PropertyMethodAttr, item.PropertyType, Type.EmptyTypes);
                     var getIl = get.GetILGenerator();
-                    var loc = getIl.DeclareLocal(item.PropertyType);
+                    getIl.DeclareLocal(StringType);
+                    getIl.DeclareLocal(IConfigurationType);
+
                     getIl.Emit(OpCodes.Ldarg_0);
                     getIl.Emit(OpCodes.Ldfld, transferField);
                     getIl.Emit(OpCodes.Ldarg_0);
                     getIl.Emit(OpCodes.Ldstr, item.Name);
-                    getIl.Emit(OpCodes.Callvirt, transferMethod);
+                    getIl.Emit(OpCodes.Callvirt, NameTransferTransferMethod);
                     getIl.Emit(OpCodes.Stloc_0);
+
                     getIl.Emit(OpCodes.Ldarg_0);
                     getIl.Emit(OpCodes.Ldfld, configurationField);
                     getIl.Emit(OpCodes.Ldloc_0);
-                    getIl.Emit(OpCodes.Callvirt, configurationIndexProperty.GetMethod);
+                    getIl.Emit(OpCodes.Call, implExtGetMethod);
                     getIl.Emit(OpCodes.Ret);
                 }
                 if (item.SetMethod.IsVirtual && item.SetMethod.IsPublic)
                 {
-                    var attr = MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.SpecialName | MethodAttributes.HideBySig;
-                    var set = @class.DefineMethod("set_" + item.Name, attr, typeof(void), new Type[] { item.PropertyType });
+                    var set = @class.DefineMethod("set_" + item.Name, PropertyMethodAttr, null, new Type[] { item.PropertyType });
                     var setIl = set.GetILGenerator();
-                    var loc = setIl.DeclareLocal(item.PropertyType);
+                    setIl.DeclareLocal(StringType);
+                    setIl.DeclareLocal(StringType);
+
                     setIl.Emit(OpCodes.Ldarg_0);
                     setIl.Emit(OpCodes.Ldfld, transferField);
                     setIl.Emit(OpCodes.Ldarg_0);
                     setIl.Emit(OpCodes.Ldstr, item.Name);
-                    setIl.Emit(OpCodes.Callvirt, transferMethod);
+                    setIl.Emit(OpCodes.Callvirt, NameTransferTransferMethod);
                     setIl.Emit(OpCodes.Stloc_0);
+
+                    var isStringType = item.PropertyType == StringType;
+                    if (!isStringType)
+                    {
+                        var toStr = item.PropertyType.GetMethod(nameof(object.ToString), Type.EmptyTypes);
+                        setIl.Emit(OpCodes.Ldarga_S, 1);
+                        setIl.Emit(OpCodes.Callvirt, toStr);
+                    }
+                    else
+                    {
+                        setIl.Emit(OpCodes.Ldarg_1);
+                    }
+                    setIl.Emit(OpCodes.Stloc_1);
+
 
                     setIl.Emit(OpCodes.Ldarg_0);
                     setIl.Emit(OpCodes.Ldfld, configurationField);
                     setIl.Emit(OpCodes.Ldloc_0);
-                    setIl.Emit(OpCodes.Ldarg_1);
-                    setIl.Emit(OpCodes.Callvirt, configurationIndexProperty.SetMethod);
+                    setIl.Emit(OpCodes.Ldloc_1);
+                    setIl.Emit(OpCodes.Callvirt, ConfigurationIndexProperty.SetMethod);
 
                     setIl.Emit(OpCodes.Ldarg_0);
                     setIl.Emit(OpCodes.Ldarg_1);

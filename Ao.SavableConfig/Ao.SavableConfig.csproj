@@ -5,12 +5,15 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Platforms>AnyCPU;x64</Platforms>
-    <Version>2.1.0</Version>
+    <Version>2.2.0</Version>
     <NoWarn>CS1591</NoWarn>
     <!--<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>-->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <DocumentationFile>Ao.SavableConfig.xml</DocumentationFile>
     <Description>Can save configuration</Description>
+    <Authors>Cricle</Authors>
+    <PackageProjectUrl>https://github.com/Cricle/Ao.SavableConfig</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Cricle/Ao.SavableConfig</RepositoryUrl>
   </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)'!='netstandard2.0' and '$(TargetFramework)'!='net461'">
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />

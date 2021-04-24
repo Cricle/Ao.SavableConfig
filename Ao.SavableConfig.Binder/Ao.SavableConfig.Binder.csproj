@@ -16,11 +16,13 @@
 
       The prox can run at bool/(u)int8/(u)int32/(u)int64/string/float/double
     </Description>
-    <Version>2.1.2</Version>
+    <Version>2.2.0</Version>
     <PackageId>Ao.SavableConfig.Binder</PackageId>
-    <Authors>Ao.SavableConfig.Binder</Authors>
-    <Company>Ao.SavableConfig.Binder</Company>
-    <Product>Ao.SavableConfig.Binder</Product>
+    <Authors>Cricle</Authors>
+    <Company>Ao.SavableConfig</Company>
+    <Product>Ao.SavableConfig</Product>
+    <PackageProjectUrl>https://github.com/Cricle/Ao.SavableConfig</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Cricle/Ao.SavableConfig</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>

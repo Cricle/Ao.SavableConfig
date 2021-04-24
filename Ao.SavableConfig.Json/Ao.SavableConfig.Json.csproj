@@ -3,12 +3,15 @@
   <PropertyGroup>
     <TargetFrameworks>net452;netstandard2.0;net461</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Description>Can save configuration</Description>
-    <Version>2.1.2</Version>
+    <Description>Can save configuration
+Json transfer</Description>
+    <Version>2.2.0</Version>
     <PackageId>Ao.SavableConfig.Json</PackageId>
-    <Authors>Ao.SavableConfig.Json</Authors>
-    <Company>Ao.SavableConfig.Json</Company>
-    <Product>Ao.SavableConfig.Json</Product>
+    <Authors>Cricle</Authors>
+    <Company>Ao.SavableConfig</Company>
+    <Product>Ao.SavableConfig</Product>
+    <PackageProjectUrl>https://github.com/Cricle/Ao.SavableConfig</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Cricle/Ao.SavableConfig</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net452'">

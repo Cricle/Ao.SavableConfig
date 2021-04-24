@@ -45,7 +45,7 @@ namespace Ao.SavableConfig.Binder
             {
                 var config = item.GetCustomAttribute<ConfigPathAttribute>();
                 ProxyHelper.BuildProx(item.PropertyType);
-                popertyProxyType.Add(item, config?.Name);
+                popertyProxyType.Add(item, config?.Name ?? item.Name);
             }
         }
         public virtual object Build(IConfiguration configuration)

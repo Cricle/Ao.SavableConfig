@@ -1,0 +1,457 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Ao.SavableConfig</name>
+    </assembly>
+    <members>
+        <member name="T:Ao.SavableConfig.ChangeWatcher">
+            <summary>
+            默认的更改观察者
+            </summary>
+        </member>
+        <member name="P:Ao.SavableConfig.ChangeWatcher.Configuration">
+            <inheritdoc/>
+        </member>
+        <member name="P:Ao.SavableConfig.ChangeWatcher.ChangeCount">
+            <inheritdoc/>
+        </member>
+        <member name="P:Ao.SavableConfig.ChangeWatcher.ChangeInfos">
+            <inheritdoc/>
+        </member>
+        <member name="E:Ao.SavableConfig.ChangeWatcher.ChangePushed">
+            <inheritdoc/>
+        </member>
+        <member name="E:Ao.SavableConfig.ChangeWatcher.ChangeCleared">
+            <inheritdoc/>
+        </member>
+        <member name="E:Ao.SavableConfig.ChangeWatcher.ChangeMerged">
+            <inheritdoc/>
+        </member>
+        <member name="M:Ao.SavableConfig.ChangeWatcher.#ctor(Ao.SavableConfig.IConfigurationChangeNotifyable)">
+            <summary>
+            初始化类型<see cref="T:Ao.SavableConfig.ChangeWatcher"/>
+            </summary>
+            <param name="notifyable"></param>
+        </member>
+        <member name="M:Ao.SavableConfig.ChangeWatcher.Stop">
+            <summary>
+            停止
+            </summary>
+        </member>
+        <member name="M:Ao.SavableConfig.ChangeWatcher.Dispose">
+            <inheritdoc/>
+        </member>
+        <member name="M:Ao.SavableConfig.ChangeWatcher.Clear">
+            <inheritdoc/>
+        </member>
+        <member name="M:Ao.SavableConfig.ChangeWatcher.Merge">
+            <inheritdoc/>
+        </member>
+        <member name="M:Ao.SavableConfig.ChangeWatcher.Condition(Ao.SavableConfig.IConfigurationChangeInfo)">
+            <summary>
+            调用以确保更改是否可以增加
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Ao.SavableConfig.ConfigurationExtensions">
+            <summary>
+            对类型<see cref="T:Microsoft.Extensions.Configuration.IConfiguration"/>的扩展
+            </summary>
+        </member>
+        <member name="M:Ao.SavableConfig.ConfigurationExtensions.CreateWatcher(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            创建更改观察者
+            </summary>
+            <param name="configuration"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ao.SavableConfig.ConfigurationExtensions.CreateEmptyWatcher(Ao.SavableConfig.IConfigurationChangeNotifyable)">
+            <summary>
+            创建空观察者
+            </summary>
+            <param name="configuration"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ao.SavableConfig.ConfigurationExtensions.CreateEmptyWatcher(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            创建更改观察者
+            </summary>
+            <param name="configuration"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ao.SavableConfig.ConfigurationExtensions.CreateWatcher(Ao.SavableConfig.IConfigurationChangeNotifyable)">
+            <summary>
+            创建更改观察者
+            </summary>
+            <param name="configuration"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Ao.SavableConfig.EmptyChangeWatcher">
+            <summary>
+            空的更改监听者
+            </summary>
+        </member>
+        <member name="M:Ao.SavableConfig.EmptyChangeWatcher.#ctor(Ao.SavableConfig.IConfigurationChangeNotifyable)">
+            <summary>
+            初始化类型<see cref="T:Ao.SavableConfig.EmptyChangeWatcher"/>
+            </summary>
+            <param name="configuration"></param>
+        </member>
+        <member name="P:Ao.SavableConfig.EmptyChangeWatcher.ChangeInfos">
+            <inheritdoc/>
+        </member>
+        <member name="P:Ao.SavableConfig.EmptyChangeWatcher.Configuration">
+            <inheritdoc/>
+        </member>
+        <member name="E:Ao.SavableConfig.EmptyChangeWatcher.ChangePushed">
+            <inheritdoc/>
+        </member>
+        <member name="M:Ao.SavableConfig.EmptyChangeWatcher.Dispose">
+            <inheritdoc/>
+        </member>
+        <member name="T:Ao.SavableConfig.IChangeWatcher">
+            <summary>
+            更改观察者
+            </summary>
+        </member>
+        <member name="P:Ao.SavableConfig.IChangeWatcher.ChangeInfos">
+            <summary>
+            更改信息集合
+            </summary>
+        </member>
+        <member name="P:Ao.SavableConfig.IChangeWatcher.Configuration">
+            <summary>
+            监听的更改配置目标
+            </summary>
+        </member>
+        <member name="E:Ao.SavableConfig.IChangeWatcher.ChangePushed">
+            <summary>
+            更改被推入时
+            </summary>
+        </member>
+        <member name="T:Ao.SavableConfig.ConfigurationChangeInfoExtensions">
+            <summary>
+            对类型<see cref="T:Ao.SavableConfig.IConfigurationChangeInfo"/>的扩展
+            </summary>
+        </member>
+        <member name="M:Ao.SavableConfig.ConfigurationChangeInfoExtensions.CreateUndo(Ao.SavableConfig.IConfigurationChangeInfo)">
+            <summary>
+            创建撤销更改信息
+            </summary>
+            <param name="changeInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ao.SavableConfig.ConfigurationChangeInfoExtensions.Undo(Ao.SavableConfig.IConfigurationChangeInfo)">
+            <summary>
+            撤销操作
+            </summary>
+            <param name="changeInfo"></param>
+        </member>
+        <member name="T:Ao.SavableConfig.IConfigurationChangeInfo">
+            <summary>
+            配置更改信息
+            </summary>
+        </member>
+        <member name="P:Ao.SavableConfig.IConfigurationChangeInfo.Key">
+            <summary>
+            键
+            </summary>
+        </member>
+        <member name="P:Ao.SavableConfig.IConfigurationChangeInfo.New">
+            <summary>
+            新值
+            </summary>
+        </member>
+        <member name="P:Ao.SavableConfig.IConfigurationChangeInfo.Old">
+            <summary>
+            旧值
+            </summary>
+        </member>
+        <member name="P:Ao.SavableConfig.IConfigurationChangeInfo.Provider">
+            <summary>
+            修改的提供者
+            </summary>
+        </member>
+        <member name="P:Ao.SavableConfig.IConfigurationChangeInfo.Sender">
+            <summary>
+            发起方
+            </summary>
+        </member>
+        <member name="T:Ao.SavableConfig.IConfigurationChangeNotifyable">
+            <summary>
+            配置更改可通知
+            </summary>
+        </member>
+        <member name="E:Ao.SavableConfig.IConfigurationChangeNotifyable.ConfigurationChanged">
+            <summary>
+            配置被更改了
+            </summary>
+        </member>
+        <member name="T:Ao.SavableConfig.InternalConfigurationRootExtensions">
+            <summary>
+            Extensions method for <see cref="T:Microsoft.Extensions.Configuration.IConfigurationRoot"/>
+            </summary>
+        </member>
+        <member name="M:Ao.SavableConfig.InternalConfigurationRootExtensions.GetChildrenImplementation(Ao.SavableConfig.SavableConfigurationRoot,System.String)">
+            <summary>
+            Gets the immediate children sub-sections of configuration root based on key.
+            </summary>
+            <param name="root">Configuration from which to retrieve sub-sections.</param>
+            <param name="path">Key of a section of which children to retrieve.</param>
+            <returns>Immediate children sub-sections of section specified by key.</returns>
+        </member>
+        <member name="T:Ao.SavableConfig.ConfigurationChangedHandler">
+            <summary>
+            配置更改处理器
+            </summary>
+            <param name="info"></param>
+        </member>
+        <member name="T:Ao.SavableConfig.SavableConfigurationRoot">
+            <summary>
+            可保存的配置根
+            </summary>
+        </member>
+        <member name="M:Ao.SavableConfig.SavableConfigurationRoot.#ctor(System.Collections.Generic.IList{Microsoft.Extensions.Configuration.IConfigurationProvider})">
+            <summary>
+            Initializes a Configuration root with a list of providers.
+            </summary>
+            <param name="providers">The <see cref="T:Microsoft.Extensions.Configuration.IConfigurationProvider"/>s for this configuration.</param>
+        </member>
+        <member name="P:Ao.SavableConfig.SavableConfigurationRoot.Providers">
+            <summary>
+            The <see cref="T:Microsoft.Extensions.Configuration.IConfigurationProvider"/>s for this configuration.
+            </summary>
+        </member>
+        <member name="P:Ao.SavableConfig.SavableConfigurationRoot.Item(System.String)">
+            <summary>
+            Gets or sets the value corresponding to a configuration key.
+            </summary>
+            <param name="key">The configuration key.</param>
+            <returns>The configuration value.</returns>
+        </member>
+        <member name="E:Ao.SavableConfig.SavableConfigurationRoot.ConfigurationChanged">
+            <inheritdoc/>
+        </member>
+        <member name="M:Ao.SavableConfig.SavableConfigurationRoot.GetChildren">
+            <summary>
+            Gets the immediate children sub-sections.
+            </summary>
+            <returns>The children.</returns>
+        </member>
+        <member name="M:Ao.SavableConfig.SavableConfigurationRoot.GetReloadToken">
+            <summary>
+            Returns a <see cref="T:Microsoft.Extensions.Primitives.IChangeToken"/> that can be used to observe when this configuration is reloaded.
+            </summary>
+            <returns>The <see cref="T:Microsoft.Extensions.Primitives.IChangeToken"/>.</returns>
+        </member>
+        <member name="M:Ao.SavableConfig.SavableConfigurationRoot.GetSection(System.String)">
+            <summary>
+            Gets a configuration sub-section with the specified key.
+            </summary>
+            <param name="key">The key of the configuration section.</param>
+            <returns>The <see cref="T:Microsoft.Extensions.Configuration.IConfigurationSection"/>.</returns>
+            <remarks>
+                This method will never return <c>null</c>. If no matching sub-section is found with the specified key,
+                an empty <see cref="T:Microsoft.Extensions.Configuration.IConfigurationSection"/> will be returned.
+            </remarks>
+        </member>
+        <member name="M:Ao.SavableConfig.SavableConfigurationRoot.Reload">
+            <summary>
+            Force the configuration values to be reloaded from the underlying sources.
+            </summary>
+        </member>
+        <member name="M:Ao.SavableConfig.SavableConfigurationRoot.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:Ao.SavableConfig.SavableConfigurationSection">
+            <summary>
+            可保持的配置节
+            </summary>
+        </member>
+        <member name="M:Ao.SavableConfig.SavableConfigurationSection.#ctor(Microsoft.Extensions.Configuration.IConfigurationRoot,System.String)">
+            <summary>
+            Initializes a new instance.
+            </summary>
+            <param name="root">The configuration root.</param>
+            <param name="path">The path to this section.</param>
+        </member>
+        <member name="P:Ao.SavableConfig.SavableConfigurationSection.Path">
+            <summary>
+            Gets the full path to this section from the <see cref="T:Microsoft.Extensions.Configuration.IConfigurationRoot"/>.
+            </summary>
+        </member>
+        <member name="P:Ao.SavableConfig.SavableConfigurationSection.Key">
+            <summary>
+            Gets the key this section occupies in its parent.
+            </summary>
+        </member>
+        <member name="P:Ao.SavableConfig.SavableConfigurationSection.Value">
+            <summary>
+            Gets or sets the section value.
+            </summary>
+        </member>
+        <member name="P:Ao.SavableConfig.SavableConfigurationSection.Item(System.String)">
+            <summary>
+            Gets or sets the value corresponding to a configuration key.
+            </summary>
+            <param name="key">The configuration key.</param>
+            <returns>The configuration value.</returns>
+        </member>
+        <member name="M:Ao.SavableConfig.SavableConfigurationSection.GetSection(System.String)">
+            <summary>
+            Gets a configuration sub-section with the specified key.
+            </summary>
+            <param name="key">The key of the configuration section.</param>
+            <returns>The <see cref="T:Microsoft.Extensions.Configuration.IConfigurationSection"/>.</returns>
+            <remarks>
+                This method will never return <c>null</c>. If no matching sub-section is found with the specified key,
+                an empty <see cref="T:Microsoft.Extensions.Configuration.IConfigurationSection"/> will be returned.
+            </remarks>
+        </member>
+        <member name="M:Ao.SavableConfig.SavableConfigurationSection.GetChildren">
+            <summary>
+            Gets the immediate descendant configuration sub-sections.
+            </summary>
+            <returns>The configuration sub-sections.</returns>
+        </member>
+        <member name="M:Ao.SavableConfig.SavableConfigurationSection.GetReloadToken">
+            <summary>
+            Returns a <see cref="T:Microsoft.Extensions.Primitives.IChangeToken"/> that can be used to observe when this configuration is reloaded.
+            </summary>
+            <returns>The <see cref="T:Microsoft.Extensions.Primitives.IChangeToken"/>.</returns>
+        </member>
+        <member name="T:Ao.SavableConfig.SavableConfiurationBuilder">
+            <summary>
+            可保持的配置生成器
+            </summary>
+        </member>
+        <member name="P:Ao.SavableConfig.SavableConfiurationBuilder.Sources">
+            <summary>
+            Returns the sources used to obtain configuration values.
+            </summary>
+        </member>
+        <member name="P:Ao.SavableConfig.SavableConfiurationBuilder.Properties">
+            <summary>
+            Gets a key/value collection that can be used to share data between the <see cref="T:Microsoft.Extensions.Configuration.IConfigurationBuilder"/>
+            and the registered <see cref="T:Microsoft.Extensions.Configuration.IConfigurationProvider"/>s.
+            </summary>
+        </member>
+        <member name="M:Ao.SavableConfig.SavableConfiurationBuilder.Add(Microsoft.Extensions.Configuration.IConfigurationSource)">
+            <summary>
+            Adds a new configuration source.
+            </summary>
+            <param name="source">The configuration source to add.</param>
+            <returns>The same <see cref="T:Microsoft.Extensions.Configuration.IConfigurationBuilder"/>.</returns>
+        </member>
+        <member name="M:Ao.SavableConfig.SavableConfiurationBuilder.Build">
+            <summary>
+            Builds an <see cref="T:Microsoft.Extensions.Configuration.IConfiguration"/> with keys and values from the set of providers registered in
+            <see cref="P:Ao.SavableConfig.SavableConfiurationBuilder.Sources"/>.
+            <para>And it is savable</para>
+            </summary>
+            <returns>An <see cref="T:Microsoft.Extensions.Configuration.IConfigurationRoot"/> with keys and values from the registered providers.</returns>
+        </member>
+        <member name="T:Ao.SavableConfig.Saver.ChangeReport">
+            <summary>
+            更改报告
+            </summary>
+        </member>
+        <member name="M:Ao.SavableConfig.Saver.ChangeReport.#ctor(Microsoft.Extensions.Configuration.IConfiguration,Microsoft.Extensions.Configuration.IConfigurationProvider,System.Collections.Generic.IReadOnlyList{Ao.SavableConfig.IConfigurationChangeInfo})">
+            <summary>
+            初始化类型<see cref="T:Ao.SavableConfig.Saver.ChangeReport"/>
+            </summary>
+            <param name="configuration"></param>
+            <param name="provider"></param>
+            <param name="includeChangeInfo"></param>
+        </member>
+        <member name="P:Ao.SavableConfig.Saver.ChangeReport.Configuration">
+            <summary>
+            配置
+            </summary>
+        </member>
+        <member name="P:Ao.SavableConfig.Saver.ChangeReport.Provider">
+            <summary>
+            配置提供器
+            </summary>
+        </member>
+        <member name="P:Ao.SavableConfig.Saver.ChangeReport.IncludeChangeInfo">
+            <summary>
+            包含的更改信息
+            </summary>
+        </member>
+        <member name="M:Ao.SavableConfig.Saver.ChangeReport.GetValueReport">
+            <summary>
+            获取更改值报告
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Ao.SavableConfig.Saver.ChangeReport.FromChanges(Microsoft.Extensions.Configuration.IConfiguration,System.Collections.Generic.IReadOnlyList{Ao.SavableConfig.IConfigurationChangeInfo})">
+            <summary>
+            从更改列表超级更改报告
+            </summary>
+            <param name="configuration"></param>
+            <param name="datas"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Ao.SavableConfig.Saver.ChangeSaver">
+            <summary>
+            更改保存器
+            </summary>
+        </member>
+        <member name="M:Ao.SavableConfig.Saver.ChangeSaver.#ctor(System.Collections.Generic.IEnumerable{Ao.SavableConfig.Saver.ChangeReport},System.Collections.Generic.IEnumerable{Ao.SavableConfig.Saver.IChangeTransferCondition})">
+            <summary>
+            初始化类型<see cref="T:Ao.SavableConfig.Saver.ChangeSaver"/>
+            </summary>
+            <param name="reports"></param>
+            <param name="transfers"></param>
+        </member>
+        <member name="P:Ao.SavableConfig.Saver.ChangeSaver.Reports">
+            <summary>
+            报告集合
+            </summary>
+        </member>
+        <member name="P:Ao.SavableConfig.Saver.ChangeSaver.Transfers">
+            <summary>
+            转移条件器
+            </summary>
+        </member>
+        <member name="M:Ao.SavableConfig.Saver.ChangeSaver.Emit">
+            <summary>
+            执行转移
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.Extensions.Configuration.ConfigurationReloadToken">
+            <summary>
+            Implements <see cref="T:Microsoft.Extensions.Primitives.IChangeToken"/>
+            </summary>
+        </member>
+        <member name="P:Microsoft.Extensions.Configuration.ConfigurationReloadToken.ActiveChangeCallbacks">
+            <summary>
+            Indicates if this token will proactively raise callbacks. Callbacks are still guaranteed to be invoked, eventually.
+            </summary>
+            <returns>True if the token will proactively raise callbacks.</returns>
+        </member>
+        <member name="P:Microsoft.Extensions.Configuration.ConfigurationReloadToken.HasChanged">
+            <summary>
+            Gets a value that indicates if a change has occurred.
+            </summary>
+            <returns>True if a change has occurred.</returns>
+        </member>
+        <member name="M:Microsoft.Extensions.Configuration.ConfigurationReloadToken.RegisterChangeCallback(System.Action{System.Object},System.Object)">
+            <summary>
+            Registers for a callback that will be invoked when the entry has changed. <see cref="P:Microsoft.Extensions.Primitives.IChangeToken.HasChanged"/>
+            MUST be set before the callback is invoked.
+            </summary>
+            <param name="callback">The callback to invoke.</param>
+            <param name="state">State to be passed into the callback.</param>
+            <returns>The <see cref="T:System.Threading.CancellationToken"/> registration.</returns>
+        </member>
+        <member name="M:Microsoft.Extensions.Configuration.ConfigurationReloadToken.OnReload">
+            <summary>
+            Used to trigger the change token when a reload occurs.
+            </summary>
+        </member>
+    </members>
+</doc>

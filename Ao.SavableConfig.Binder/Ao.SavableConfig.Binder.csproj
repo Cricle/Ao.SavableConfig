@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net452;net461</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>
+      Provider BindTwoWay extensions method.
+      Can Configuration *-* PhysicalFile two way change save.
+      Provider CreateProxy extensions method.
+      Can Proxy clr virtual property.Modify auto modify configuration!
+
+      var inst = config.CreateProxy{Settings}();
+      config.BindTwoWay(inst, JsonChangeTransferCondition.Instance);
+      
+      You can receive property change when in set time.
+    </Description>
+    <Version>2.1.0</Version>
+    <PackageId>Ao.SavableConfig.Binder</PackageId>
+    <Authors>Ao.SavableConfig.Binder</Authors>
+    <Company>Ao.SavableConfig.Binder</Company>
+    <Product>Ao.SavableConfig.Binder</Product>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ao.SavableConfig\Ao.SavableConfig.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' != 'net452'">
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="5.0.0" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net452'">
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="1.1.2" />
+  </ItemGroup>
+
+</Project>

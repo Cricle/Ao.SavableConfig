@@ -75,14 +75,17 @@ namespace Ao.SavableConfig
                 {
                     provider.TryGet(key, out var old);
                     provider.Set(key, value);
-                    ConfigurationChanged?.Invoke(new ConfigurationChangeInfo
+                    if (value != old)
                     {
-                        Key = key,
-                        New = value,
-                        Old = old,
-                        Provider = provider,
-                        Sender = this
-                    });
+                        ConfigurationChanged?.Invoke(new ConfigurationChangeInfo
+                        {
+                            Key = key,
+                            New = value,
+                            Old = old,
+                            Provider = provider,
+                            Sender = this
+                        });
+                    }
                 }
             }
         }

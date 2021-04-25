@@ -1,0 +1,15 @@
+﻿<Window x:Class="TwoWayBindWpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TwoWayBindWpf"
+        mc:Ignorable="d"
+        Title="{Binding Title}" Height="450" Width="800">
+    <StackPanel>
+        <TextBox Text="{Binding Title,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"/>
+        <Button>ok</Button>
+        <CheckBox IsChecked="{Binding ButtonEnable,Mode=TwoWay}"/>
+        <Button IsEnabled="{Binding ButtonEnable}">hello</Button>
+    </StackPanel>
+</Window>

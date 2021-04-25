@@ -36,23 +36,34 @@ namespace Microsoft.Extensions.Configuration
                 notifyable.GetReloadToken()
                     .RegisterChangeCallback(Reload, null);
             }
+            var notify = true;
             notifyable.Bind(bindSettings.Value);
             void Reload(object state)
             {
+                notify = false;
                 updater(() => notifyable.Bind(bindSettings.Value));
                 notifyable.GetReloadToken()
                     .RegisterChangeCallback(Reload, null);
+                notify = true;
             }
             async void handler(object o, IConfigurationChangeInfo e)
             {
-                if (await once.WaitAsync(bindSettings.DelayTime))
+                if (notify && await once.WaitAsync(bindSettings.DelayTime))
                 {
-                    var infos = watcher.ChangeInfos;
-                    watcher.Clear();
-                    var repo = ChangeReport.FromChanges(notifyable, infos);
-                    var saver = new ChangeSaver(repo, bindSettings.Conditions);
-                    var res = saver.EmitAndSave();
-                    updater(() => notifyable.Bind(bindSettings.Value));
+                    watcher.ChangePushed -= handler;
+                    try
+                    {
+                        var infos = watcher.ChangeInfos;
+                        watcher.Clear();
+                        var repo = ChangeReport.FromChanges(notifyable, infos);
+                        var saver = new ChangeSaver(repo, bindSettings.Conditions);
+                        var res = saver.EmitAndSave();
+                        updater(() => notifyable.Bind(bindSettings.Value));
+                    }
+                    finally
+                    {
+                        watcher.ChangePushed += handler;
+                    }
                 }
             }
             if (configBindMode == ConfigBindMode.TwoWay)

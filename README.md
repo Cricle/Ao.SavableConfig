@@ -1,4 +1,5 @@
 # Ao.SavableConfig
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/4f3f88d4a84b4377b0cc8bd04b44fcf8)](https://app.codacy.com/gh/Cricle/Ao.SavableConfig?utm_source=github.com&utm_medium=referral&utm_content=Cricle/Ao.SavableConfig&utm_campaign=Badge_Grade_Settings)
 [![.NET](https://github.com/Cricle/Ao.SavableConfig/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Cricle/Ao.SavableConfig/actions/workflows/dotnet.yml)
 [![Github lines](https://img.shields.io/tokei/lines/github/Cricle/Ao.SavableConfig)](https://github.com/Cricle/Ao.SavableConfig)
 

@@ -1,7 +1,7 @@
 # Ao.SavableConfig
 [![.NET](https://github.com/Cricle/Ao.SavableConfig/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Cricle/Ao.SavableConfig/actions/workflows/dotnet.yml)
 [![Github lines](https://img.shields.io/tokei/lines/github/Cricle/Ao.SavableConfig)](https://github.com/Cricle/Ao.SavableConfig)
-
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/28d777d354ed4984ad988703b1094665)](https://www.codacy.com/gh/Cricle/Ao.SavableConfig/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Cricle/Ao.SavableConfig&amp;utm_campaign=Badge_Grade)
 ## What it is 
 
 It can two way bind configuration.
@@ -22,15 +22,15 @@ Can reversal store is i modify the MS configuration lib to make it support, and 
 
 You can see `sample\TwoWayBind`
 
+Or wpf project `sample\TwoWayBindWpf` use in wpf binding
+
 ```csharp
 var builder = new SavableConfiurationBuilder();
 builder.AddJsonFile("appsettings.json", false, true);
 //Make configuration
 var root = builder.Build();
 //Create proxy and create proxy object
-var connection = ProxyHelper.Default.CreateComplexProxy<DbConnection>(true);
-var value = (DbConnection)connection.Build(root.GetSection("DbConnections"));
-//Bind it two way (or `OneWay` , `OneWayToSource` `OneTime`)
+var value = root.AutoCreateProxy<DbConnection>();
 root.BindTwoWay(value, JsonChangeTransferCondition.Instance);
 ```
 

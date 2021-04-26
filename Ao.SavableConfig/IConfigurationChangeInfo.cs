@@ -57,5 +57,9 @@ namespace Ao.SavableConfig
         /// 发起方
         /// </summary>
         IConfiguration Sender { get; }
+        /// <summary>
+        /// 是否是创建模式
+        /// </summary>
+        bool IsCreate { get; }
     }
 }

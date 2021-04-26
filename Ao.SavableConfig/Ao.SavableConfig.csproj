@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard1.0;net452;net461</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard1.1;net452;net461</TargetFrameworks>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Platforms>AnyCPU;x64</Platforms>
-    <Version>2.2.0</Version>
+    <Version>2.2.1</Version>
     <NoWarn>CS1591</NoWarn>
     <!--<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>-->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -22,5 +22,7 @@
   <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0' or '$(TargetFramework)'=='net461'">
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
   </ItemGroup>
-
+  <ItemGroup Condition="'$(TargetFramework)'=='netstandard1.1'">
+    <PackageReference Include="System.Collections.Concurrent" Version="4.3.0" />
+  </ItemGroup>
 </Project>

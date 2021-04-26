@@ -1,8 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
+
 namespace Ao.SavableConfig
 {
     /// <summary>
@@ -10,9 +13,39 @@ namespace Ao.SavableConfig
     /// </summary>
     public class ChangeWatcher : IDisposable, IChangeWatcher
     {
+        readonly struct ChangeIdentity:IEquatable<ChangeIdentity>
+        {
+            public readonly string Key;
+            public readonly IConfigurationProvider Provder;
+
+            public ChangeIdentity(string key, IConfigurationProvider provder)
+            {
+                Key = key;
+                Provder = provder;
+            }
+
+            public bool Equals(ChangeIdentity other)
+            {
+                return Key == other.Key &&
+                    Provder == other.Provder;
+            }
+            public override bool Equals(object obj)
+            {
+                if (obj is ChangeIdentity identity)
+                {
+                    return Equals(identity);
+                }
+                return false;
+            }
+            public override int GetHashCode()
+            {
+                return Key?.GetHashCode() ?? 0 |
+                    Provder?.GetHashCode() ?? 0;
+            }
+        }
         private readonly IConfigurationChangeNotifyable watchConfiguration;
 
-        private Stack<IConfigurationChangeInfo> changeInfos;
+        private ConcurrentDictionary<ChangeIdentity, IConfigurationChangeInfo> changeInfos;
 
         /// <inheritdoc/>
         public IConfigurationChangeNotifyable Configuration => watchConfiguration;
@@ -21,7 +54,7 @@ namespace Ao.SavableConfig
         public int ChangeCount => changeInfos.Count;
 
         /// <inheritdoc/>
-        public IReadOnlyList<IConfigurationChangeInfo> ChangeInfos => changeInfos.ToArray();
+        public IReadOnlyList<IConfigurationChangeInfo> ChangeInfos => changeInfos.Values.ToArray();
 
         IConfiguration IChangeWatcher.Configuration => Configuration;
 
@@ -32,13 +65,15 @@ namespace Ao.SavableConfig
         public event EventHandler ChangeCleared;
         /// <inheritdoc/>
         public event EventHandler ChangeMerged;
+
+        public bool IgnoreSame { get; set; }
         /// <summary>
         /// 初始化类型<see cref="ChangeWatcher"/>
         /// </summary>
         /// <param name="notifyable"></param>
         public ChangeWatcher(IConfigurationChangeNotifyable notifyable)
         {
-            changeInfos = new Stack<IConfigurationChangeInfo>();
+            changeInfos = new ConcurrentDictionary<ChangeIdentity, IConfigurationChangeInfo>();
             watchConfiguration = notifyable ?? throw new ArgumentNullException(nameof(notifyable));
             notifyable.ConfigurationChanged += Notifyable_ConfigurationChanged;
         }
@@ -60,57 +95,9 @@ namespace Ao.SavableConfig
             changeInfos.Clear();
             ChangeCleared?.Invoke(this, EventArgs.Empty);
         }
-        internal readonly struct ConfigurationPair : IEquatable<ConfigurationPair>
-        {
-            private readonly IConfiguration Configuration;
-            private readonly IConfigurationProvider ConfigurationProvider;
-
-            public ConfigurationPair(IConfiguration configuration, IConfigurationProvider configurationProvider)
-            {
-                Configuration = configuration;
-                ConfigurationProvider = configurationProvider;
-            }
-
-            public override int GetHashCode()
-            {
-                var hash = 0;
-                if (Configuration != null)
-                {
-                    hash = Configuration.GetHashCode();
-                }
-                if (ConfigurationProvider != null)
-                {
-                    hash |= ConfigurationProvider.GetHashCode();
-                }
-                return hash;
-            }
-            public override bool Equals(object obj)
-            {
-                if (obj is ConfigurationPair e)
-                {
-                    return Equals(e);
-                }
-                return false;
-            }
-            public bool Equals(ConfigurationPair other)
-            {
-                return other.Configuration == Configuration &&
-                    other.ConfigurationProvider == ConfigurationProvider;
-            }
-        }
         /// <inheritdoc/>
         public void Merge()
         {
-            var map = new Dictionary<ConfigurationPair, IConfigurationChangeInfo>();
-            foreach (var item in changeInfos)
-            {
-                var pari = new ConfigurationPair(item.Sender, item.Provider);
-                if (!map.ContainsKey(pari))
-                {
-                    map[pari] = item;
-                }
-            }
-            changeInfos = new Stack<IConfigurationChangeInfo>(map.Values);
             ChangeMerged?.Invoke(this, EventArgs.Empty);
         }
         /// <summary>
@@ -124,9 +111,14 @@ namespace Ao.SavableConfig
         }
         private void Notifyable_ConfigurationChanged(IConfigurationChangeInfo info)
         {
+            if (!IgnoreSame && info.New == info.Old)
+            {
+                return;
+            }
             if (Condition(info))
             {
-                changeInfos.Push(info);
+                var tk = new ChangeIdentity(info.Key, info.Provider);
+                changeInfos.AddOrUpdate(tk, info, (_, __) => info);
                 ChangePushed?.Invoke(this, info);
             }
         }

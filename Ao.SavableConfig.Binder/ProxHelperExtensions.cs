@@ -21,14 +21,20 @@ namespace Ao.SavableConfig.Binder
                 {
                     var includeTypes = type.SelectMany(x =>
                         x.GetProperties()
-                        .Where(y => y.CanWrite && y.CanRead && y.PropertyType.IsClass && y.GetCustomAttribute<ConfigStepInAttribute>() != null && !map.ContainsKey(x)))
-                        .ToArray();
+                        .Where(y => y.CanWrite && y.CanRead && y.PropertyType.IsClass && x.GetCustomAttribute<ConfigStepInAttribute>()!=null||y.GetCustomAttribute<ConfigStepInAttribute>() != null&&!map.ContainsKey(y.PropertyType)))
+                            .ToList();
+                    var notInclues = new List<PropertyInfo>();
                     foreach (var item in includeTypes)
                     {
+                        if (map.ContainsKey(item.PropertyType))
+                        {
+                            notInclues.Add(item);
+                            continue;
+                        }
                         var nameMap = IdentityMapNameTransfer.FromTypeAttributes(item.PropertyType);
                         map.Add(item.PropertyType, nameMap);
                     }
-                    type = includeTypes.Select(x => x.DeclaringType).Distinct().ToArray();
+                    type = includeTypes.Except(notInclues).Select(x => x.DeclaringType).Distinct().ToArray();
                 }
             }
             return CreateComplexProxy<T>(proxyHelper, map);

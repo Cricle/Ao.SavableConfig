@@ -12,5 +12,7 @@ namespace Ao.SavableConfig
         public string Old { get; set; }
 
         public string New { get; set; }
+
+        public bool IsCreate { get; set; }
     }
 }

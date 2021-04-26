@@ -38,14 +38,25 @@ namespace Ao.SavableConfig.Binder
         private void Analysis()
         {
             ProxyHelper.BuildProx(Type);
+            var rootConfigPath = Type.GetCustomAttribute<ConfigPathAttribute>();
+            var forceStepIn = Type.GetCustomAttribute<ConfigStepInAttribute>() != null;
             var props = Type.GetProperties()
-                .Where(x => x.PropertyType.IsClass && x.CanWrite && x.CanRead && x.GetCustomAttribute<ConfigStepInAttribute>() != null)
+                .Where(x => x.PropertyType.IsClass && x.CanWrite && x.CanRead && forceStepIn|| x.GetCustomAttribute<ConfigStepInAttribute>() != null)
                 .ToArray();
             foreach (var item in props)
             {
                 var config = item.GetCustomAttribute<ConfigPathAttribute>();
                 ProxyHelper.BuildProx(item.PropertyType);
-                popertyProxyType.Add(item, config?.Name ?? item.Name);
+                var name = item.Name;
+                if (!string.IsNullOrEmpty(config?.Name))
+                {
+                    name = config.Name;
+                }
+                if (!string.IsNullOrEmpty(rootConfigPath?.Name) && config is null||!config.Absolute)
+                {
+                    name = ConfigurationPath.Combine(rootConfigPath.Name, name);
+                }
+                popertyProxyType.Add(item, name);
             }
         }
         public virtual object Build(IConfiguration configuration)

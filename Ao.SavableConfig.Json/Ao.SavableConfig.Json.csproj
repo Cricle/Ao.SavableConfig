@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net452;netstandard2.0;net461</TargetFrameworks>
+    <TargetFrameworks>netstandard1.3;netstandard2.0;net461</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Can save configuration
 Json transfer</Description>
-    <Version>2.2.0</Version>
+    <Version>2.2.1</Version>
     <PackageId>Ao.SavableConfig.Json</PackageId>
     <Authors>Cricle</Authors>
     <Company>Ao.SavableConfig</Company>
@@ -14,10 +14,10 @@ Json transfer</Description>
     <RepositoryUrl>https://github.com/Cricle/Ao.SavableConfig</RepositoryUrl>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'net452'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.3'">
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="1.1.2" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' != 'net452'">
+  <ItemGroup Condition="'$(TargetFramework)' != 'netstandard1.3'">
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.8" />
   </ItemGroup>
   <ItemGroup>

@@ -70,22 +70,39 @@ namespace Ao.SavableConfig
                 {
                     throw new InvalidOperationException();
                 }
-
+                var changeInfo = new ConfigurationChangeInfo
+                {
+                    Key = key,
+                    New = value,
+                    Sender = this,
+                };
+                var anyOk = false;
                 foreach (IConfigurationProvider provider in _providers)
                 {
-                    provider.TryGet(key, out var old);
-                    provider.Set(key, value);
-                    if (value != old)
+                    if (ConfigurationChanged is null)
                     {
-                        ConfigurationChanged?.Invoke(new ConfigurationChangeInfo
-                        {
-                            Key = key,
-                            New = value,
-                            Old = old,
-                            Provider = provider,
-                            Sender = this
-                        });
+                        provider.Set(key, value);
                     }
+                    else
+                    {
+                        var ok = provider.TryGet(key, out var old);
+                        if (ok)
+                        {
+                            provider.Set(key, value);
+                            changeInfo.Old = old;
+                            changeInfo.Provider = provider;
+                            ConfigurationChanged.Invoke(changeInfo);
+                            anyOk = true;
+                        }
+                    }
+                }
+                if(!anyOk)
+                {
+                    var provider = _providers[_providers.Count - 1];
+                    provider.Set(key, value);
+                    changeInfo.Provider = provider;
+                    changeInfo.IsCreate = true;
+                    ConfigurationChanged.Invoke(changeInfo);
                 }
             }
         }

@@ -96,7 +96,14 @@ namespace Ao.SavableConfig.Binder
 
             foreach (var item in properties)
             {
-                if (!item.PropertyType.IsPrimitive && item.PropertyType != StringType)
+                bool CheckType(Type t)
+                {
+                    return item.PropertyType.IsPrimitive || item.PropertyType == StringType;
+                }
+                if (!(item.PropertyType.IsGenericType &&
+                    item.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>) &&
+                    CheckType(item.PropertyType.GenericTypeArguments[0]) ||
+                    CheckType(item.PropertyType)))
                 {
                     continue;
                 }

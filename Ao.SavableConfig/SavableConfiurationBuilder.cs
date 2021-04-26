@@ -13,7 +13,7 @@ namespace Ao.SavableConfig
     public class SavableConfiurationBuilder : IConfigurationBuilder
     {
 
-#if NETSTANDARD1_0||NET452
+#if NETSTANDARD1_1||NET452
         private readonly List<IConfigurationSource> sources = new List<IConfigurationSource>();
         private readonly Dictionary<string, object> properties=new Dictionary<string, object>();
         /// <summary>
@@ -50,7 +50,7 @@ namespace Ao.SavableConfig
             {
                 throw new ArgumentNullException(nameof(source));
             }
-#if NETSTANDARD1_0||NET452
+#if NETSTANDARD1_1||NET452
             sources.Add(source);
 #else
             Sources.Add(source);

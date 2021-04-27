@@ -8,7 +8,6 @@ namespace Ao.SavableConfig.Benchmark
     [MemoryDiagnoser]
     public class BindTwoWay
     {
-        private readonly SavableConfigurationRoot root;
         private readonly TwoWayDbConnection conn;
 
         [Params(10,100,1000)]
@@ -18,7 +17,7 @@ namespace Ao.SavableConfig.Benchmark
         {
             var builder = new SavableConfiurationBuilder();
             builder.AddJsonFile("appsettings.json", true, true);
-            root = builder.Build();
+            var root = builder.Build();
             conn = root.CreateComplexProxy<TwoWayDbConnection>();
             root.BindTwoWay(conn, JsonChangeTransferCondition.Instance);
         }

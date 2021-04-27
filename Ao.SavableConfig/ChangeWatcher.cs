@@ -39,8 +39,7 @@ namespace Ao.SavableConfig
             }
             public override int GetHashCode()
             {
-                return Key?.GetHashCode() ?? 0 |
-                    Provder?.GetHashCode() ?? 0;
+                return Key?.GetHashCode() ?? 0 | Provder?.GetHashCode() ?? 0;
             }
         }
         private readonly IConfigurationChangeNotifyable watchConfiguration;

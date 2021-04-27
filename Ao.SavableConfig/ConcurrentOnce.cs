@@ -16,7 +16,7 @@ namespace Ao.SavableConfig
         public async Task<bool> WaitAsync(TimeSpan delayTime)
         {
             var tk = token;
-            await Task.Delay(delayTime);
+            await Task.Delay(delayTime).ConfigureAwait(false);
             return Interlocked.CompareExchange(ref token, new object(), tk) == tk;
         }
 

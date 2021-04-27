@@ -11,7 +11,7 @@ namespace Ao.SavableConfig.Binder
     {
         public static ProxyCreator CreateComplexProxy<T>(this ProxyHelper proxyHelper,bool autoAnalysis)
         {
-            var type = new Type[] { typeof(T) };
+            var type = new[] { typeof(T) };
             var objType = typeof(object);
             var map = new Dictionary<Type, INameTransfer>();
             map.Add(type[0], IdentityMapNameTransfer.FromTypeAttributes(type[0]));

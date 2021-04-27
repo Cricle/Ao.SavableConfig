@@ -98,7 +98,7 @@ namespace Ao.SavableConfig.Binder
             {
                 bool CheckType(Type t)
                 {
-                    return item.PropertyType.IsPrimitive || item.PropertyType == StringType;
+                    return t.IsPrimitive || t == StringType;
                 }
                 if (!(item.PropertyType.IsGenericType &&
                     item.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>) &&

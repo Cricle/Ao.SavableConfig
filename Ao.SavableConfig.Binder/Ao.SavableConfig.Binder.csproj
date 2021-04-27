@@ -16,7 +16,7 @@
 
       The prox can run at bool/(u)int8/(u)int32/(u)int64/string/float/double
     </Description>
-    <Version>2.2.2</Version>
+    <Version>2.2.3</Version>
     <PackageId>Ao.SavableConfig.Binder</PackageId>
     <Authors>Cricle</Authors>
     <Company>Ao.SavableConfig</Company>
@@ -36,8 +36,8 @@
   <ItemGroup Condition="'$(TargetFramework)' == 'net452'">
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="1.1.2" />
   </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Ao.SavableConfig\Ao.SavableConfig.csproj" />
   </ItemGroup>
-
 </Project>

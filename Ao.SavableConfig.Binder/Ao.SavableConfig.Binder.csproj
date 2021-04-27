@@ -16,7 +16,7 @@
 
       The prox can run at bool/(u)int8/(u)int32/(u)int64/string/float/double
     </Description>
-    <Version>2.2.1</Version>
+    <Version>2.2.2</Version>
     <PackageId>Ao.SavableConfig.Binder</PackageId>
     <Authors>Cricle</Authors>
     <Company>Ao.SavableConfig</Company>

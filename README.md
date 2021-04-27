@@ -3,6 +3,7 @@
 [![Github lines](https://img.shields.io/tokei/lines/github/Cricle/Ao.SavableConfig)](https://github.com/Cricle/Ao.SavableConfig)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/28d777d354ed4984ad988703b1094665)](https://www.codacy.com/gh/Cricle/Ao.SavableConfig/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Cricle/Ao.SavableConfig&amp;utm_campaign=Badge_Grade)
 [![CodeQL](https://github.com/Cricle/Ao.SavableConfig/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/Cricle/Ao.SavableConfig/actions/workflows/codeql-analysis.yml)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FCricle%2FAo.SavableConfig.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FCricle%2FAo.SavableConfig?ref=badge_shield)
 ## What it is 
 
 It can two way bind configuration.
@@ -47,3 +48,7 @@ root.BindTwoWay(value, JsonChangeTransferCondition.Instance);
 [Ao.SavableConfig](https://www.nuget.org/packages/Ao.SavableConfig/)
 [Ao.SavableConfig.Binder](https://www.nuget.org/packages/Ao.SavableConfig.Binder/)
 [Ao.SavableConfig.Json](https://www.nuget.org/packages/Ao.SavableConfig.Json/)
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FCricle%2FAo.SavableConfig.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FCricle%2FAo.SavableConfig?ref=badge_large)

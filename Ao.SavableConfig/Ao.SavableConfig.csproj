@@ -5,7 +5,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Platforms>AnyCPU;x64</Platforms>
-    <Version>2.2.2</Version>
+    <Version>2.2.3</Version>
     <NoWarn>CS1591</NoWarn>
     <!--<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>-->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>

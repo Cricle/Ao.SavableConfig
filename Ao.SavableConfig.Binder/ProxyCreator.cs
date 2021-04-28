@@ -52,7 +52,7 @@ namespace Ao.SavableConfig.Binder
                 {
                     name = config.Name;
                 }
-                if (!string.IsNullOrEmpty(rootConfigPath?.Name) && config is null||!config.Absolute)
+                if (!string.IsNullOrEmpty(rootConfigPath?.Name))
                 {
                     name = ConfigurationPath.Combine(rootConfigPath.Name, name);
                 }

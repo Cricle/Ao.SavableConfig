@@ -48,3 +48,7 @@ root.BindTwoWay(value, JsonChangeTransferCondition.Instance);
 [Ao.SavableConfig](https://www.nuget.org/packages/Ao.SavableConfig/)
 [Ao.SavableConfig.Binder](https://www.nuget.org/packages/Ao.SavableConfig.Binder/)
 [Ao.SavableConfig.Json](https://www.nuget.org/packages/Ao.SavableConfig.Json/)
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FCricle%2FAo.SavableConfig.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FCricle%2FAo.SavableConfig?ref=badge_large)

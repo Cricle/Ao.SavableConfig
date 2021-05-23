@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace Ao.SavableConfig
 {
-    [DebuggerDisplay("{" + nameof(GetDebuggerDisplay) + "(),nq}")]
     public class ConcurrentOnce
     {
         private object token = new object();
@@ -23,11 +22,6 @@ namespace Ao.SavableConfig
         public override string ToString()
         {
             return $"{{{Token}}}";
-        }
-
-        private string GetDebuggerDisplay()
-        {
-            return ToString();
         }
     }
 }

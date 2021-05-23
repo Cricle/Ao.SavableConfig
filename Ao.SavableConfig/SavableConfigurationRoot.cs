@@ -102,7 +102,7 @@ namespace Ao.SavableConfig
                     provider.Set(key, value);
                     changeInfo.Provider = provider;
                     changeInfo.IsCreate = true;
-                    ConfigurationChanged.Invoke(changeInfo);
+                    ConfigurationChanged?.Invoke(changeInfo);
                 }
             }
         }

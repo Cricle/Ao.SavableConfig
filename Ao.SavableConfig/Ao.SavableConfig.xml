@@ -54,6 +54,24 @@
             <param name="info"></param>
             <returns></returns>
         </member>
+        <member name="T:Ao.SavableConfig.ConfigurationChangeInfoExtensions">
+            <summary>
+            对类型<see cref="T:Ao.SavableConfig.IConfigurationChangeInfo"/>的扩展
+            </summary>
+        </member>
+        <member name="M:Ao.SavableConfig.ConfigurationChangeInfoExtensions.CreateUndo(Ao.SavableConfig.IConfigurationChangeInfo)">
+            <summary>
+            创建撤销更改信息
+            </summary>
+            <param name="changeInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Ao.SavableConfig.ConfigurationChangeInfoExtensions.Undo(Ao.SavableConfig.IConfigurationChangeInfo)">
+            <summary>
+            撤销操作
+            </summary>
+            <param name="changeInfo"></param>
+        </member>
         <member name="T:Ao.SavableConfig.ConfigurationExtensions">
             <summary>
             对类型<see cref="T:Microsoft.Extensions.Configuration.IConfiguration"/>的扩展
@@ -129,24 +147,6 @@
             <summary>
             更改被推入时
             </summary>
-        </member>
-        <member name="T:Ao.SavableConfig.ConfigurationChangeInfoExtensions">
-            <summary>
-            对类型<see cref="T:Ao.SavableConfig.IConfigurationChangeInfo"/>的扩展
-            </summary>
-        </member>
-        <member name="M:Ao.SavableConfig.ConfigurationChangeInfoExtensions.CreateUndo(Ao.SavableConfig.IConfigurationChangeInfo)">
-            <summary>
-            创建撤销更改信息
-            </summary>
-            <param name="changeInfo"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Ao.SavableConfig.ConfigurationChangeInfoExtensions.Undo(Ao.SavableConfig.IConfigurationChangeInfo)">
-            <summary>
-            撤销操作
-            </summary>
-            <param name="changeInfo"></param>
         </member>
         <member name="T:Ao.SavableConfig.IConfigurationChangeInfo">
             <summary>
@@ -331,15 +331,15 @@
             可保持的配置生成器
             </summary>
         </member>
-        <member name="P:Ao.SavableConfig.SavableConfiurationBuilder.Sources">
-            <summary>
-            Returns the sources used to obtain configuration values.
-            </summary>
-        </member>
         <member name="P:Ao.SavableConfig.SavableConfiurationBuilder.Properties">
             <summary>
             Gets a key/value collection that can be used to share data between the <see cref="T:Microsoft.Extensions.Configuration.IConfigurationBuilder"/>
             and the registered <see cref="T:Microsoft.Extensions.Configuration.IConfigurationProvider"/>s.
+            </summary>
+        </member>
+        <member name="P:Ao.SavableConfig.SavableConfiurationBuilder.Sources">
+            <summary>
+            Returns the sources used to obtain configuration values.
             </summary>
         </member>
         <member name="M:Ao.SavableConfig.SavableConfiurationBuilder.Add(Microsoft.Extensions.Configuration.IConfigurationSource)">

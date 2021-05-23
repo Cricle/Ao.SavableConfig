@@ -3,7 +3,6 @@ using System.Diagnostics;
 
 namespace Ao.SavableConfig.Binder
 {
-    [DebuggerDisplay("{" + nameof(GetDebuggerDisplay) + "(),nq}")]
     public readonly struct PropertyIdentity : IEquatable<PropertyIdentity>
     {
         public readonly Type Type;
@@ -30,7 +29,7 @@ namespace Ao.SavableConfig.Binder
         }
         public override int GetHashCode()
         {
-            return Type.GetHashCode() | PropertyName.GetHashCode();
+            return Type.GetHashCode()+ PropertyName.GetHashCode();
         }
         public override string ToString()
         {
@@ -41,11 +40,6 @@ namespace Ao.SavableConfig.Binder
         {
             return other.Type == Type &&
                 other.PropertyName == PropertyName;
-        }
-
-        private string GetDebuggerDisplay()
-        {
-            return ToString();
         }
     }
 }

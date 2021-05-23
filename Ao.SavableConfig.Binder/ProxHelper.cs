@@ -75,7 +75,7 @@ namespace Ao.SavableConfig.Binder
         }
         private Type Build(Type type)
         {
-            var @class = DynamicModule.DefineType("Prox" + type.Name, TypeAttributes.Public | TypeAttributes.Sealed);
+            var @class = DynamicModule.DefineType("Prox" + type.Name+type.GetHashCode(), TypeAttributes.Public | TypeAttributes.Sealed);
             @class.SetParent(type);
             var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .ToArray();

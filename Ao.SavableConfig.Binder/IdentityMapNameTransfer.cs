@@ -10,27 +10,33 @@ namespace Ao.SavableConfig.Binder
     public class IdentityMapNameTransfer : INameTransfer
     {
         public IdentityMapNameTransfer(IReadOnlyDictionary<PropertyIdentity, string> map)
-            :this(null,map)
+            : this(null, map)
         {
         }
-        public IdentityMapNameTransfer(string basePath,IReadOnlyDictionary<PropertyIdentity, string> map)
+        public IdentityMapNameTransfer(string basePath, IReadOnlyDictionary<PropertyIdentity, string> map)
         {
             BasePath = basePath;
             Map = map ?? throw new ArgumentNullException(nameof(map));
         }
         public string BasePath { get; }
 
-        public IReadOnlyDictionary<PropertyIdentity,string> Map { get; }
+        public IReadOnlyDictionary<PropertyIdentity, string> Map { get; }
 
         public string Transfer(object instance, string propertyName)
         {
-            if (instance  is null)
+            if (instance is null)
             {
                 return propertyName;
             }
+
+            if (string.IsNullOrEmpty(propertyName))
+            {
+                throw new ArgumentException($"“{nameof(propertyName)}”不能为 Null 或空。", nameof(propertyName));
+            }
+
             var parent = instance.GetType().BaseType;
             var name = propertyName;
-            if (!Map.TryGetValue(new PropertyIdentity(parent, propertyName),out name))
+            if (!Map.TryGetValue(new PropertyIdentity(parent, propertyName), out name))
             {
                 name = propertyName;
             }
@@ -40,7 +46,7 @@ namespace Ao.SavableConfig.Binder
             }
             return name;
         }
-        public static IReadOnlyDictionary<Type,INameTransfer> FromTypesAttributes(params Type[] types)
+        public static IReadOnlyDictionary<Type, INameTransfer> FromTypesAttributes(params Type[] types)
         {
             return types.ToDictionary(x => x, x => (INameTransfer)FromTypeAttributes(x));
         }
@@ -48,22 +54,22 @@ namespace Ao.SavableConfig.Binder
         {
             return FromTypeAttributes(null, type, true);
         }
-        public static IdentityMapNameTransfer FromTypeAttributes(string prevPathName,Type type,bool usingClassPathName)
+        public static IdentityMapNameTransfer FromTypeAttributes(string prevPathName, Type type, bool usingClassPathName)
         {
             var baseName = prevPathName;
             if (usingClassPathName)
             {
                 var className = type.GetCustomAttribute<ConfigPathAttribute>();
-                if (className!=null)
+                if (className != null)
                 {
                     baseName = ConfigurationPath.Combine(baseName, className.Name);
                 }
             }
             var map = type.GetProperties()
                 .Select(x => new { Property = x, Attribute = x.GetCustomAttribute<ConfigPathAttribute>() })
-                .Where(x=>x.Attribute!=null)
-                .ToDictionary(x=>new PropertyIdentity(type,x.Property.Name),x=> x.Attribute.Name);
-            return new IdentityMapNameTransfer(baseName,map);
+                .Where(x => x.Attribute != null)
+                .ToDictionary(x => new PropertyIdentity(type, x.Property.Name), x => x.Attribute.Name);
+            return new IdentityMapNameTransfer(baseName, map);
         }
     }
 }

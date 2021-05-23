@@ -8,7 +8,7 @@ namespace Ao.SavableConfig.Binder
 
         public void Dispose()
         {
-            Disposed();
+            Disposed?.Invoke();
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Ao.SavableConfig
     /// </summary>
     public class ChangeWatcher : IDisposable, IChangeWatcher
     {
-        readonly struct ChangeIdentity:IEquatable<ChangeIdentity>
+        readonly struct ChangeIdentity
         {
             public readonly string Key;
             public readonly IConfigurationProvider Provder;
@@ -28,14 +28,6 @@ namespace Ao.SavableConfig
             {
                 return Key == other.Key &&
                     Provder == other.Provder;
-            }
-            public override bool Equals(object obj)
-            {
-                if (obj is ChangeIdentity identity)
-                {
-                    return Equals(identity);
-                }
-                return false;
             }
             public override int GetHashCode()
             {

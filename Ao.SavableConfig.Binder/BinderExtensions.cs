@@ -16,15 +16,45 @@ namespace Microsoft.Extensions.Configuration
     {
         public static dynamic CreateDynamic(this IConfiguration configuration)
         {
+            if (configuration is null)
+            {
+                throw new ArgumentNullException(nameof(configuration));
+            }
+
             return new DynamicConfiguration(configuration);
         }
         public static BindBox BindTwoWay(this IConfigurationChangeNotifyable notifyable, object value, params IChangeTransferCondition[] changeTransferConditions)
         {
+            if (notifyable is null)
+            {
+                throw new ArgumentNullException(nameof(notifyable));
+            }
+
+            if (value is null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            if (changeTransferConditions is null)
+            {
+                throw new ArgumentNullException(nameof(changeTransferConditions));
+            }
+
             var setting = new BindSettings(value, BindSettings.DefaultDelayTime, changeTransferConditions);
             return Bind(notifyable, setting, ConfigBindMode.TwoWay);
         }
         public static BindBox Bind(this IConfigurationChangeNotifyable notifyable, BindSettings bindSettings, ConfigBindMode configBindMode)
         {
+            if (notifyable is null)
+            {
+                throw new ArgumentNullException(nameof(notifyable));
+            }
+
+            if (bindSettings is null)
+            {
+                throw new ArgumentNullException(nameof(bindSettings));
+            }
+
             var updater = bindSettings.Updater;
             if (updater is null)
             {

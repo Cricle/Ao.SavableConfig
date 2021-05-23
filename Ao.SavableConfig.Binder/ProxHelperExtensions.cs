@@ -9,8 +9,13 @@ namespace Ao.SavableConfig.Binder
 {
     public static class ProxHelperExtensions
     {
-        public static ProxyCreator CreateComplexProxy<T>(this ProxyHelper proxyHelper,bool autoAnalysis)
+        public static ProxyCreator CreateComplexProxy<T>(this ProxyHelper proxyHelper, bool autoAnalysis)
         {
+            if (proxyHelper is null)
+            {
+                throw new ArgumentNullException(nameof(proxyHelper));
+            }
+
             var type = new[] { typeof(T) };
             var objType = typeof(object);
             var map = new Dictionary<Type, INameTransfer>();
@@ -41,17 +46,47 @@ namespace Ao.SavableConfig.Binder
         }
         public static ProxyCreator CreateComplexProxy<T>(this ProxyHelper proxyHelper,IReadOnlyDictionary<Type,INameTransfer> nameTransferPicker)
         {
+            if (proxyHelper is null)
+            {
+                throw new ArgumentNullException(nameof(proxyHelper));
+            }
+
             return new ProxyCreator(proxyHelper, typeof(T), nameTransferPicker);
         }
         public static T EnsureCreateProxWithAttribute<T>(this ProxyHelper proxHelper, IConfiguration configuration)
             where T:class
         {
+            if (proxHelper is null)
+            {
+                throw new ArgumentNullException(nameof(proxHelper));
+            }
+
+            if (configuration is null)
+            {
+                throw new ArgumentNullException(nameof(configuration));
+            }
+
             var nameTransfer = IdentityMapNameTransfer.FromTypeAttributes(typeof(T));
             return EnsureCreateProx<T>(proxHelper, configuration, nameTransfer);
         }
-        public static T EnsureCreateProx<T>(this ProxyHelper proxHelper,IConfiguration configuration,INameTransfer nameTransfer)
+        public static T EnsureCreateProx<T>(this ProxyHelper proxHelper, IConfiguration configuration, INameTransfer nameTransfer)
             where T:class
         {
+            if (proxHelper is null)
+            {
+                throw new ArgumentNullException(nameof(proxHelper));
+            }
+
+            if (configuration is null)
+            {
+                throw new ArgumentNullException(nameof(configuration));
+            }
+
+            if (nameTransfer is null)
+            {
+                throw new ArgumentNullException(nameof(nameTransfer));
+            }
+
             var type = typeof(T);
             if (!proxHelper.HasTypeProxy(type))
             {

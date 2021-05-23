@@ -24,12 +24,19 @@ namespace Ao.SavableConfig.Saver
         {
             Configuration = configuration;
             Provider = provider;
-            IncludeChangeInfo = includeChangeInfo;
-            for (int i = 0; i < includeChangeInfo.Count; i++)
+#if NETSTANDARD1_1 || NET452
+            IncludeChangeInfo = includeChangeInfo ?? new IConfigurationChangeInfo[0];
+#else
+            IncludeChangeInfo = includeChangeInfo ?? Array.Empty<IConfigurationChangeInfo>();
+#endif
+            if (includeChangeInfo != null)
             {
-                if (includeChangeInfo[i].Provider != provider)
+                for (int i = 0; i < includeChangeInfo.Count; i++)
                 {
-                    throw new ArgumentException($"The {i} element provider is not equal {Provider}");
+                    if (includeChangeInfo[i].Provider != provider)
+                    {
+                        throw new ArgumentException($"The {i} element provider is not equal {Provider}");
+                    }
                 }
             }
         }
@@ -57,7 +64,7 @@ namespace Ao.SavableConfig.Saver
                 var isArray = item.Key.TrimEnd(numberChars).EndsWith(ConfigurationPath.KeyDelimiter);
                 if (isArray)
                 {
-                    map[item.Key]= new ChangeValueInfo(Configuration,item,  ConfigurationTypes.Object,true);
+                    map[item.Key]= new ChangeValueInfo(Configuration,item,  ConfigurationTypes.Array,true);
                 }
                 else
                 {

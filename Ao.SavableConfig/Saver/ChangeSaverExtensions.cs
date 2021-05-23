@@ -6,6 +6,11 @@ namespace Ao.SavableConfig.Saver
     {
         public static IReadOnlyDictionary<ChangeReport, ChangeEmitResult> EmitAndSave(this ChangeSaver saver)
         {
+            if (saver is null)
+            {
+                throw new System.ArgumentNullException(nameof(saver));
+            }
+
             var vals=saver.Emit();
             foreach (var item in vals)
             {

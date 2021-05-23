@@ -8,9 +8,14 @@ namespace Ao.SavableConfig.Binder
 {
     public static class BinderConfigurationExtensions
     {
-        public static T AutoCreateProxy<T>(this IConfiguration configuration,string section, INameTransfer nameTransfer = null)
+        public static T AutoCreateProxy<T>(this IConfiguration configuration, string section, INameTransfer nameTransfer = null)
                   where T : class
         {
+            if (string.IsNullOrEmpty(section))
+            {
+                throw new ArgumentException($"“{nameof(section)}”不能为 Null 或空。", nameof(section));
+            }
+
             return AutoCreateProxy<T>(configuration.GetSection(section), nameTransfer);
         }
         public static T AutoCreateProxy<T>(this IConfiguration configuration, INameTransfer nameTransfer = null)
@@ -18,8 +23,8 @@ namespace Ao.SavableConfig.Binder
         {
             var type = typeof(T);
             var forceStepIn = type.GetCustomAttribute<ConfigStepInAttribute>() != null;
-            if (forceStepIn||
-                type.GetProperties().Any(x => x.CanWrite && x.PropertyType.IsClass &&x.GetCustomAttributes<ConfigStepInAttribute>() != null))
+            if (forceStepIn ||
+                type.GetProperties().Any(x => x.CanWrite && x.PropertyType.IsClass && x.GetCustomAttributes<ConfigStepInAttribute>() != null))
             {
                 return CreateComplexProxy<T>(configuration);
             }

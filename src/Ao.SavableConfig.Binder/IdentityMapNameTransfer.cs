@@ -34,7 +34,7 @@ namespace Ao.SavableConfig.Binder
                 throw new ArgumentException($"“{nameof(propertyName)}”不能为 Null 或空。", nameof(propertyName));
             }
 
-            var parent = instance.GetType().BaseType;
+            var parent = instance.GetType();
             string name;
             if (!Map.TryGetValue(new PropertyIdentity(parent, propertyName), out name))
             {

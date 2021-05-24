@@ -18,7 +18,7 @@ namespace Ao.SavableConfig.Saver
 
         public bool IgnoreAdd { get; set; }
 
-        private void UpdateValue(JToken origin,string path,JToken value)
+        protected internal void UpdateValue(JToken origin,string path,JToken value)
         {
             var tk = origin;
             var jtoken = path.Split(splitToken, StringSplitOptions.RemoveEmptyEntries);

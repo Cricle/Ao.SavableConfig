@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Ao.SavableConfig\Ao.SavableConfig.csproj" />
+    <ProjectReference Include="..\..\src\Ao.SavableConfig\Ao.SavableConfig.csproj" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">

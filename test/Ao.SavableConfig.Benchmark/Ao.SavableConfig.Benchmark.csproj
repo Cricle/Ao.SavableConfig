@@ -12,9 +12,9 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Ao.SavableConfig.Binder\Ao.SavableConfig.Binder.csproj" />
-    <ProjectReference Include="..\Ao.SavableConfig.Json\Ao.SavableConfig.Json.csproj" />
-    <ProjectReference Include="..\Ao.SavableConfig\Ao.SavableConfig.csproj" />
+    <ProjectReference Include="..\..\src\Ao.SavableConfig.Binder\Ao.SavableConfig.Binder.csproj" />
+    <ProjectReference Include="..\..\src\Ao.SavableConfig.Json\Ao.SavableConfig.Json.csproj" />
+    <ProjectReference Include="..\..\src\Ao.SavableConfig\Ao.SavableConfig.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="appsettings.json">

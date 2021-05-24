@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-namespace Ao.SavableConfig.Binder.Test
+namespace Ao.SavableConfig
 {
     internal static class ConfigHelper
     {

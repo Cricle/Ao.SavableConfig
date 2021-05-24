@@ -21,8 +21,7 @@
 |Provider|Status|
 |:-:|:-|
 |Github|[![.NET](https://github.com/Cricle/Ao.SavableConfig/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Cricle/Ao.SavableConfig/actions/workflows/dotnet.yml)|
-|Azure Pipelines|[![Build Status](https://hcricle.visualstudio.com/Ao.SavableConfig/_apis/build/status/Cricle.Ao.SavableConfig?branchName=master)](https://hcricle.visualstudio.com/Ao.SavableConfig/_build/latest?definitionId=8&branchName=master)
-|
+|Azure Pipelines|[![Build Status](https://hcricle.visualstudio.com/Ao.SavableConfig/_apis/build/status/Cricle.Ao.SavableConfig?branchName=master)](https://hcricle.visualstudio.com/Ao.SavableConfig/_build/latest?definitionId=8&branchName=master)|
 
 ## What it is 
 

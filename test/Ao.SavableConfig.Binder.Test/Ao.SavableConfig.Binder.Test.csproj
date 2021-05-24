@@ -13,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Ao.SavableConfig.Binder\Ao.SavableConfig.Binder.csproj" />
-    <ProjectReference Include="..\Ao.SavableConfig\Ao.SavableConfig.csproj" />
+    <ProjectReference Include="..\..\src\Ao.SavableConfig.Binder\Ao.SavableConfig.Binder.csproj" />
+    <ProjectReference Include="..\..\src\Ao.SavableConfig\Ao.SavableConfig.csproj" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' != 'net452'">
     <PackageReference Include="Microsoft.Extensions.Configuration">

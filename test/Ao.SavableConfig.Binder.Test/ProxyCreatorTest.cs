@@ -40,6 +40,7 @@ namespace Ao.SavableConfig.Binder.Test
             var type = typeof(object);
             var creator = new ProxyCreator(prox, type, null);
             Assert.IsNotNull(creator.NameTransferPicker);
+            Assert.IsNotNull(creator.PopertyProxyType);
         }
         [TestMethod]
         public void GivenNullInit_MustThrowException()

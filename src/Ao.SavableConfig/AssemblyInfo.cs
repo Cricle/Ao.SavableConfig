@@ -14,4 +14,5 @@ using System.Runtime.InteropServices;
 
 [assembly: Guid("7a275b2a-d10d-49ea-ad72-61d2947a7efa")]
 
-[assembly:InternalsVisibleTo("Ao.SavableConfig.Test")]
+[assembly: InternalsVisibleTo("Ao.SavableConfig.Test")]
+[assembly: InternalsVisibleTo("Ao.SavableConfig.Json.Test")]

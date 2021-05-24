@@ -3,25 +3,27 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.6.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ao.SavableConfig", "Ao.SavableConfig\Ao.SavableConfig.csproj", "{64D5F9CD-5E8D-4212-8A60-4BE4709EDADF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ao.SavableConfig", "src\Ao.SavableConfig\Ao.SavableConfig.csproj", "{64D5F9CD-5E8D-4212-8A60-4BE4709EDADF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{7591E36C-B9E6-4E9F-85C4-07F744B38697}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ao.SavableConfig.Test", "Ao.SavableConifg.Test\Ao.SavableConfig.Test.csproj", "{0841E591-8EC6-43D7-AFC8-2C475D801537}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ao.SavableConfig.Test", "test\Ao.SavableConifg.Test\Ao.SavableConfig.Test.csproj", "{0841E591-8EC6-43D7-AFC8-2C475D801537}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ao.SavableConfig.Binder", "Ao.SavableConfig.Binder\Ao.SavableConfig.Binder.csproj", "{BE21FF4E-8C71-4682-B0A1-4845F054009D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ao.SavableConfig.Binder", "src\Ao.SavableConfig.Binder\Ao.SavableConfig.Binder.csproj", "{BE21FF4E-8C71-4682-B0A1-4845F054009D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{A64C7646-6FCB-4F35-A868-FD816DAF4DC5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwoWayBind", "samples\TwoWayBind\TwoWayBind.csproj", "{AA1DC0AC-43C3-4A22-B2AF-6C9E4481CE79}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ao.SavableConfig.Json", "Ao.SavableConfig.Json\Ao.SavableConfig.Json.csproj", "{3B1D0637-CDD6-438C-9DCA-E61934809773}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ao.SavableConfig.Json", "src\Ao.SavableConfig.Json\Ao.SavableConfig.Json.csproj", "{3B1D0637-CDD6-438C-9DCA-E61934809773}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwoWayBindWpf", "samples\TwoWayBindWpf\TwoWayBindWpf.csproj", "{E140E42C-71C3-465F-B943-88DF166EA33B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ao.SavableConfig.Benchmark", "Ao.SavableConfig.Benchmark\Ao.SavableConfig.Benchmark.csproj", "{2552E5A9-B859-4629-AEDD-50560EBD100C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ao.SavableConfig.Benchmark", "test\Ao.SavableConfig.Benchmark\Ao.SavableConfig.Benchmark.csproj", "{2552E5A9-B859-4629-AEDD-50560EBD100C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ao.SavableConfig.Binder.Test", "Ao.SavableConfig.Binder.Test\Ao.SavableConfig.Binder.Test.csproj", "{9331911E-EA78-4F0D-B9D7-470E70574EE5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ao.SavableConfig.Binder.Test", "test\Ao.SavableConfig.Binder.Test\Ao.SavableConfig.Binder.Test.csproj", "{9331911E-EA78-4F0D-B9D7-470E70574EE5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ao.SavableConfig.Json.Test", "test\Ao.SavableConfig.Json.Test\Ao.SavableConfig.Json.Test.csproj", "{D9225D9A-296E-4AFF-B197-4DD7A5A00735}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -129,6 +131,18 @@ Global
 		{9331911E-EA78-4F0D-B9D7-470E70574EE5}.Release|x64.Build.0 = Release|Any CPU
 		{9331911E-EA78-4F0D-B9D7-470E70574EE5}.Release|x86.ActiveCfg = Release|Any CPU
 		{9331911E-EA78-4F0D-B9D7-470E70574EE5}.Release|x86.Build.0 = Release|Any CPU
+		{D9225D9A-296E-4AFF-B197-4DD7A5A00735}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9225D9A-296E-4AFF-B197-4DD7A5A00735}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9225D9A-296E-4AFF-B197-4DD7A5A00735}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D9225D9A-296E-4AFF-B197-4DD7A5A00735}.Debug|x64.Build.0 = Debug|Any CPU
+		{D9225D9A-296E-4AFF-B197-4DD7A5A00735}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D9225D9A-296E-4AFF-B197-4DD7A5A00735}.Debug|x86.Build.0 = Debug|Any CPU
+		{D9225D9A-296E-4AFF-B197-4DD7A5A00735}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9225D9A-296E-4AFF-B197-4DD7A5A00735}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9225D9A-296E-4AFF-B197-4DD7A5A00735}.Release|x64.ActiveCfg = Release|Any CPU
+		{D9225D9A-296E-4AFF-B197-4DD7A5A00735}.Release|x64.Build.0 = Release|Any CPU
+		{D9225D9A-296E-4AFF-B197-4DD7A5A00735}.Release|x86.ActiveCfg = Release|Any CPU
+		{D9225D9A-296E-4AFF-B197-4DD7A5A00735}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -139,6 +153,7 @@ Global
 		{E140E42C-71C3-465F-B943-88DF166EA33B} = {A64C7646-6FCB-4F35-A868-FD816DAF4DC5}
 		{2552E5A9-B859-4629-AEDD-50560EBD100C} = {7591E36C-B9E6-4E9F-85C4-07F744B38697}
 		{9331911E-EA78-4F0D-B9D7-470E70574EE5} = {7591E36C-B9E6-4E9F-85C4-07F744B38697}
+		{D9225D9A-296E-4AFF-B197-4DD7A5A00735} = {7591E36C-B9E6-4E9F-85C4-07F744B38697}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C3A9FF50-5938-4330-994C-CD2AAC309EE6}

@@ -99,6 +99,13 @@ namespace Ao.SavableConfig.Binder.Test
                 Assert.AreEqual("789", val.Name);
                 val.Name = "999";
                 Assert.AreEqual("999", root["Name"]);
+                BindBox rd = null;
+                box.Reloaded += (e) =>
+                {
+                    rd = e;
+                };
+                root.Reload();
+                Assert.AreEqual(box, rd);
                 box.Dispose();
             }
         }

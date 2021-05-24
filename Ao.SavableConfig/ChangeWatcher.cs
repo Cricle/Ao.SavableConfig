@@ -24,10 +24,14 @@ namespace Ao.SavableConfig
                 Provder = provder;
             }
 
-            public bool Equals(ChangeIdentity other)
+            public override bool Equals(object other)
             {
-                return Key == other.Key &&
-                    Provder == other.Provder;
+                if (other is ChangeIdentity identity)
+                {
+                    return Key == identity.Key &&
+                        Provder == identity.Provder;
+                }
+                return false;
             }
             public override int GetHashCode()
             {

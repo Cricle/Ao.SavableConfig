@@ -46,7 +46,7 @@ namespace Ao.SavableConfig.Binder.Test
             Assert.IsNull(cr);
             var c=cp.Build<ComplexClass>(root);
             Assert.IsNotNull(c);
-            cr = cp.GetCreatorOrDefault<ComplexClass>();
+            _ = cp.GetCreatorOrDefault<ComplexClass>();
             Assert.IsNotNull(c);
             Assert.IsTrue(cp.IsCreated<ComplexClass>());
         }

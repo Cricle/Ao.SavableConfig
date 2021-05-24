@@ -103,7 +103,7 @@ namespace Microsoft.Extensions.Configuration
                     ChangeWatcher.Clear();
                     var repo = ChangeReport.FromChanges(ChangeNotifyable, infos);
                     var saver = new ChangeSaver(repo, BindSettings.Conditions);
-                    var res = saver.EmitAndSave();
+                    _= saver.EmitAndSave();
                     Updater(BindValue);
                     Saved?.Invoke(this, infos);
                 }

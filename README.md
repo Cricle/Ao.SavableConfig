@@ -15,6 +15,7 @@
 [![codecov](https://codecov.io/gh/Cricle/Ao.SavableConfig/branch/master/graph/badge.svg?token=VI05YYQH2w)](https://codecov.io/gh/Cricle/Ao.SavableConfig)
 
 </div>
+
 ## What it is 
 
 It can two way bind configuration.

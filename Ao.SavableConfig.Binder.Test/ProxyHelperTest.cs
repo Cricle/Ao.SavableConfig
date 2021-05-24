@@ -59,7 +59,7 @@ namespace Ao.SavableConfig.Binder.Test
         public void BuildTwice_MustReturnFail()
         {
             var prox = ProxyUtil.CreateProx();
-            var root = ConfigHelper.CreateEmptyRoot();
+            _ = ConfigHelper.CreateEmptyRoot();
             Assert.IsNull(prox.GetProxyType(typeof(Setting1)));
             var val = prox.BuildProx(typeof(Setting1));
             Assert.IsTrue(val);

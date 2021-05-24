@@ -35,7 +35,7 @@ namespace Ao.SavableConfig.Binder
             }
 
             var parent = instance.GetType().BaseType;
-            var name = propertyName;
+            string name;
             if (!Map.TryGetValue(new PropertyIdentity(parent, propertyName), out name))
             {
                 name = propertyName;

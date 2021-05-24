@@ -8,13 +8,21 @@
 
 <div align='center'>
 
-[![.NET](https://github.com/Cricle/Ao.SavableConfig/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Cricle/Ao.SavableConfig/actions/workflows/dotnet.yml)
+
 [![Github lines](https://img.shields.io/tokei/lines/github/Cricle/Ao.SavableConfig)](https://github.com/Cricle/Ao.SavableConfig)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/28d777d354ed4984ad988703b1094665)](https://www.codacy.com/gh/Cricle/Ao.SavableConfig/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Cricle/Ao.SavableConfig&amp;utm_campaign=Badge_Grade)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FCricle%2FAo.SavableConfig.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FCricle%2FAo.SavableConfig?ref=badge_shield)
 [![codecov](https://codecov.io/gh/Cricle/Ao.SavableConfig/branch/master/graph/badge.svg?token=VI05YYQH2w)](https://codecov.io/gh/Cricle/Ao.SavableConfig)
 
 </div>
+
+## Build Status
+
+|Provider|Status|
+|:-:|:-|
+|Github|[![.NET](https://github.com/Cricle/Ao.SavableConfig/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Cricle/Ao.SavableConfig/actions/workflows/dotnet.yml)|
+|Azure Pipelines|[![Build Status](https://hcricle.visualstudio.com/Ao.SavableConfig/_apis/build/status/Cricle.Ao.SavableConfig?branchName=master)](https://hcricle.visualstudio.com/Ao.SavableConfig/_build/latest?definitionId=8&branchName=master)
+|
 
 ## What it is 
 

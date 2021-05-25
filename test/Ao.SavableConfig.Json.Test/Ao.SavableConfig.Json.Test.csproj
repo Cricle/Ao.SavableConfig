@@ -23,9 +23,6 @@
     <ProjectReference Include="..\..\src\Ao.SavableConfig\Ao.SavableConfig.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Ao.SavableConfig.Binder.Test\ConfigHelper.cs"></Compile>
-  </ItemGroup>
-  <ItemGroup>
     <None Update="Settings\Setting1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

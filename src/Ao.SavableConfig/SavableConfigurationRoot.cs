@@ -77,13 +77,16 @@ namespace Ao.SavableConfig
                     Sender = this,
                 };
                 var anyOk = false;
-                foreach (IConfigurationProvider provider in _providers)
+                if (ConfigurationChanged is null)
                 {
-                    if (ConfigurationChanged is null)
+                    foreach (IConfigurationProvider provider in _providers)
                     {
                         provider.Set(key, value);
                     }
-                    else
+                }
+                else
+                {
+                    foreach (IConfigurationProvider provider in _providers)
                     {
                         var ok = provider.TryGet(key, out var old);
                         if (ok)
@@ -91,18 +94,18 @@ namespace Ao.SavableConfig
                             provider.Set(key, value);
                             changeInfo.Old = old;
                             changeInfo.Provider = provider;
-                            ConfigurationChanged.Invoke(changeInfo);
+                            ConfigurationChanged(changeInfo);
                             anyOk = true;
                         }
                     }
-                }
-                if(!anyOk)
-                {
-                    var provider = _providers[_providers.Count - 1];
-                    provider.Set(key, value);
-                    changeInfo.Provider = provider;
-                    changeInfo.IsCreate = true;
-                    ConfigurationChanged?.Invoke(changeInfo);
+                    if (!anyOk)
+                    {
+                        var provider = _providers[_providers.Count - 1];
+                        provider.Set(key, value);
+                        changeInfo.Provider = provider;
+                        changeInfo.IsCreate = true;
+                        ConfigurationChanged(changeInfo);
+                    }
                 }
             }
         }

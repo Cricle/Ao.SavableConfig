@@ -8,6 +8,7 @@ namespace Ao.SavableConfig.Benchmark
     {
         private const int LoopCount = 1000;
         private readonly SavableConfigurationRoot root;
+        private readonly SavableConfigurationRoot noListenRoot;
         private readonly IConfiguration msroot;
         private readonly ChangeWatcher changeWatcher;
         public Changes()
@@ -16,6 +17,11 @@ namespace Ao.SavableConfig.Benchmark
             builder.AddJsonFile("appsettings.json", true, false);
             root = builder.Build();
             changeWatcher = new ChangeWatcher(root);
+
+            var noListenBuilder = new SavableConfiurationBuilder();
+            noListenBuilder.AddJsonFile("appsettings.json", true, false);
+            noListenRoot = noListenBuilder.Build();
+
 
             var msbuilder = new ConfigurationBuilder();
             msbuilder.AddJsonFile("appsettings.json", true, false);
@@ -36,6 +42,15 @@ namespace Ao.SavableConfig.Benchmark
             for (int i = 0; i < LoopCount; i++)
             {
                 root["DbConnections:Mysql:Connection"] = i.ToString();
+            }
+            changeWatcher.Merge();
+        }
+        [Benchmark(OperationsPerInvoke = LoopCount)]
+        public void NoListeneAndSavableChange()
+        {
+            for (int i = 0; i < LoopCount; i++)
+            {
+                noListenRoot["DbConnections:Mysql:Connection"] = i.ToString();
             }
         }
     }

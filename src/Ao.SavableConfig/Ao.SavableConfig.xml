@@ -198,7 +198,7 @@
             Extensions method for <see cref="T:Microsoft.Extensions.Configuration.IConfigurationRoot"/>
             </summary>
         </member>
-        <member name="M:Ao.SavableConfig.InternalConfigurationRootExtensions.GetChildrenImplementation(Ao.SavableConfig.SavableConfigurationRoot,System.String)">
+        <member name="M:Ao.SavableConfig.InternalConfigurationRootExtensions.GetChildrenImplementation(Microsoft.Extensions.Configuration.IConfigurationRoot,System.String)">
             <summary>
             Gets the immediate children sub-sections of configuration root based on key.
             </summary>
@@ -331,15 +331,15 @@
             可保持的配置生成器
             </summary>
         </member>
+        <member name="P:Ao.SavableConfig.SavableConfiurationBuilder.Sources">
+            <summary>
+            Returns the sources used to obtain configuration values.
+            </summary>
+        </member>
         <member name="P:Ao.SavableConfig.SavableConfiurationBuilder.Properties">
             <summary>
             Gets a key/value collection that can be used to share data between the <see cref="T:Microsoft.Extensions.Configuration.IConfigurationBuilder"/>
             and the registered <see cref="T:Microsoft.Extensions.Configuration.IConfigurationProvider"/>s.
-            </summary>
-        </member>
-        <member name="P:Ao.SavableConfig.SavableConfiurationBuilder.Sources">
-            <summary>
-            Returns the sources used to obtain configuration values.
             </summary>
         </member>
         <member name="M:Ao.SavableConfig.SavableConfiurationBuilder.Add(Microsoft.Extensions.Configuration.IConfigurationSource)">
@@ -459,6 +459,4 @@
             </summary>
         </member>
     </members>
-</doc>
-s>
 </doc>

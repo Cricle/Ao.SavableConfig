@@ -28,9 +28,11 @@ namespace Ao.SavableConfig.Binder.Test
             Assert.ThrowsException<ArgumentNullException>(() => BinderConfigurationExtensions.AutoCreateProxy<object>(null));
             Assert.ThrowsException<ArgumentNullException>(() => BinderConfigurationExtensions.CreateComplexProxy<object>(null));
             Assert.ThrowsException<ArgumentNullException>(() => BinderConfigurationExtensions.CreateProxy<object>(null));
+            Assert.ThrowsException<ArgumentNullException>(() => BinderConfigurationExtensions.CreateProxy<object>(null, null));
 
             var root = ConfigHelper.CreateEmptyRoot();
-            Assert.ThrowsException<ArgumentException>(() => BinderConfigurationExtensions.AutoCreateProxy<object>(root,(string)null));
+            Assert.ThrowsException<ArgumentException>(() => BinderConfigurationExtensions.AutoCreateProxy<object>(root, (string)null));
+            Assert.ThrowsException<ArgumentNullException>(() => BinderConfigurationExtensions.CreateProxy<object>(null, new NullNameTransfer()));
         }
         [TestMethod]
         public void CreateComplex_MustOk()

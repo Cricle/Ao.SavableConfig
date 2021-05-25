@@ -92,10 +92,12 @@ namespace Ao.SavableConfig.Test.Saver
 
         public void Load()
         {
+            //Do nothing
         }
 
         public void Set(string key, string value)
         {
+            //Do nothing
         }
 
         public bool TryGet(string key, out string value)

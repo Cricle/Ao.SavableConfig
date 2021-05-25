@@ -24,9 +24,9 @@ namespace Ao.SavableConfig
                 Provder = provder;
             }
 
-            public override bool Equals(object other)
+            public override bool Equals(object obj)
             {
-                if (other is ChangeIdentity identity)
+                if (obj is ChangeIdentity identity)
                 {
                     return Key == identity.Key &&
                         Provder == identity.Provder;
@@ -35,7 +35,7 @@ namespace Ao.SavableConfig
             }
             public override int GetHashCode()
             {
-                return Key?.GetHashCode() ?? 0 | Provder?.GetHashCode() ?? 0;
+                return Key?.GetHashCode() ?? 0 + Provder?.GetHashCode() ?? 0;
             }
         }
         private readonly IConfigurationChangeNotifyable watchConfiguration;

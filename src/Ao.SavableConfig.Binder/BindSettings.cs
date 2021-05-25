@@ -9,7 +9,11 @@ namespace Microsoft.Extensions.Configuration
     {
         public static readonly TimeSpan DefaultDelayTime = TimeSpan.FromMilliseconds(250);
 
-        public BindSettings(object value, TimeSpan delayTime, IEnumerable<IChangeTransferCondition> conditions, Action<Action> updater = null)
+        public BindSettings(object value, TimeSpan delayTime, IEnumerable<IChangeTransferCondition> conditions)
+            :this(value,delayTime,conditions,null)
+        {
+        }
+        public BindSettings(object value, TimeSpan delayTime, IEnumerable<IChangeTransferCondition> conditions, Action<Action> updater)
         {
             Value = value;
             DelayTime = delayTime;

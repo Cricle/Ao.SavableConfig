@@ -9,7 +9,12 @@ namespace Ao.SavableConfig.Binder
 {
     public class ProxyCreator
     {
-        public ProxyCreator(ProxyHelper proxyHelper, Type type, IReadOnlyDictionary<Type, INameTransfer> nameTransferPicker = null)
+        public ProxyCreator(ProxyHelper proxyHelper, Type type)
+            :this(proxyHelper,type,null)
+        {
+
+        }
+        public ProxyCreator(ProxyHelper proxyHelper, Type type, IReadOnlyDictionary<Type, INameTransfer> nameTransferPicker)
         {
             ProxyHelper = proxyHelper ?? throw new ArgumentNullException(nameof(proxyHelper));
             Type = type ?? throw new ArgumentNullException(nameof(type));

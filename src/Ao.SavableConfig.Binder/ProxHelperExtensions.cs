@@ -17,7 +17,6 @@ namespace Ao.SavableConfig.Binder
             }
 
             var type = new[] { typeof(T) };
-            var objType = typeof(object);
             var map = new Dictionary<Type, INameTransfer>();
             map.Add(type[0], IdentityMapNameTransfer.FromTypeAttributes(type[0]));
             if (autoAnalysis)

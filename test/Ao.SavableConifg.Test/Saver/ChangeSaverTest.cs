@@ -77,6 +77,7 @@ namespace Ao.SavableConfig.Test.Saver
 
         public void Save(ChangeReport report, string transfed)
         {
+            //Do nothing
         }
 
         public string Transfe(ChangeReport report)

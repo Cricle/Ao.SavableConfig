@@ -57,10 +57,12 @@ namespace Ao.SavableConfig.Json.Test
 
             public void Load()
             {
+                //Do nothing
             }
 
             public void Set(string key, string value)
             {
+                //Do nothing
             }
 
             public bool TryGet(string key, out string value)
@@ -108,7 +110,7 @@ namespace Ao.SavableConfig.Json.Test
             var rep = new ChangeReport(root, prov, changeInfos);
             var transfer = condition.GetTransfe(rep);
             Assert.IsNotNull(transfer);
-            var t = transfer.Transfe(rep);
+            _ = transfer.Transfe(rep);
         }
 
         [TestMethod]

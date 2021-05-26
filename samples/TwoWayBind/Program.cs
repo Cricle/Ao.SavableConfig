@@ -38,10 +38,10 @@ namespace TwoWayBind
     {
         static void Main(string[] args)
         {
-            var builder = new SavableConfiurationBuilder();
+            var builder = new ConfigurationBuilder();
             builder.AddJsonFile("appsettings.json", false, true);
             builder.AddJsonFile("appsettings2.json", false, true);
-            var root = builder.Build();
+            var root = builder.BuildSavable();
             var value = root.AutoCreateProxy<DbConnection>();
             root.BindTwoWay(value, JsonChangeTransferCondition.Instance);
             while (true)

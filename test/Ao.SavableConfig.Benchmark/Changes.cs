@@ -13,14 +13,14 @@ namespace Ao.SavableConfig.Benchmark
         private readonly ChangeWatcher changeWatcher;
         public Changes()
         {
-            var builder = new SavableConfiurationBuilder();
+            var builder = new ConfigurationBuilder();
             builder.AddJsonFile("appsettings.json", true, false);
-            root = builder.Build();
+            root = builder.BuildSavable();
             changeWatcher = new ChangeWatcher(root);
 
-            var noListenBuilder = new SavableConfiurationBuilder();
+            var noListenBuilder = new ConfigurationBuilder();
             noListenBuilder.AddJsonFile("appsettings.json", true, false);
-            noListenRoot = noListenBuilder.Build();
+            noListenRoot = noListenBuilder.BuildSavable();
 
 
             var msbuilder = new ConfigurationBuilder();

@@ -33,9 +33,9 @@ namespace Ao.SavableConfig.Test
         [TestMethod]
         public void AddChanged_EventMustBeFired()
         {
-            var builder = new SavableConfiurationBuilder();
+            var builder = new ConfigurationBuilder();
             builder.AddInMemoryCollection();
-            var root = builder.Build();
+            var root = builder.BuildSavable();
             var watcher = new EmptyChangeWatcher(root);
             IConfigurationChangeInfo info = null;
             watcher.ChangePushed += (o, e) =>

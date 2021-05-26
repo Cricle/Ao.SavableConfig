@@ -15,9 +15,9 @@ namespace Ao.SavableConfig.Benchmark
 
         public BindTwoWay()
         {
-            var builder = new SavableConfiurationBuilder();
+            var builder = new ConfigurationBuilder();
             builder.AddJsonFile("appsettings.json", true, true);
-            var root = builder.Build();
+            var root = builder.BuildSavable();
             conn = root.CreateComplexProxy<TwoWayDbConnection>();
             root.BindTwoWay(conn, JsonChangeTransferCondition.Instance);
         }

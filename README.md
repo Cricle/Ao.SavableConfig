@@ -47,23 +47,23 @@ You can watch `sample\TwoWayBind`
 Or wpf project `sample\TwoWayBindWpf` use in wpf binding
 
 ```csharp
-var builder = new SavableConfiurationBuilder();
+var builder = new ConfigurationBuilder();
 builder.AddJsonFile("appsettings.json", false, true);
 //Make configuration
-var root = builder.Build();
+var root = builder.BuildSavable();
 //Create proxy and create proxy object
 var value = root.AutoCreateProxy<DbConnection>();
 root.BindTwoWay(value, JsonChangeTransferCondition.Instance);
 ```
 
-# After
+# Features
 
 - [x] Add unit test, to conver nearly `100%` codes
 - [x] To make easy use it
 - [ ] Add object <-> string converter like wpf `IValueConverter`
 - [ ] Add more provider transfer (Now only json)
 - [ ] Add xamarin/MAUI, avaloniaui... samples
-- [ ] Make it base on MS configuration instead of overwrite it(Break change)
+- [x] Make it base on MS configuration instead of overwrite it(Break change)
 
 # Nuget 
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,7 +14,20 @@ namespace Ao.SavableConfig
     /// </summary>
     public class ChangeWatcher : IDisposable, IChangeWatcher
     {
-        readonly struct ChangeIdentity
+        class ChangeIdentityComparer : IEqualityComparer<ChangeIdentity>
+        {
+            public static readonly ChangeIdentityComparer Instance = new ChangeIdentityComparer();
+            public bool Equals(ChangeIdentity x, ChangeIdentity y)
+            {
+                return x.Equals(y);
+            }
+
+            public int GetHashCode(ChangeIdentity obj)
+            {
+                return obj.GetHashCode();
+            }
+        }
+        class ChangeIdentity: IEquatable<ChangeIdentity>
         {
             public readonly string Key;
             public readonly IConfigurationProvider Provder;
@@ -26,13 +40,20 @@ namespace Ao.SavableConfig
 
             public override bool Equals(object obj)
             {
-                if (obj is ChangeIdentity identity)
-                {
-                    return Key == identity.Key &&
-                        Provder == identity.Provder;
-                }
-                return false;
+                return Equals(obj as ChangeIdentity);
             }
+
+            public bool Equals(ChangeIdentity other)
+            {
+                if (other is null)
+                {
+                    return false;
+                }
+                return Key == other.Key &&
+                    Provder == other.Provder;
+
+            }
+
             public override int GetHashCode()
             {
                 return Key?.GetHashCode() ?? 0 + Provder?.GetHashCode() ?? 0;
@@ -40,7 +61,7 @@ namespace Ao.SavableConfig
         }
         private readonly IConfigurationChangeNotifyable watchConfiguration;
 
-        private ConcurrentDictionary<ChangeIdentity, IConfigurationChangeInfo> changeInfos;
+        private readonly Dictionary<ChangeIdentity, IConfigurationChangeInfo> changeInfos;
 
         /// <inheritdoc/>
         public IConfigurationChangeNotifyable Configuration => watchConfiguration;
@@ -68,7 +89,7 @@ namespace Ao.SavableConfig
         /// <param name="notifyable"></param>
         public ChangeWatcher(IConfigurationChangeNotifyable notifyable)
         {
-            changeInfos = new ConcurrentDictionary<ChangeIdentity, IConfigurationChangeInfo>();
+            changeInfos = new Dictionary<ChangeIdentity, IConfigurationChangeInfo>(ChangeIdentityComparer.Instance);
             watchConfiguration = notifyable ?? throw new ArgumentNullException(nameof(notifyable));
             notifyable.ConfigurationChanged += Notifyable_ConfigurationChanged;
         }
@@ -113,7 +134,7 @@ namespace Ao.SavableConfig
             if (Condition(info))
             {
                 var tk = new ChangeIdentity(info.Key, info.Provider);
-                changeInfos.AddOrUpdate(tk, info, (_, __) => info);
+                changeInfos[tk] = info;
                 ChangePushed?.Invoke(this, info);
             }
         }

@@ -30,10 +30,10 @@ namespace Ao.SavableConfig.Json.Test
                 Optional = false,
                 Path = fn,
             };
-            var builder = new SavableConfiurationBuilder();
+            var builder = new ConfigurationBuilder();
             builder.SetBasePath(AppDomain.CurrentDomain.BaseDirectory);
             builder.Add(jsonProvider);
-            var root = builder.Build();
+            var root = builder.BuildSavable();
             return root;
         }
         [TestMethod]
@@ -88,6 +88,7 @@ namespace Ao.SavableConfig.Json.Test
             val = condition.GetTransfe(rep);
             Assert.IsNull(val);
         }
+#if NET5_0
         [TestMethod]
         public void TransferChanged_SaveIt_ButFileNotFound_MustWrited()
         {
@@ -142,5 +143,6 @@ namespace Ao.SavableConfig.Json.Test
             var oldTitle = jobj["Title"];
             Assert.AreEqual("world", oldTitle.ToString());
         }
+#endif
     }
 }

@@ -5,9 +5,9 @@ namespace Ao.SavableConfig
     {
         public static SavableConfigurationRoot CreateEmptyRoot()
         {
-            var builder = new SavableConfiurationBuilder();
+            var builder = new ConfigurationBuilder();
             builder.AddInMemoryCollection();
-            return builder.Build();
+            return builder.BuildSavable();
         }
     }
 }

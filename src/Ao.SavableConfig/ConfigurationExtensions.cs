@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
+using System.Linq;
 
 namespace Ao.SavableConfig
 {
@@ -11,6 +12,11 @@ namespace Ao.SavableConfig
         private static void ThrowCanNotCaseType(Type type)
         {
             throw new InvalidCastException($"Can't case {type} to IConfigurationChangeNotifyable");
+        }
+        public static SavableConfigurationRoot BuildSavable(this IConfigurationBuilder builder)
+        {
+            var providers = builder.Sources.Select(x => x.Build(builder)).ToArray();
+            return new SavableConfigurationRoot(providers);
         }
         /// <summary>
         /// 创建更改观察者

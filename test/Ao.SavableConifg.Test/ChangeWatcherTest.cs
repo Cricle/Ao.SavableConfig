@@ -18,9 +18,9 @@ namespace Ao.SavableConfig.Test
         }
         private SavableConfigurationRoot CreateRoot()
         {
-            var builder = new SavableConfiurationBuilder();
+            var builder = new ConfigurationBuilder();
             builder.AddInMemoryCollection();
-            return builder.Build();
+            return builder.BuildSavable();
         }
         [TestMethod]
         public void AddChanged_MustStored()

@@ -28,9 +28,9 @@ namespace TwoWayBindWpf
         public MainWindow()
         {
             InitializeComponent();
-            var builder = new SavableConfiurationBuilder();
+            var builder = new ConfigurationBuilder();
             builder.AddJsonFile("app.json", true, true);
-            root = builder.Build();
+            root = builder.BuildSavable();
             DataContext = ProxyHelper.Default.EnsureCreateProxWithAttribute<ThemeService>(root);
             root.BindTwoWay(DataContext, JsonChangeTransferCondition.Instance);
         }

@@ -29,12 +29,13 @@ namespace Ao.SavableConfig.Test
             Assert.AreEqual("a", ud.Old);
             Assert.AreEqual("b", ud.New);
         }
+#if NET5_0
         [TestMethod]
         public void Undo_ValueMustSet()
         {
-            var builder = new SavableConfiurationBuilder();
+            var builder = new ConfigurationBuilder();
             builder.AddInMemoryCollection();
-            var root = builder.Build();
+            var root = builder.BuildSavable();
             var info = new ConfigurationChangeInfo
             {
                 Key="hello",
@@ -46,5 +47,6 @@ namespace Ao.SavableConfig.Test
             var val = root["hello"];
             Assert.AreEqual("b", val);
         }
+#endif
     }
 }

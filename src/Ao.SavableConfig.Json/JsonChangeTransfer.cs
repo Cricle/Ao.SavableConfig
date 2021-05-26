@@ -26,6 +26,7 @@ namespace Ao.SavableConfig.Saver
             {
                 var jtoken = item.Key.Split(splitToken, StringSplitOptions.RemoveEmptyEntries);
                 var visitor = new JsonConfigurationVisitor(jtoken,tk,item.New);
+                visitor.IgnoreAdd = IgnoreAdd;
                 visitor.VisitWrite();
             }
             return tk.ToString();

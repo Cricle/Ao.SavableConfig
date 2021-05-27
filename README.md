@@ -8,6 +8,7 @@
 
 <div align='center'>
 
+[![Nuget](https://img.shields.io/nuget/v/Ao.SavableConfig)](https://img.shields.io/nuget/v/Ao.SavableConfig)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/28d777d354ed4984ad988703b1094665)](https://www.codacy.com/gh/Cricle/Ao.SavableConfig/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Cricle/Ao.SavableConfig&amp;utm_campaign=Badge_Grade)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FCricle%2FAo.SavableConfig.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FCricle%2FAo.SavableConfig?ref=badge_shield)
 [![codecov](https://codecov.io/gh/Cricle/Ao.SavableConfig/branch/master/graph/badge.svg?token=VI05YYQH2w)](https://codecov.io/gh/Cricle/Ao.SavableConfig)

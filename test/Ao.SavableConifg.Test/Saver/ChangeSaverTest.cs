@@ -44,6 +44,17 @@ namespace Ao.SavableConfig.Test.Saver
             Assert.AreEqual(0, map.Count);
         }
         [TestMethod]
+        public void EmptyChangeInfo_MustSkip()
+        {
+            var reports = new ChangeReport[]
+            {
+                new ChangeReport(null,null,new IConfigurationChangeInfo[0])
+            };
+            var saver = new ChangeSaver(reports, new NullTransfer());
+            var res=saver.Emit();
+            Assert.AreEqual(0, res.Count);
+        }
+        [TestMethod]
         public void EmitWithTransfer_MustReturnResult()
         {
             var reports = new ChangeReport[]

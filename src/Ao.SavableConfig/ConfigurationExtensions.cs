@@ -15,6 +15,11 @@ namespace Ao.SavableConfig
         }
         public static SavableConfigurationRoot BuildSavable(this IConfigurationBuilder builder)
         {
+            if (builder is null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+
             var providers = builder.Sources.Select(x => x.Build(builder)).ToArray();
             return new SavableConfigurationRoot(providers);
         }

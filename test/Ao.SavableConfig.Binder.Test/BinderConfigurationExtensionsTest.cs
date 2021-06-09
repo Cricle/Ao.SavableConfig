@@ -32,6 +32,7 @@ namespace Ao.SavableConfig.Binder.Test
 
             var root = ConfigHelper.CreateEmptyRoot();
             Assert.ThrowsException<ArgumentException>(() => BinderConfigurationExtensions.AutoCreateProxy<object>(root, (string)null));
+            Assert.ThrowsException<ArgumentException>(() => BinderConfigurationExtensions.AutoCreateProxy<object>(root, (string)null,new NullNameTransfer()));
             Assert.ThrowsException<ArgumentNullException>(() => BinderConfigurationExtensions.CreateProxy<object>(null, new NullNameTransfer()));
         }
         [TestMethod]

@@ -10,6 +10,22 @@ namespace Ao.SavableConfig.Test
     public class ConcurrentOnceTest
     {
         [TestMethod]
+        public void Exchange_MustReturnTrue()
+        {
+            var once = new ConcurrentOnce();
+            var ok = once.Exchange();
+            Assert.IsTrue(ok);
+        }
+        [TestMethod]
+        public async Task RunWhenExchanged_MustReturnFail()
+        {
+            var once = new ConcurrentOnce();
+            var res1 = once.WaitAsync(TimeSpan.FromSeconds(3));
+            var res2 = once.Exchange();
+            Assert.IsTrue(res2);
+            Assert.IsFalse(await res1);
+        }
+        [TestMethod]
         public async Task RunOnce_MustReturnTrue()
         {
             var once = new ConcurrentOnce();

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -36,38 +37,48 @@ namespace Ao.SavableConfig
         }
         private void SetConfigValue(string key,string value)
         {
-            var anyOk = false;
             if (ConfigurationChanged is null)
             {
                 base[key] = value;
             }
             else
             {
-                var changeInfo = new ConfigurationChangeInfo
+                var allNotSet = true;
+                var providers = _providers;
+                var count = providers.Count;
+                string old = null;
+                for (int i = 0; i < count; i++)
                 {
-                    Key = key,
-                    New = value,
-                    Sender = this,
-                };
-                for (int i = 0; i < _providers.Count; i++)
-                {
-                    var provider = _providers[i];
-                    var ok = provider.TryGet(key, out var old);
+                    var provider = providers[i];
+                    var ok = provider.TryGet(key, out old);
                     if (ok)
                     {
                         provider.Set(key, value);
-                        changeInfo.Old = old;
-                        changeInfo.Provider = provider;
+                        var changeInfo = new ConfigurationChangeInfo
+                        {
+                            Key = key,
+                            New = value,
+                            Sender = this,
+                            Old=old,
+                            Provider= provider
+                        };
                         ConfigurationChanged(changeInfo);
-                        anyOk = true;
+                        allNotSet = false;
                     }
-                }
-                if (!anyOk)
+                }                
+                if (allNotSet)
                 {
-                    var provider = _providers[_providers.Count - 1];
+                    var provider = providers[providers.Count - 1];
                     provider.Set(key, value);
-                    changeInfo.Provider = provider;
-                    changeInfo.IsCreate = true;
+
+                    var changeInfo = new ConfigurationChangeInfo
+                    {
+                        Key = key,
+                        New = value,
+                        Sender = this,
+                        IsCreate = true,
+                        Provider = provider
+                    };
                     ConfigurationChanged(changeInfo);
                 }
             }

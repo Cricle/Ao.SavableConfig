@@ -32,7 +32,7 @@ namespace Ao.SavableConfig.Benchmark
         {
             for (int i = 0; i < LoopCount; i++)
             {
-                msroot["DbConnections:Mysql:Connection"] = i.ToString();
+                msroot["DbConnections:Mysql:Connection"+i] = i.ToString();
             }
         }
         [Benchmark(OperationsPerInvoke = LoopCount)]
@@ -41,7 +41,7 @@ namespace Ao.SavableConfig.Benchmark
             changeWatcher.Clear();
             for (int i = 0; i < LoopCount; i++)
             {
-                root["DbConnections:Mysql:Connection"] = i.ToString();
+                root["DbConnections:Mysql:Connection" + i] = i.ToString();
             }
             changeWatcher.Merge();
         }
@@ -50,7 +50,7 @@ namespace Ao.SavableConfig.Benchmark
         {
             for (int i = 0; i < LoopCount; i++)
             {
-                noListenRoot["DbConnections:Mysql:Connection"] = i.ToString();
+                noListenRoot["DbConnections:Mysql:Connection" + i] = i.ToString();
             }
         }
     }

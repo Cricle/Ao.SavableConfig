@@ -27,7 +27,7 @@ namespace Ao.SavableConfig
                 return obj.GetHashCode();
             }
         }
-        class ChangeIdentity: IEquatable<ChangeIdentity>
+        internal class ChangeIdentity : IEquatable<ChangeIdentity>
         {
             public readonly string Key;
             public readonly IConfigurationProvider Provder;
@@ -56,7 +56,11 @@ namespace Ao.SavableConfig
 
             public override int GetHashCode()
             {
+#if NETSTANDARD2_0||NET461
+                return HashCode.Combine(Key, Provder);
+#else
                 return Key?.GetHashCode() ?? 0 + Provder?.GetHashCode() ?? 0;
+#endif
             }
         }
         private readonly IConfigurationChangeNotifyable watchConfiguration;
@@ -127,15 +131,14 @@ namespace Ao.SavableConfig
         }
         private void Notifyable_ConfigurationChanged(IConfigurationChangeInfo info)
         {
-            if (!IgnoreSame && info.New == info.Old)
+            if (IgnoreSame || info.New != info.Old)
             {
-                return;
-            }
-            if (Condition(info))
-            {
-                var tk = new ChangeIdentity(info.Key, info.Provider);
-                changeInfos[tk] = info;
-                ChangePushed?.Invoke(this, info);
+                if (Condition(info))
+                {
+                    var tk = new ChangeIdentity(info.Key, info.Provider);
+                    changeInfos[tk] = info;
+                    ChangePushed?.Invoke(this, info);
+                }
             }
         }
     }

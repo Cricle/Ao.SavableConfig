@@ -18,6 +18,14 @@ namespace Ao.SavableConfig.Test
             Assert.ThrowsException<ArgumentNullException>(() => ConfigurationExtensions.CreateWatcher((IConfigurationChangeNotifyable)null));
             Assert.ThrowsException<ArgumentNullException>(() => ConfigurationExtensions.CreateEmptyWatcher((IConfiguration)null));
             Assert.ThrowsException<ArgumentNullException>(() => ConfigurationExtensions.CreateEmptyWatcher((IConfigurationChangeNotifyable)null));
+            Assert.ThrowsException<ArgumentNullException>(() => ConfigurationExtensions.BuildSavable(null));
+        }
+        [TestMethod]
+        public void CallBuildSavable_MustReturnSavableRoot()
+        {
+            var builder = new ConfigurationBuilder();
+            var root = builder.BuildSavable();
+            Assert.IsInstanceOfType(root, typeof(SavableConfigurationRoot));
         }
         [TestMethod]
         public void CallCreateWatcherWithNotSavableConfig_MustThrowException()

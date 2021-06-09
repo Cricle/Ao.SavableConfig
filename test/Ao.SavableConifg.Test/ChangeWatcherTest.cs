@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Primitives;
+using Ao.SavableConfig.Test.Saver;
 
 namespace Ao.SavableConfig.Test
 {
@@ -21,6 +23,31 @@ namespace Ao.SavableConfig.Test
             var builder = new ConfigurationBuilder();
             builder.AddInMemoryCollection();
             return builder.BuildSavable();
+        }
+        [TestMethod]
+        public void GivenSamesChangeInfo_MustEqual()
+        {
+            var k = "key";
+            var provider = new NullConfigurationProvider();
+            var a = new ChangeWatcher.ChangeIdentity(k, provider);
+            var b = new ChangeWatcher.ChangeIdentity(k, provider);
+            var equal = a.Equals(b);
+            Assert.IsTrue(equal);
+
+            equal = a.Equals((object)b);
+            Assert.IsTrue(equal);
+
+            equal = a.Equals((object)null);
+            Assert.IsFalse(equal);
+
+            equal = a.Equals((ChangeWatcher.ChangeIdentity)null);
+            Assert.IsFalse(equal);
+
+            var aHash = a.GetHashCode();
+            var bHash = b.GetHashCode();
+
+            Assert.AreEqual(aHash, bHash);
+
         }
         [TestMethod]
         public void AddChanged_MustStored()
@@ -71,6 +98,17 @@ namespace Ao.SavableConfig.Test
             cw.Dispose();
             root["hello"] = "world";
             Assert.AreEqual(0, cw.ChangeInfos.Count);
+        }
+        [TestMethod]
+        public void HidenConfigurationMustEqualPublicProperty()
+        {
+            var root = CreateRoot();
+            var cw = new ChangeWatcher(root);
+            var a = cw.Configuration;
+            var b = ((IChangeWatcher)cw).Configuration;
+
+            var equal = a == b;
+            Assert.IsTrue(equal);
         }
         [TestMethod]
         public void IgnoreSameTrue_AddChange_TwiceMustIgnored()

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Ao.SavableConfig.Binder
@@ -15,6 +16,7 @@ namespace Ao.SavableConfig.Binder
         private static readonly Type ObjectType = typeof(object);
         private static readonly Type StringType = typeof(string);
         private static readonly Type IConfigurationType = typeof(IConfiguration);
+        private static readonly Type NullableType = typeof(Nullable<>);
 
         private static readonly PropertyInfo ConfigurationIndexProperty = IConfigurationType.GetProperties().Where(x => x.GetIndexParameters().Length == 1).First();
         private static readonly MethodInfo NameTransferTransferMethod = INameTransferType.GetMethod(nameof(INameTransfer.Transfer));
@@ -75,7 +77,7 @@ namespace Ao.SavableConfig.Binder
         }
         private Type Build(Type type)
         {
-            var @class = DynamicModule.DefineType("Prox" + type.Name+type.GetHashCode(), TypeAttributes.Public | TypeAttributes.Sealed);
+            var @class = DynamicModule.DefineType("Prox" + type.Name + type.GetHashCode(), TypeAttributes.NotPublic | TypeAttributes.Sealed);
             @class.SetParent(type);
             var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .ToArray();
@@ -96,12 +98,8 @@ namespace Ao.SavableConfig.Binder
 
             foreach (var item in properties)
             {
-                bool CheckType(Type t)
-                {
-                    return t.IsPrimitive || t == StringType;
-                }
                 if (!(item.PropertyType.IsGenericType &&
-                    item.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>) &&
+                    item.PropertyType.GetGenericTypeDefinition() == NullableType &&
                     CheckType(item.PropertyType.GenericTypeArguments[0]) ||
                     CheckType(item.PropertyType)))
                 {
@@ -172,6 +170,10 @@ namespace Ao.SavableConfig.Binder
             proxMap.Add(type, proxType);
             return proxType;
         }
-
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal bool CheckType(Type t)
+        {
+            return t.IsPrimitive || t == StringType;
+        }
     }
 }

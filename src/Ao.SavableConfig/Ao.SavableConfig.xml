@@ -220,14 +220,6 @@
         <member name="E:Ao.SavableConfig.SavableConfigurationRoot.ConfigurationChanged">
             <inheritdoc/>
         </member>
-        <member name="T:Ao.SavableConfig.SavableConfiurationBuilder">
-            <summary>
-            可保持的配置生成器
-            </summary>
-        </member>
-        <member name="M:Ao.SavableConfig.SavableConfiurationBuilder.Build">
-            <inheritdoc cref="M:Microsoft.Extensions.Configuration.IConfigurationBuilder.Build"/>
-        </member>
         <member name="T:Ao.SavableConfig.Saver.ChangeReport">
             <summary>
             更改报告

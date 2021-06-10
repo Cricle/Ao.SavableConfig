@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\eng\pkg.props" />
+  <Import Project="..\..\eng\pkg.props" />
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net452;net461</TargetFrameworks>
     <Description>

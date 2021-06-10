@@ -1,28 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
+  <Import Project="..\eng\pkg.props" />
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net452;net461</TargetFrameworks>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>
+      Can save dynamic bind configuration.
       Provider BindTwoWay extensions method.
-      Can Configuration *-* PhysicalFile two way change save.
-      Provider CreateProxy extensions method.
-      Can Proxy clr virtual property.Modify auto modify configuration!
-
-      var inst = config.CreateProxy{Settings}();
-      config.BindTwoWay(inst, JsonChangeTransferCondition.Instance);
-
-      You can receive property change when in set time.
-
-      The prox can run at bool/(u)int8/(u)int32/(u)int64/string/float/double
+      When you change configuration it will auto save!
     </Description>
-    <Version>2.3.0</Version>
-    <PackageId>Ao.SavableConfig.Binder</PackageId>
-    <Authors>Cricle</Authors>
-    <Company>Ao.SavableConfig</Company>
-    <Product>Ao.SavableConfig</Product>
-    <PackageProjectUrl>https://github.com/Cricle/Ao.SavableConfig</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/Cricle/Ao.SavableConfig</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>

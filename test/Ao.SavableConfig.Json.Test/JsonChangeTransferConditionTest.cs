@@ -9,7 +9,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
-using Newtonsoft.Json.Linq;
 using Microsoft.Extensions.Primitives;
 
 namespace Ao.SavableConfig.Json.Test
@@ -139,7 +138,7 @@ namespace Ao.SavableConfig.Json.Test
             condition.Save(rep, t);
 
             var destFile = File.ReadAllText(Path.Combine(SettingPath, fn));
-            var jobj = JObject.Parse(destFile);
+            var jobj = System.Text.Json.Node.JsonNode.Parse(destFile);
             var oldTitle = jobj["Title"];
             Assert.AreEqual("world", oldTitle.ToString());
         }

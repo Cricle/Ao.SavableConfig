@@ -13,10 +13,12 @@
     <PackageReference Include="coverlet.collector" Version="1.3.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)'=='net452'">
-      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.2" />
+    <Compile Remove="JsonConfigurationVisitorTest.TextJson.cs"></Compile>
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)'!='net452'">
-      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
+    <Compile Remove="JsonConfigurationVisitorTest.Netonsoft.cs"></Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Ao.SavableConfig.Json\Ao.SavableConfig.Json.csproj" />

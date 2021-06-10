@@ -27,6 +27,13 @@ namespace Ao.SavableConfig.Binder.Test
             pi1.ToString();
         }
         [TestMethod]
+        public void GivenNullEquals_MustReturnFalse()
+        {
+            var pi = new PropertyIdentity(typeof(object), "a");
+            var res = pi.Equals(null);
+            Assert.IsFalse(res);
+        }
+        [TestMethod]
         public void GivenNotSameProperyIdentity_MustNotEqual()
         {
             var pi1 = new PropertyIdentity(typeof(object), "a");

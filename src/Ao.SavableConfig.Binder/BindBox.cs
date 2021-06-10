@@ -91,7 +91,11 @@ namespace Microsoft.Extensions.Configuration
         }
         private void BindValue()
         {
-            ChangeNotifyable.Bind(BindSettings.Value);
+            try
+            {
+                ChangeNotifyable.Bind(BindSettings.Value);
+            }
+            catch (Exception) { }
         }
         private async Task CoreHandler()
         {

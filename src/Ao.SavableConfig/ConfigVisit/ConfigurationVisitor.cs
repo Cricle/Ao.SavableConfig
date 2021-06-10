@@ -36,7 +36,7 @@ namespace Ao.SavableConfig.ConfigVisit
         }
         protected abstract TKeyPart MakeKeyPart(int partIndex);
 
-        protected virtual void ValidateParts()
+        protected void ValidateParts()
         {
             for (int i = 0; i < Parts.Length; i++)
             {
@@ -45,6 +45,11 @@ namespace Ao.SavableConfig.ConfigVisit
                     throw new ArgumentException($"The parts[{i}] is null or empty!");
                 }
             }
+            OnValidateParts();
+        }
+        protected virtual void OnValidateParts()
+        {
+
         }
         public virtual bool VisitWrite()
         {

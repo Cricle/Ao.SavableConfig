@@ -15,7 +15,11 @@ namespace Ao.SavableConfig.Binder
 
         public bool AutoAnalysis { get; }
 
-        public ComplexProxyHelper(ProxyHelper proxyHelper, bool autoAnalysis = true)
+        public ComplexProxyHelper(ProxyHelper proxyHelper)
+            : this(proxyHelper, true)
+        {
+        }
+        public ComplexProxyHelper(ProxyHelper proxyHelper, bool autoAnalysis)
         {
             AutoAnalysis = autoAnalysis;
             ProxyHelper = proxyHelper ?? throw new ArgumentNullException(nameof(proxyHelper));

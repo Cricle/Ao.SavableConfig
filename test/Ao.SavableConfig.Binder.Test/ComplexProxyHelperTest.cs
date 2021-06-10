@@ -35,6 +35,13 @@ namespace Ao.SavableConfig.Binder.Test
             Assert.ThrowsException<ArgumentNullException>(() => new ComplexProxyHelper(null));
         }
         [TestMethod]
+        public void InitWithSimple_AutoAnalysisMustTrue()
+        {
+            var prox = ProxyUtil.CreateProx();
+            var cp = new ComplexProxyHelper(prox);
+            Assert.IsTrue(cp.AutoAnalysis);
+        }
+        [TestMethod]
         public void BuildComplexProxy()
         {
             var root = ConfigHelper.CreateEmptyRoot();

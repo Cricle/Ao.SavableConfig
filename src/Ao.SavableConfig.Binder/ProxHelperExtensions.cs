@@ -1,4 +1,5 @@
 ﻿using Ao.SavableConfig.Binder.Annotations;
+using Ao.SavableConfig.Binder.Visitors;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -9,48 +10,72 @@ namespace Ao.SavableConfig.Binder
 {
     public static class ProxHelperExtensions
     {
-        public static ProxyCreator CreateComplexProxy<T>(this ProxyHelper proxyHelper, bool autoAnalysis)
+        public static ProxyCreator CreateComplexProxy<T>(this ProxyHelper proxyHelper)
         {
             if (proxyHelper is null)
             {
                 throw new ArgumentNullException(nameof(proxyHelper));
             }
-
-            var type = new[] { typeof(T) };
-            var map = new Dictionary<Type, INameTransfer>();
-            map.Add(type[0], IdentityMapNameTransfer.FromTypeAttributes(type[0]));
-            if (autoAnalysis)
-            {
-                while (type.Length != 0)
-                {
-                    var includeTypes = type.SelectMany(x =>
-                        x.GetProperties()
-                        .Where(y => y.CanWrite && y.CanRead && y.PropertyType.IsClass && x.GetCustomAttribute<ConfigStepInAttribute>()!=null||y.GetCustomAttribute<ConfigStepInAttribute>() != null&&!map.ContainsKey(y.PropertyType)))
-                            .ToList();
-                    var notInclues = new List<PropertyInfo>();
-                    foreach (var item in includeTypes)
-                    {
-                        if (map.ContainsKey(item.PropertyType))
-                        {
-                            notInclues.Add(item);
-                            continue;
-                        }
-                        var nameMap = IdentityMapNameTransfer.FromTypeAttributes(item.PropertyType);
-                        map.Add(item.PropertyType, nameMap);
-                    }
-                    type = includeTypes.Except(notInclues).Select(x => x.DeclaringType).Distinct().ToArray();
-                }
-            }
-            return CreateComplexProxy<T>(proxyHelper, map);
+            var nameTransfer = IdentityMapNameTransfer.FromTypeAttributes(typeof(T));
+            return CreateComplexProxy<T>(proxyHelper, nameTransfer);
         }
-        public static ProxyCreator CreateComplexProxy<T>(this ProxyHelper proxyHelper,IReadOnlyDictionary<Type,INameTransfer> nameTransferPicker)
+        public static ProxyCreator CreateComplexProxy<T>(this ProxyHelper proxyHelper, INameTransfer nameTransfer)
         {
             if (proxyHelper is null)
             {
                 throw new ArgumentNullException(nameof(proxyHelper));
             }
 
-            return new ProxyCreator(proxyHelper, typeof(T), nameTransferPicker);
+            if (nameTransfer is null)
+            {
+                throw new ArgumentNullException(nameof(nameTransfer));
+            }
+
+            return CreateComplexProxy<T>(proxyHelper, nameTransfer, IdentityNamedCreator.Instance);
+        }
+        public static ProxyCreator CreateComplexProxy<T>(this ProxyHelper proxyHelper, INameTransfer nameTransfer, INamedCreator namedCreator)
+        {
+            if (proxyHelper is null)
+            {
+                throw new ArgumentNullException(nameof(proxyHelper));
+            }
+
+            if (nameTransfer is null)
+            {
+                throw new ArgumentNullException(nameof(nameTransfer));
+            }
+
+            if (namedCreator is null)
+            {
+                throw new ArgumentNullException(nameof(namedCreator));
+            }
+
+            return CreateComplexProxy<T>(proxyHelper, nameTransfer, namedCreator,CompilePropertyVisitor.Instance);
+        }
+
+        public static ProxyCreator CreateComplexProxy<T>(this ProxyHelper proxyHelper, INameTransfer nameTransfer, INamedCreator namedCreator,IPropertyVisitor propertyVisitor)
+        {
+            if (proxyHelper is null)
+            {
+                throw new ArgumentNullException(nameof(proxyHelper));
+            }
+
+            if (nameTransfer is null)
+            {
+                throw new ArgumentNullException(nameof(nameTransfer));
+            }
+
+            if (namedCreator is null)
+            {
+                throw new ArgumentNullException(nameof(namedCreator));
+            }
+
+            if (propertyVisitor is null)
+            {
+                throw new ArgumentNullException(nameof(propertyVisitor));
+            }
+
+            return new ProxyCreator(proxyHelper, typeof(T), nameTransfer, namedCreator, propertyVisitor);
         }
         public static T EnsureCreateProxWithAttribute<T>(this ProxyHelper proxHelper, IConfiguration configuration)
             where T:class

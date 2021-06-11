@@ -17,6 +17,7 @@ namespace Ao.SavableConfig.Binder
         private static readonly Type StringType = typeof(string);
         private static readonly Type IConfigurationType = typeof(IConfiguration);
         private static readonly Type NullableType = typeof(Nullable<>);
+        private static readonly Type[] ProxyConstructTypes = new Type[] { INameTransferType, IConfigurationType };
 
         private static readonly PropertyInfo ConfigurationIndexProperty = IConfigurationType.GetProperties().Where(x => x.GetIndexParameters().Length == 1).First();
         private static readonly MethodInfo NameTransferTransferMethod = INameTransferType.GetMethod(nameof(INameTransfer.Transfer));
@@ -27,11 +28,13 @@ namespace Ao.SavableConfig.Binder
         private static readonly ModuleBuilder DefaultDynamicModule = DefaultDynamicAssembly.DefineDynamicModule("AoDyModule");
 
         public static readonly ProxyHelper Default = new ProxyHelper(DefaultDynamicAssembly, DefaultDynamicModule);
+        private readonly ConstructCompileManager constructCompileManager;
 
         public AssemblyBuilder DynamicAssembly { get; }
         public ModuleBuilder DynamicModule { get; }
 
         private readonly Dictionary<Type, Type> proxMap;
+        private readonly Dictionary<Type, ConstructorInfo> constructorMap;
 
         public IReadOnlyDictionary<Type, Type> ProxMap => proxMap;
 
@@ -40,6 +43,8 @@ namespace Ao.SavableConfig.Binder
             DynamicAssembly = dynamicAssembly ?? throw new ArgumentNullException(nameof(dynamicAssembly));
             DynamicModule = dynamicModule ?? throw new ArgumentNullException(nameof(dynamicModule));
             proxMap = new Dictionary<Type, Type>();
+            constructCompileManager = new ConstructCompileManager();
+            constructorMap = new Dictionary<Type, ConstructorInfo>();
         }
 
         public bool HasTypeProxy(Type type)
@@ -73,7 +78,8 @@ namespace Ao.SavableConfig.Binder
         }
         protected virtual object CreateInstance(Type type, IConfiguration configuration, INameTransfer nameTransfer)
         {
-            return Activator.CreateInstance(type, nameTransfer, configuration);
+            var c = constructCompileManager.GetCompiled(constructorMap[type]);
+            return c.Creator(nameTransfer, configuration);
         }
         private Type Build(Type type)
         {
@@ -83,7 +89,7 @@ namespace Ao.SavableConfig.Binder
                 .ToArray();
             var transferField = @class.DefineField("transfer", INameTransferType, FieldAttributes.Private | FieldAttributes.InitOnly);
             var configurationField = @class.DefineField("configuration", IConfigurationType, FieldAttributes.Private | FieldAttributes.InitOnly);
-            var constract = @class.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, new Type[] { typeof(INameTransfer), typeof(IConfiguration) });
+            var constract = @class.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, ProxyConstructTypes);
             var objectConst = ObjectType.GetConstructor(Type.EmptyTypes);
             var constractIl = constract.GetILGenerator();
             constractIl.Emit(OpCodes.Ldarg_0);
@@ -98,10 +104,7 @@ namespace Ao.SavableConfig.Binder
 
             foreach (var item in properties)
             {
-                if (!(item.PropertyType.IsGenericType &&
-                    item.PropertyType.GetGenericTypeDefinition() == NullableType &&
-                    CheckType(item.PropertyType.GenericTypeArguments[0]) ||
-                    CheckType(item.PropertyType)))
+                if (!TypeHelper.IsBaseType(item.PropertyType))
                 {
                     continue;
                 }
@@ -141,15 +144,15 @@ namespace Ao.SavableConfig.Binder
                     setIl.Emit(OpCodes.Stloc_0);
 
                     var isStringType = item.PropertyType == StringType;
-                    if (!isStringType)
+                    if (isStringType)
+                    {
+                        setIl.Emit(OpCodes.Ldarg_1);
+                    }
+                    else
                     {
                         var toStr = item.PropertyType.GetMethod(nameof(object.ToString), Type.EmptyTypes);
                         setIl.Emit(OpCodes.Ldarga_S, 1);
                         setIl.Emit(OpCodes.Callvirt, toStr);
-                    }
-                    else
-                    {
-                        setIl.Emit(OpCodes.Ldarg_1);
                     }
                     setIl.Emit(OpCodes.Stloc_1);
 
@@ -167,13 +170,11 @@ namespace Ao.SavableConfig.Binder
                 }
             }
             var proxType = @class.CreateTypeInfo();
+            var constInfo = proxType.GetConstructor(ProxyConstructTypes);
+            constructCompileManager.EnsureGetCompiled(constInfo);
+            constructorMap.Add(proxType, constInfo);
             proxMap.Add(type, proxType);
             return proxType;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal bool CheckType(Type t)
-        {
-            return t.IsPrimitive || t == StringType;
         }
     }
 }

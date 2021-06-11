@@ -8,6 +8,8 @@ namespace Microsoft.Extensions.Configuration
 {
     public class BindBox : IDisposable
     {
+        private static readonly Action Empty = () => { };
+
         public IConfigurationChangeNotifyable ChangeNotifyable { get; }
 
         public BindSettings BindSettings { get; }
@@ -58,7 +60,7 @@ namespace Microsoft.Extensions.Configuration
             {
                 ChangeWatcher.ChangePushed += Handler;
             }
-            ChangeNotifyable.Bind(BindSettings.Value);
+            Reload(null);
             isBind = true;
         }
         public void UnBind()
@@ -78,7 +80,7 @@ namespace Microsoft.Extensions.Configuration
         private void Reload(object state)
         {
             notify = false;
-            Updater(BindValue);
+            Updater(Empty);
             ChangeNotifyable.GetReloadToken()
                 .RegisterChangeCallback(Reload, null);
             notify = true;
@@ -88,14 +90,6 @@ namespace Microsoft.Extensions.Configuration
         private void Handler(object o, IConfigurationChangeInfo e)
         {
             _ = CoreHandler();
-        }
-        private void BindValue()
-        {
-            try
-            {
-                ChangeNotifyable.Bind(BindSettings.Value);
-            }
-            catch (Exception) { }
         }
         private async Task CoreHandler()
         {
@@ -107,8 +101,8 @@ namespace Microsoft.Extensions.Configuration
                     ChangeWatcher.Clear();
                     var repo = ChangeReport.FromChanges(ChangeNotifyable, infos);
                     var saver = new ChangeSaver(repo, BindSettings.Conditions);
-                    _= saver.EmitAndSave();
-                    Updater(BindValue);
+                    saver.EmitAndSave();
+                    Updater(Empty);
                     Saved?.Invoke(this, infos);
                 }
                 catch (Exception ex)

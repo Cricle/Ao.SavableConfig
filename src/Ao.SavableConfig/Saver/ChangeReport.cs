@@ -82,8 +82,10 @@ namespace Ao.SavableConfig.Saver
         /// <returns></returns>
         public static IEnumerable<ChangeReport> FromChanges(IConfiguration configuration,IReadOnlyList<IConfigurationChangeInfo> datas)
         {
-            return datas.GroupBy(x => x.Provider)
-                .Select(x => new ChangeReport(configuration,x.Key, x.ToArray()));
+            foreach (var item in datas.GroupBy(x=>x.Provider))
+            {
+                yield return new ChangeReport(configuration, item.Key, item.ToArray());
+            }
         }
     }
 }

@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ao.SavableConfig.Benchmark"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ao.SavableConfig.Binder.Test", "test\Ao.SavableConfig.Binder.Test\Ao.SavableConfig.Binder.Test.csproj", "{9331911E-EA78-4F0D-B9D7-470E70574EE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ao.SavableConfig.Json.Test", "test\Ao.SavableConfig.Json.Test\Ao.SavableConfig.Json.Test.csproj", "{D9225D9A-296E-4AFF-B197-4DD7A5A00735}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ao.SavableConfig.Json.Test", "test\Ao.SavableConfig.Json.Test\Ao.SavableConfig.Json.Test.csproj", "{D9225D9A-296E-4AFF-B197-4DD7A5A00735}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

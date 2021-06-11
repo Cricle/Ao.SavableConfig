@@ -13,7 +13,7 @@ namespace Ao.SavableConfig.Binder.Test
         [TestMethod]
         public void GivenPropetyName_ReturnSame()
         {
-            var transfer = new NullNameTransfer();
+            var transfer = NullNameTransfer.Instance;
             var val = transfer.Transfer(null, "aa");
             Assert.AreEqual("aa", val);
         }

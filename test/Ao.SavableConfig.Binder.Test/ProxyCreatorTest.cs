@@ -1,4 +1,5 @@
 ﻿using Ao.SavableConfig.Binder.Annotations;
+using Ao.SavableConfig.Binder.Visitors;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -34,25 +35,19 @@ namespace Ao.SavableConfig.Binder.Test
             public virtual bool Ok { get; set; }
         }
         [TestMethod]
-        public void CreateWithNullMap_MustEqualDefault()
-        {
-            var prox = ProxyUtil.CreateProx();
-            var type = typeof(object);
-            var creator = new ProxyCreator(prox, type, null);
-            Assert.IsNotNull(creator.NameTransferPicker);
-            Assert.IsNotNull(creator.PopertyProxyType);
-
-            creator = new ProxyCreator(prox, type);
-            Assert.IsNotNull(creator.NameTransferPicker);
-            Assert.IsNotNull(creator.PopertyProxyType);
-        }
-        [TestMethod]
         public void GivenNullInit_MustThrowException()
         {
             var prox = ProxyUtil.CreateProx();
             var type = typeof(object);
-            Assert.ThrowsException<ArgumentNullException>(() => new ProxyCreator(prox, null, null));
-            Assert.ThrowsException<ArgumentNullException>(() => new ProxyCreator(null,type, null));
+            var nameTransfer = NullNameTransfer.Instance;
+            var nameCreator = IdentityNamedCreator.Instance;
+            var propVisitor = CompilePropertyVisitor.Instance;
+
+            Assert.ThrowsException<ArgumentNullException>(() => new ProxyCreator(null, type, nameTransfer, nameCreator, propVisitor));
+            Assert.ThrowsException<ArgumentNullException>(() => new ProxyCreator(prox, null, nameTransfer, nameCreator, propVisitor));
+            Assert.ThrowsException<ArgumentNullException>(() => new ProxyCreator(prox, type, null, nameCreator, propVisitor));
+            Assert.ThrowsException<ArgumentNullException>(() => new ProxyCreator(prox, type, nameTransfer, null, propVisitor));
+            Assert.ThrowsException<ArgumentNullException>(() => new ProxyCreator(prox, type, nameTransfer, nameCreator, null));
         }
         [TestMethod]
         [DataRow(typeof(RedirectBox), "P:")]
@@ -61,17 +56,15 @@ namespace Ao.SavableConfig.Binder.Test
         {
             var root = ConfigHelper.CreateEmptyRoot();
             var prox = ProxyUtil.CreateProx();
-            var map = new Dictionary<Type, INameTransfer>
+            var named = new Dictionary<PropertyIdentity, string>
             {
-                [typeof(RedirectClass)] = new IdentityMapNameTransfer(new Dictionary<PropertyIdentity, string>
-                {
-                    [new PropertyIdentity(typeof(int), nameof(RedirectClass.Age))] = "Age",
-                    [new PropertyIdentity(typeof(string), nameof(RedirectClass.Name))] = prefx+"Name",
-                    [new PropertyIdentity(typeof(double), nameof(RedirectClass.Score))] = prefx +"Score",
-                })
+                [new PropertyIdentity(typeof(int), nameof(RedirectClass.Age))] = "Age",
+                [new PropertyIdentity(typeof(string), nameof(RedirectClass.Name))] = prefx + "Name",
+                [new PropertyIdentity(typeof(double), nameof(RedirectClass.Score))] = prefx + "Score",
             };
-            var creator = new ProxyCreator(prox, type,map);
-            Assert.AreEqual(map, creator.NameTransferPicker);
+            var map = new IdentityMapNameTransfer(named);
+            var creator = new ProxyCreator(prox, type,map,IdentityNamedCreator.Instance,ReflectionPropertyVisitor.Instance);
+
             var x = (dynamic)creator.Build(root);
             x.Red.Age = 123;
             x.Red.Name = "456";
@@ -88,11 +81,15 @@ namespace Ao.SavableConfig.Binder.Test
         {
             var prox = ProxyUtil.CreateProx();
             var type = typeof(object);
-            var dic = new Dictionary<Type, INameTransfer>();
-            var creator = new ProxyCreator(prox, type,dic);
+            var nameTransfer = NullNameTransfer.Instance;
+            var nameCreator = IdentityNamedCreator.Instance;
+            var propVisitor = CompilePropertyVisitor.Instance;
+            var creator = new ProxyCreator(prox, type, nameTransfer, nameCreator, propVisitor);
             Assert.AreEqual(prox, creator.ProxyHelper);
             Assert.AreEqual(type, creator.Type);
-            Assert.AreEqual(dic, creator.NameTransferPicker);
+            Assert.AreEqual(nameTransfer, creator.NameTransfer);
+            Assert.AreEqual(propVisitor, creator.PropertyVisitor);
+            Assert.AreEqual(nameCreator, creator.NamedCreator);
         }
     }
 }

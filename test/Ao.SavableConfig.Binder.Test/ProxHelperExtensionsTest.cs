@@ -1,4 +1,5 @@
 ﻿using Ao.SavableConfig.Binder.Annotations;
+using Ao.SavableConfig.Binder.Visitors;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -45,15 +46,22 @@ namespace Ao.SavableConfig.Binder.Test
         {
             var root = ConfigHelper.CreateEmptyRoot();
             var proxy = ProxyUtil.CreateProx();
-            Assert.ThrowsException<ArgumentNullException>(() => ProxHelperExtensions.EnsureCreateProx<object>(null, root, new NullNameTransfer()));
-            Assert.ThrowsException<ArgumentNullException>(() => ProxHelperExtensions.EnsureCreateProx<object>(proxy, null, new NullNameTransfer()));
+            Assert.ThrowsException<ArgumentNullException>(() => ProxHelperExtensions.EnsureCreateProx<object>(null, root, NullNameTransfer.Instance));
+            Assert.ThrowsException<ArgumentNullException>(() => ProxHelperExtensions.EnsureCreateProx<object>(proxy, null, NullNameTransfer.Instance));
             Assert.ThrowsException<ArgumentNullException>(() => ProxHelperExtensions.EnsureCreateProx<object>(proxy, root, null));
 
             Assert.ThrowsException<ArgumentNullException>(() => ProxHelperExtensions.EnsureCreateProxWithAttribute<object>(proxy, null));
             Assert.ThrowsException<ArgumentNullException>(() => ProxHelperExtensions.EnsureCreateProxWithAttribute<object>(null, root));
 
-            Assert.ThrowsException<ArgumentNullException>(() => ProxHelperExtensions.CreateComplexProxy<object>(null, false));
-            Assert.ThrowsException<ArgumentNullException>(() => ProxHelperExtensions.CreateComplexProxy<object>(null,new Dictionary<Type,INameTransfer>()));
+            Assert.ThrowsException<ArgumentNullException>(() => ProxHelperExtensions.CreateComplexProxy<object>(null));
+            Assert.ThrowsException<ArgumentNullException>(() => ProxHelperExtensions.CreateComplexProxy<object>(proxy, null));
+            Assert.ThrowsException<ArgumentNullException>(() => ProxHelperExtensions.CreateComplexProxy<object>(proxy, NullNameTransfer.Instance, null));
+            Assert.ThrowsException<ArgumentNullException>(() => ProxHelperExtensions.CreateComplexProxy<object>(proxy, null, IdentityNamedCreator.Instance));
+            Assert.ThrowsException<ArgumentNullException>(() => ProxHelperExtensions.CreateComplexProxy<object>(null, NullNameTransfer.Instance, IdentityNamedCreator.Instance));
+            Assert.ThrowsException<ArgumentNullException>(() => ProxHelperExtensions.CreateComplexProxy<object>(proxy, NullNameTransfer.Instance, IdentityNamedCreator.Instance, null));
+            Assert.ThrowsException<ArgumentNullException>(() => ProxHelperExtensions.CreateComplexProxy<object>(proxy, NullNameTransfer.Instance, null, CompilePropertyVisitor.Instance));
+            Assert.ThrowsException<ArgumentNullException>(() => ProxHelperExtensions.CreateComplexProxy<object>(proxy, null, IdentityNamedCreator.Instance, CompilePropertyVisitor.Instance));
+            Assert.ThrowsException<ArgumentNullException>(() => ProxHelperExtensions.CreateComplexProxy<object>(null, NullNameTransfer.Instance, IdentityNamedCreator.Instance, CompilePropertyVisitor.Instance));
         }
         [TestMethod]
         public void EnsureCreateProx_MustCreated()
@@ -69,7 +77,7 @@ namespace Ao.SavableConfig.Binder.Test
         {
             var root = ConfigHelper.CreateEmptyRoot();
             var proxy = ProxyUtil.CreateProx();
-            var val = proxy.CreateComplexProxy<ComplexClass>(true);
+            var val = proxy.CreateComplexProxy<ComplexClass>();
             Assert.IsNotNull(val);
             Assert.AreEqual(proxy, val.ProxyHelper);
             var v = val.Build(root);

@@ -44,70 +44,63 @@ namespace Ao.SavableConfig.Binder.Test
         [TestMethod]
         public void CreateDynamicConfig_MustOk()
         {
-            lock (locker)
-            {
-
-                var root = ConfigHelper.CreateEmptyRoot();
-                var dy = BinderExtensions.CreateDynamic(root);
-                Assert.IsNotNull(dy);
-            }
+            var root = ConfigHelper.CreateEmptyRoot();
+            var dy = BinderExtensions.CreateDynamic(root);
+            Assert.IsNotNull(dy);
         }
         [TestMethod]
         public void CreateBind_MustBinded()
         {
-            lock (locker)
+            var root = ConfigHelper.CreateEmptyRoot();
+            var val = root.AutoCreateProxy<NullClass>();
+            var originVal = new NullClass();
+            var setting = new BindSettings(originVal, BindSettings.DefaultDelayTime, new IChangeTransferCondition[0]);
+            var box = BinderExtensions.Bind(root, setting, ConfigBindMode.OneTime);
+            Assert.AreEqual(ConfigBindMode.OneTime, box.Mode);
+            Assert.AreEqual(setting, box.BindSettings);
+            Assert.AreEqual(root, box.ChangeNotifyable);
+            Assert.IsNotNull(box.Updater);
+
+            box.Bind();
+            box.Bind();
+            Assert.IsTrue(box.IsBind);
+            originVal.Name = "123";
+            Assert.IsNull(root["Name"]);
+            box.UnBind();
+            box.UnBind();
+            box.Dispose();
+            originVal.Name = null;
+
+            val = root.AutoCreateProxy<NullClass>();
+            setting = new BindSettings(val, BindSettings.DefaultDelayTime, new IChangeTransferCondition[0]);
+            box = BinderExtensions.Bind(root, setting, ConfigBindMode.OneWayToSource);
+            val.Name = "456";
+            Assert.AreEqual("456", root["Name"]);
+            box.Dispose();
+            val.Name = null;
+
+            val = root.AutoCreateProxy<NullClass>();
+            setting = new BindSettings(val, BindSettings.DefaultDelayTime, new IChangeTransferCondition[0]);
+            box = BinderExtensions.Bind(root, setting, ConfigBindMode.OneWay);
+            root["Name"] = "789";
+            Assert.AreEqual("789", val.Name);
+            box.Dispose();
+            val.Name = null;
+
+            val = root.AutoCreateProxy<NullClass>();
+            box = BinderExtensions.BindTwoWay(root, val);
+            root["Name"] = "789";
+            Assert.AreEqual("789", val.Name);
+            val.Name = "999";
+            Assert.AreEqual("999", root["Name"]);
+            BindBox rd = null;
+            box.Reloaded += (e) =>
             {
-                var root = ConfigHelper.CreateEmptyRoot();
-                var val = root.AutoCreateProxy<NullClass>();
-                var originVal = new NullClass();
-                var setting = new BindSettings(originVal, BindSettings.DefaultDelayTime, new IChangeTransferCondition[0]);
-                var box = BinderExtensions.Bind(root, setting, ConfigBindMode.OneTime);
-                Assert.AreEqual(ConfigBindMode.OneTime, box.Mode);
-                Assert.AreEqual(setting, box.BindSettings);
-                Assert.AreEqual(root, box.ChangeNotifyable);
-                Assert.IsNotNull(box.Updater);
-
-                box.Bind();
-                box.Bind();
-                Assert.IsTrue(box.IsBind);
-                originVal.Name = "123";
-                Assert.IsNull(root["Name"]);
-                box.UnBind();
-                box.UnBind();
-                box.Dispose();
-                originVal.Name = null;
-
-                val = root.AutoCreateProxy<NullClass>();
-                setting = new BindSettings(val, BindSettings.DefaultDelayTime, new IChangeTransferCondition[0]);
-                box = BinderExtensions.Bind(root, setting, ConfigBindMode.OneWay);
-                val.Name = "456";
-                Assert.AreEqual("456", root["Name"]);
-                box.Dispose();
-                val.Name = null;
-
-                val = root.AutoCreateProxy<NullClass>();
-                setting = new BindSettings(val, BindSettings.DefaultDelayTime, new IChangeTransferCondition[0]);
-                box = BinderExtensions.Bind(root, setting, ConfigBindMode.OneWayToSource);
-                root["Name"] = "789";
-                Assert.AreEqual("789", val.Name);
-                box.Dispose();
-                val.Name = null;
-
-                val = root.AutoCreateProxy<NullClass>();
-                box = BinderExtensions.BindTwoWay(root, val);
-                root["Name"] = "789";
-                Assert.AreEqual("789", val.Name);
-                val.Name = "999";
-                Assert.AreEqual("999", root["Name"]);
-                BindBox rd = null;
-                box.Reloaded += (e) =>
-                {
-                    rd = e;
-                };
-                root.Reload();
-                Assert.AreEqual(box, rd);
-                box.Dispose();
-            }
+                rd = e;
+            };
+            root.Reload();
+            Assert.AreEqual(box, rd);
+            box.Dispose();
         }
     }
 }

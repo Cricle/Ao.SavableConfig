@@ -52,7 +52,7 @@ namespace Ao.SavableConfig.Binder.Test
         {
             var prox = ProxyUtil.CreateProx();
             var root = ConfigHelper.CreateEmptyRoot();
-            var val=prox.CreateProxy(typeof(Setting1), root, new NullNameTransfer());
+            var val=prox.CreateProxy(typeof(Setting1), root, NullNameTransfer.Instance);
             Assert.IsNull(val);
         }
         [TestMethod]

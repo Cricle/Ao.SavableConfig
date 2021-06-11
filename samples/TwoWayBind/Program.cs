@@ -15,6 +15,17 @@ namespace TwoWayBind
         public virtual bool UseConnectionPool { get; set; }
 
         public virtual string Connection { get; set; }
+
+        [ConfigStepIn]
+        public virtual DbOptions Options { get; set; }
+    }
+    public class DbOptions
+    {
+        public virtual bool UsingLinq { get; set; }
+
+        public virtual int TimeOut { get; set; }
+
+        public DbConnection Connection { get; set; }
     }
     [ConfigStepIn]
     [ConfigPath("DbConnections")]
@@ -43,7 +54,7 @@ namespace TwoWayBind
             builder.AddJsonFile("appsettings2.json", false, true);
             var root = builder.BuildSavable();
             var value = root.AutoCreateProxy<DbConnection>();
-            root.BindTwoWay(value, JsonChangeTransferCondition.Instance);
+            var box=root.BindTwoWay(value, JsonChangeTransferCondition.Instance);
             while (true)
             {
                 var str = Console.ReadLine();
@@ -52,9 +63,13 @@ namespace TwoWayBind
                     Console.WriteLine("Mysql");
                     Console.WriteLine("Connection: \t" + value.Mysql.Connection);
                     Console.WriteLine("UseConnectionPool: \t" + value.Mysql.UseConnectionPool);
+                    Console.WriteLine("UseConnectionPool.UsingLinq: \t\t" + value.Mysql.Options.UsingLinq);
+                    Console.WriteLine("UseConnectionPool.TimeOut: \t\t" + value.Mysql.Options.TimeOut);
                     Console.WriteLine("Mssql");
                     Console.WriteLine("Connection: \t" + value.Mssql.Connection);
                     Console.WriteLine("UseConnectionPool: \t" + value.Mssql.UseConnectionPool);
+                    Console.WriteLine("UseConnectionPool.UsingLinq: \t\t" + value.Mssql.Options.UsingLinq);
+                    Console.WriteLine("UseConnectionPool.TimeOut: \t\t" + value.Mssql.Options.TimeOut);
                     Console.WriteLine("Logging");
                     Console.WriteLine("Default: \t" + value.Loggings.Default);
                     Console.WriteLine("Quto: \t" + value.Loggings.Quto);
@@ -69,6 +84,9 @@ namespace TwoWayBind
                         string.Concat(Enumerable.Range(0, 20)
                         .Select(x => randon.Next(0, 100).ToString())
                         .ToArray());
+
+                    value.Mysql.Options.TimeOut = randon.Next(0, 99999);
+                    value.Mssql.Options.TimeOut = randon.Next(0, 99999);
                 }
             }
         }

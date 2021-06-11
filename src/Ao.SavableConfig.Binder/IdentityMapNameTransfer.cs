@@ -35,8 +35,7 @@ namespace Ao.SavableConfig.Binder
             }
 
             var parent = instance.GetType();
-            string name;
-            if (!Map.TryGetValue(new PropertyIdentity(parent, propertyName), out name))
+            if (!Map.TryGetValue(new PropertyIdentity(parent, propertyName), out var name))
             {
                 name = propertyName;
             }
@@ -62,13 +61,28 @@ namespace Ao.SavableConfig.Binder
                 var className = type.GetCustomAttribute<ConfigPathAttribute>();
                 if (className != null)
                 {
-                    baseName = ConfigurationPath.Combine(baseName, className.Name);
+                    if (className.Absolute|| string.IsNullOrEmpty(baseName))
+                    {
+                        baseName = className.Name;
+                    }
+                    else
+                    {
+                        baseName = ConfigurationPath.Combine(baseName, className.Name);
+                    }
                 }
             }
-            var map = type.GetProperties()
-                .Select(x => new { Property = x, Attribute = x.GetCustomAttribute<ConfigPathAttribute>() })
-                .Where(x => x.Attribute != null)
-                .ToDictionary(x => new PropertyIdentity(type, x.Property.Name), x => x.Attribute.Name);
+            var map = new Dictionary<PropertyIdentity, string>();
+            foreach (var item in type.GetProperties())
+            {
+                var identity = new PropertyIdentity(type, item.Name);
+                var name = item.Name;
+                var attr = item.GetCustomAttribute<ConfigPathAttribute>();
+                if (attr!=null)
+                {
+                    name= attr.Name;
+                }
+                map.Add(identity, name);
+            }
             return new IdentityMapNameTransfer(baseName, map);
         }
     }

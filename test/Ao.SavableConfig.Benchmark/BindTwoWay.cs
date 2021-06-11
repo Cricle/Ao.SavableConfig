@@ -1,11 +1,13 @@
 ﻿using Ao.SavableConfig.Binder;
 using Ao.SavableConfig.Saver;
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Engines;
 using Microsoft.Extensions.Configuration;
 
 namespace Ao.SavableConfig.Benchmark
 {
     [MemoryDiagnoser]
+    [SimpleJob(RunStrategy.ColdStart)]
     public class BindTwoWay
     {
         private readonly TwoWayDbConnection conn;

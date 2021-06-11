@@ -1,9 +1,11 @@
 ﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Engines;
 using Microsoft.Extensions.Configuration;
 
 namespace Ao.SavableConfig.Benchmark
 {
     [MemoryDiagnoser]
+    //[SimpleJob(RunStrategy.ColdStart)]
     public class Changes
     {
         private const int LoopCount = 1000;

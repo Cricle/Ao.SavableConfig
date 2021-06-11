@@ -44,7 +44,7 @@ namespace Ao.SavableConfig.Binder
             var type = typeof(T);
             if (!creators.TryGetValue(type, out var creator))
             {
-                creator = ProxyHelper.CreateComplexProxy<T>(AutoAnalysis);
+                creator = ProxyHelper.CreateComplexProxy<T>();
                 creators.Add(type, creator);
             }
             return (T)creator.Build(configuration);

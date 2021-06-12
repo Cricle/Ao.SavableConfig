@@ -65,7 +65,7 @@ namespace Ao.SavableConfig
         }
         private readonly IConfigurationChangeNotifyable watchConfiguration;
 
-        private readonly Dictionary<ChangeIdentity, IConfigurationChangeInfo> changeInfos;
+        private readonly ConcurrentDictionary<ChangeIdentity, IConfigurationChangeInfo> changeInfos;
 
         /// <inheritdoc/>
         public IConfigurationChangeNotifyable Configuration => watchConfiguration;
@@ -93,7 +93,7 @@ namespace Ao.SavableConfig
         /// <param name="notifyable"></param>
         public ChangeWatcher(IConfigurationChangeNotifyable notifyable)
         {
-            changeInfos = new Dictionary<ChangeIdentity, IConfigurationChangeInfo>(ChangeIdentityComparer.Instance);
+            changeInfos = new ConcurrentDictionary<ChangeIdentity, IConfigurationChangeInfo>(ChangeIdentityComparer.Instance);
             watchConfiguration = notifyable ?? throw new ArgumentNullException(nameof(notifyable));
             notifyable.ConfigurationChanged += Notifyable_ConfigurationChanged;
         }

@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 namespace Ao.SavableConfig.Benchmark
 {
     [MemoryDiagnoser]
-    [SimpleJob(RunStrategy.ColdStart)]
+    //[SimpleJob(RunStrategy.ColdStart)]
     public class BindTwoWay
     {
         private readonly TwoWayDbConnection conn;

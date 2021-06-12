@@ -55,6 +55,7 @@ namespace Ao.SavableConfig.Binder.Test
 
             Assert.ThrowsException<ArgumentNullException>(() => ProxHelperExtensions.CreateComplexProxy<object>(null));
             Assert.ThrowsException<ArgumentNullException>(() => ProxHelperExtensions.CreateComplexProxy<object>(proxy, null));
+            Assert.ThrowsException<ArgumentNullException>(() => ProxHelperExtensions.CreateComplexProxy<object>(null, NullNameTransfer.Instance));
             Assert.ThrowsException<ArgumentNullException>(() => ProxHelperExtensions.CreateComplexProxy<object>(proxy, NullNameTransfer.Instance, null));
             Assert.ThrowsException<ArgumentNullException>(() => ProxHelperExtensions.CreateComplexProxy<object>(proxy, null, IdentityNamedCreator.Instance));
             Assert.ThrowsException<ArgumentNullException>(() => ProxHelperExtensions.CreateComplexProxy<object>(null, NullNameTransfer.Instance, IdentityNamedCreator.Instance));

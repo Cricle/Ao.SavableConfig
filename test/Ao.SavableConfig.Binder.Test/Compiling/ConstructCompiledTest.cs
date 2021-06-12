@@ -38,6 +38,9 @@ namespace Ao.SavableConfig.Binder.Test.Compiling
             Assert.IsFalse(a.Equals(c));
             Assert.IsFalse(a.Equals((object)null));
             Assert.IsFalse(a.Equals((ConstructCompiled)null));
+
+            Assert.AreEqual(a.GetHashCode(), b.GetHashCode());
+            Assert.AreNotEqual(a.GetHashCode(), c.GetHashCode());
         }
         private void Run(Type[] types,object[] values)
         {

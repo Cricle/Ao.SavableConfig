@@ -29,8 +29,6 @@ namespace Ao.SavableConfig.Binder
         }
         private readonly Dictionary<PropertyInfo, IPropertyProxyInfo> propertyInfos;
 
-        public string CombineName { get; }
-
         public IPropertyVisitor PropertyVisitor { get; }
 
         public INameTransfer NameTransfer { get; }

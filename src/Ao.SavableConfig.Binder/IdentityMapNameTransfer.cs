@@ -61,7 +61,7 @@ namespace Ao.SavableConfig.Binder
                 var className = type.GetCustomAttribute<ConfigPathAttribute>();
                 if (className != null)
                 {
-                    if (className.Absolute|| string.IsNullOrEmpty(baseName))
+                    if (className.Absolute || string.IsNullOrEmpty(baseName))
                     {
                         baseName = className.Name;
                     }
@@ -77,9 +77,9 @@ namespace Ao.SavableConfig.Binder
                 var identity = new PropertyIdentity(type, item.Name);
                 var name = item.Name;
                 var attr = item.GetCustomAttribute<ConfigPathAttribute>();
-                if (attr!=null)
+                if (attr != null)
                 {
-                    name= attr.Name;
+                    name = attr.Name;
                 }
                 map.Add(identity, name);
             }

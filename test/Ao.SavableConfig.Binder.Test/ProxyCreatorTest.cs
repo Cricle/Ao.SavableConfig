@@ -90,6 +90,8 @@ namespace Ao.SavableConfig.Binder.Test
             Assert.AreEqual(nameTransfer, creator.NameTransfer);
             Assert.AreEqual(propVisitor, creator.PropertyVisitor);
             Assert.AreEqual(nameCreator, creator.NamedCreator);
+            Assert.AreEqual(type, creator.Type);
+            Assert.IsNotNull(creator.PropertyInfos);
         }
     }
 }

@@ -6,9 +6,9 @@ namespace Ao.SavableConfig.Binder
     {
         PropertyIdentity Identity { get; }
 
-        ProxyCreator ParentProxyCreator { get; }
+        ObjectNamedCreator ParentProxyCreator { get; }
 
-        ProxyCreator ProxyCreator { get; }
+        ObjectNamedCreator ProxyCreator { get; }
 
         PropertyInfo PropertyInfo { get; }
 

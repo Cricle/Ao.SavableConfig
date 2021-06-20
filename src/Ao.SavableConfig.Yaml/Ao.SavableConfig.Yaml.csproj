@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net452;</TargetFrameworks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ao.SavableConfig\Ao.SavableConfig.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)'=='net452'">
+    <PackageReference Include="NetEscapades.Configuration.Yaml" Version="1.6.0" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)'!='net452'">
+    <PackageReference Include="NetEscapades.Configuration.Yaml" Version="2.0.1" />
+  </ItemGroup>
+</Project>

@@ -8,13 +8,16 @@ namespace Ao.SavableConfig.Binder
     {
         private static readonly Type ObjectType = typeof(object);
 
-        public PropertyCompiled(PropertyInfo member)
+        public PropertyCompiled(Type declareType, PropertyInfo member)
         {
+            DeclareType = declareType ?? throw new ArgumentNullException(nameof(declareType));
             Member = member ?? throw new ArgumentNullException(nameof(member));
 
             Setter = BuildSetter();
             Getter = BuildGetter();
         }
+
+        public Type DeclareType { get; }
 
         public PropertyInfo Member { get; }
 
@@ -46,7 +49,7 @@ namespace Ao.SavableConfig.Binder
                 var par = Expression.Parameter(ObjectType);
 
                 var body = Expression.Convert(Expression.Call(
-                    Expression.Convert(par,Member.DeclaringType),
+                    Expression.Convert(par, DeclareType),
                     Member.GetMethod), ObjectType);
                 return Expression.Lambda<Func<object,object>>(body,par).Compile();
             }
@@ -59,7 +62,7 @@ namespace Ao.SavableConfig.Binder
                 var par1 = Expression.Parameter(ObjectType);
                 var par2 = Expression.Parameter(ObjectType);
 
-                var convPar1 = Expression.Convert(par1, Member.DeclaringType);
+                var convPar1 = Expression.Convert(par1, DeclareType);
                 var convPar2 = Expression.Convert(par2, Member.PropertyType);
 
                 var body = Expression.Call(convPar1, Member.SetMethod,convPar2);

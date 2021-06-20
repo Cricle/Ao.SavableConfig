@@ -37,6 +37,7 @@ namespace Ao.SavableConfig.Test
             builder.AddInMemoryCollection();
             var root = builder.BuildSavable();
             var watcher = new EmptyChangeWatcher(root);
+            root["aa"] = "qaq";
             IConfigurationChangeInfo info = null;
             watcher.ChangePushed += (o, e) =>
             {

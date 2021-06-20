@@ -31,8 +31,14 @@ namespace TwoWayBindWpf
             var builder = new ConfigurationBuilder();
             builder.AddJsonFile("app.json", true, true);
             root = builder.BuildSavable();
-            DataContext = ProxyHelper.Default.EnsureCreateProxWithAttribute<ThemeService>(root);
-            root.BindTwoWay(DataContext, JsonChangeTransferCondition.Instance);
+            var inst = root.AutoCreateProxy<ThemeService>();
+            root.BindTwoWay(inst, JsonChangeTransferCondition.Instance);
+            DataContext = inst;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -1,7 +1,11 @@
 ﻿using Ao.SavableConfig;
+using Ao.SavableConfig.Binder;
+using Ao.SavableConfig.Binder.Visitors;
 using Ao.SavableConfig.Saver;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Microsoft.Extensions.Configuration
@@ -18,10 +22,16 @@ namespace Microsoft.Extensions.Configuration
 
         public Action<Action> Updater { get; }
 
+        public INameTransfer NameTransfer { get; set; }
+
+        public INamedCreator NamedCreator { get; set; }
+
+
         public ChangeWatcher ChangeWatcher => changeWatcher;
 
         public bool IsBind => isBind;
 
+        private ObjectNamedCreator objectNamedCreator;
         private ChangeWatcher changeWatcher;
         private readonly ConcurrentOnce once;
 
@@ -30,7 +40,7 @@ namespace Microsoft.Extensions.Configuration
 
         public event Action<BindBox, Exception> SaveException;
         public event Action<BindBox> Reloaded;
-        public event Action<BindBox,IReadOnlyList<IConfigurationChangeInfo>> Saved;
+        public event Action<BindBox, IReadOnlyList<IConfigurationChangeInfo>> Saved;
 
         public BindBox(IConfigurationChangeNotifyable changeNotifyable, BindSettings bindSettings, ConfigBindMode mode, Action<Action> updater)
         {
@@ -41,6 +51,18 @@ namespace Microsoft.Extensions.Configuration
             once = new ConcurrentOnce();
         }
 
+        private void CreateNamedCreatorIfNeed()
+        {
+            if (objectNamedCreator == null)
+            {
+                var type = BindSettings.Value.GetType();
+                objectNamedCreator = new ObjectNamedCreator(type,
+                   NameTransfer ?? IdentityMapNameTransfer.FromTypeAttributes(type),
+                   NamedCreator ?? IdentityNamedCreator.Instance,
+                   CompilePropertyVisitor.Instance);
+                objectNamedCreator.Analysis();
+            }
+        }
         public void Bind()
         {
             if (isBind)
@@ -55,10 +77,12 @@ namespace Microsoft.Extensions.Configuration
             {
                 ChangeNotifyable.GetReloadToken()
                     .RegisterChangeCallback(Reload, null);
+                CreateNamedCreatorIfNeed();
             }
             if (Mode == ConfigBindMode.TwoWay || Mode == ConfigBindMode.OneWayToSource)
             {
                 ChangeWatcher.ChangePushed += Handler;
+                CreateNamedCreatorIfNeed();
             }
             Reload(null);
             isBind = true;
@@ -79,12 +103,25 @@ namespace Microsoft.Extensions.Configuration
 
         private void Reload(object state)
         {
-            notify = false;
-            Updater(Empty);
-            ChangeNotifyable.GetReloadToken()
-                .RegisterChangeCallback(Reload, null);
-            notify = true;
-            Reloaded?.Invoke(this);
+            if (notify)
+            {
+                notify = false;
+                try
+                {
+                    Updater(Empty);
+                    if (objectNamedCreator != null)
+                    {
+                        objectNamedCreator.Build(BindSettings.Value, ChangeNotifyable);
+                    }
+                    ChangeNotifyable.GetReloadToken()
+                        .RegisterChangeCallback(Reload, null);
+                    Reloaded?.Invoke(this);
+                }
+                finally
+                {
+                    notify = true;
+                }
+            }
         }
 
         private void Handler(object o, IConfigurationChangeInfo e)

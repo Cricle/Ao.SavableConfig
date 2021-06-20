@@ -15,13 +15,15 @@ namespace Ao.SavableConfig.Binder.Visitors
 
         public object GetValue(object instance, PropertyInfo info)
         {
-            var c = propertyCompiledManager.EnsureGetCompiled(info);
+            var identity = new PropertyIdentity(instance.GetType(), info.Name);
+            var c = propertyCompiledManager.EnsureGetCompiled(identity);
             return c.Getter(instance);
         }
 
         public void SetValue(object instance, object value, PropertyInfo info)
         {
-            var c = propertyCompiledManager.EnsureGetCompiled(info);
+            var identity = new PropertyIdentity(instance.GetType(), info.Name);
+            var c = propertyCompiledManager.EnsureGetCompiled(identity);
             c.Setter(instance, value);
         }
     }

@@ -10,6 +10,8 @@
         <TextBox Text="{Binding Title,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"/>
         <Button>ok</Button>
         <CheckBox IsChecked="{Binding ButtonEnable,Mode=TwoWay}"/>
-        <Button IsEnabled="{Binding ButtonEnable}">hello</Button>
+        <Button IsEnabled="{Binding ButtonEnable}" Click="Button_Click">hello</Button>
+        <TextBox DataContext="{Binding ButtonStyle}" Text="{Binding Background,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></TextBox>
+        <TextBox DataContext="{Binding ButtonStyle.ObjectStyle}" Text="{Binding Order,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></TextBox>
     </StackPanel>
 </Window>

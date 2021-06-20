@@ -2,6 +2,7 @@
 using Ao.SavableConfig.Saver;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Microsoft.Extensions.Configuration
 {
@@ -28,5 +29,6 @@ namespace Microsoft.Extensions.Configuration
         public IEnumerable<IChangeTransferCondition> Conditions { get; }
 
         public Action<Action> Updater { get; }
+
     }
 }

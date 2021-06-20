@@ -48,7 +48,7 @@ namespace Ao.SavableConfig.Binder.Test
 
             var aProp = val[type.GetProperty(nameof(ConfigB.A))];
 
-            Assert.AreEqual("AA:AP", aProp.Transfer(new ConfigAPart(), "AP"));
+            Assert.AreEqual("AP", aProp.Transfer(new ConfigAPart(), "AP"));
 
             val = IdentityNamedCreator.Instance.Create(type, false);
             Assert.AreEqual(0, val.Count);
@@ -64,7 +64,7 @@ namespace Ao.SavableConfig.Binder.Test
 
             var aProp = val[type.GetProperty(nameof(ConfigA.A))];
 
-            Assert.AreEqual("AA:AP", aProp.Transfer(new ConfigAPart(), "AP"));
+            Assert.AreEqual("AP", aProp.Transfer(new ConfigAPart(), "AP"));
         }
     }
 }

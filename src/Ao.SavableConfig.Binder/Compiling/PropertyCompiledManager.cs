@@ -4,11 +4,12 @@ using System.Reflection;
 
 namespace Ao.SavableConfig.Binder
 {
-    public class PropertyCompiledManager : CompiledManager<PropertyInfo, PropertyCompiled>
+    public class PropertyCompiledManager : CompiledManager<PropertyIdentity, PropertyCompiled>
     {
-        protected override PropertyCompiled Compile(PropertyInfo key)
+        protected override PropertyCompiled Compile(PropertyIdentity key)
         {
-            return new PropertyCompiled(key);
+            var prop = key.Type.GetProperty(key.PropertyName);
+            return new PropertyCompiled(key.Type, prop);
         }
     }
 }

@@ -36,7 +36,7 @@ namespace Ao.SavableConfig.Binder.Test
             var transfer = new IdentityMapNameTransfer(basePath, map);
             Assert.AreEqual(basePath, transfer.BasePath);
             var n = transfer.Transfer(new object(), "A");
-            Assert.AreEqual(basePath + ":B", n);
+            Assert.AreEqual("B", n);
         }
         [TestMethod]
         public void FromTypesBuildTransfer_MustOk()

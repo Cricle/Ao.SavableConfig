@@ -64,7 +64,7 @@ namespace Ao.SavableConfig.Binder.Test
             };
             var map = new IdentityMapNameTransfer(named);
             var creator = new ProxyCreator(prox, type,map,IdentityNamedCreator.Instance,ReflectionPropertyVisitor.Instance);
-
+            creator.Analysis();
             var x = (dynamic)creator.Build(root);
             x.Red.Age = 123;
             x.Red.Name = "456";
@@ -92,6 +92,7 @@ namespace Ao.SavableConfig.Binder.Test
             Assert.AreEqual(nameCreator, creator.NamedCreator);
             Assert.AreEqual(type, creator.Type);
             Assert.IsNotNull(creator.PropertyInfos);
+            Assert.IsFalse(creator.HasConfigPath);
         }
     }
 }

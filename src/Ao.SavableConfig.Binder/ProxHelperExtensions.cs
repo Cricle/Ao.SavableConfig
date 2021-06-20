@@ -75,7 +75,9 @@ namespace Ao.SavableConfig.Binder
                 throw new ArgumentNullException(nameof(propertyVisitor));
             }
 
-            return new ProxyCreator(proxyHelper, typeof(T), nameTransfer, namedCreator, propertyVisitor);
+            var creator= new ProxyCreator(proxyHelper, typeof(T), nameTransfer, namedCreator, propertyVisitor);
+            creator.Analysis();
+            return creator;
         }
         public static T EnsureCreateProxWithAttribute<T>(this ProxyHelper proxHelper, IConfiguration configuration)
             where T:class

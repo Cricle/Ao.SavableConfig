@@ -12,6 +12,13 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Extensions.Configuration
 {
+    //public static class NotifyableBinderExtensions
+    //{
+    //    public static BindBox BindNotifyable(this IConfiguration configuration)
+    //    {
+
+    //    }
+    //}
     public static class BinderExtensions
     {
         public static dynamic CreateDynamic(this IConfiguration configuration)

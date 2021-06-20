@@ -19,14 +19,15 @@ namespace Ao.SavableConfig.Binder.Test.Compiling
         [TestMethod]
         public void GivenNullInit_MustThrowException()
         {
-            Assert.ThrowsException<ArgumentNullException>(() => new PropertyCompiled(null));
+            Assert.ThrowsException<ArgumentNullException>(() => new PropertyCompiled(typeof(ValueBox), null));
+            Assert.ThrowsException<ArgumentNullException>(() => new PropertyCompiled(null,typeof(ValueBox).GetProperty(nameof(ValueBox.Value))));
         }
         [TestMethod]
         public void GetOrSetValue_ValueMustBeVisitOrSet()
         {
             var prop = typeof(ValueBox).GetProperty(nameof(ValueBox.Value));
 
-            var pc = new PropertyCompiled(prop);
+            var pc = new PropertyCompiled(typeof(ValueBox), prop);
             var inst = new ValueBox();
 
             pc.Setter(inst, 123);
@@ -40,7 +41,7 @@ namespace Ao.SavableConfig.Binder.Test.Compiling
         {
             var prop = typeof(ValueBox).GetProperty(nameof(ValueBox.ReadOnly));
 
-            var pc = new PropertyCompiled(prop);
+            var pc = new PropertyCompiled(typeof(ValueBox),prop);
             Assert.IsNull(pc.Setter);
             Assert.IsNotNull(pc.Getter);
         }
@@ -50,9 +51,9 @@ namespace Ao.SavableConfig.Binder.Test.Compiling
             var prop = typeof(ValueBox).GetProperty(nameof(ValueBox.ReadOnly));
             var prop2 = typeof(ValueBox).GetProperty(nameof(ValueBox.Value));
 
-            var a = new PropertyCompiled(prop);
-            var b = new PropertyCompiled(prop);
-            var c = new PropertyCompiled(prop2);
+            var a = new PropertyCompiled(typeof(ValueBox), prop);
+            var b = new PropertyCompiled(typeof(ValueBox), prop);
+            var c = new PropertyCompiled(typeof(ValueBox), prop2);
 
             Assert.IsTrue(a.Equals(b));
             Assert.IsTrue(a.Equals((object)b));

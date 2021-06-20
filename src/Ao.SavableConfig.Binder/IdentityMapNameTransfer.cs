@@ -39,10 +39,6 @@ namespace Ao.SavableConfig.Binder
             {
                 name = propertyName;
             }
-            if (BasePath != null)
-            {
-                return ConfigurationPath.Combine(BasePath, name);
-            }
             return name;
         }
         public static IReadOnlyDictionary<Type, INameTransfer> FromTypesAttributes(params Type[] types)

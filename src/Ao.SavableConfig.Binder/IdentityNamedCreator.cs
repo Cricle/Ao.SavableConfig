@@ -6,6 +6,15 @@ using System.Runtime.CompilerServices;
 
 namespace Ao.SavableConfig.Binder
 {
+    public class NullNamedCreator : INamedCreator
+    {
+        public static readonly NullNamedCreator Instance = new NullNamedCreator();
+
+        public IReadOnlyDictionary<PropertyInfo, INameTransfer> Create(Type type, bool force)
+        {
+            return new Dictionary<PropertyInfo, INameTransfer>(0);
+        }
+    }
     public class IdentityNamedCreator : INamedCreator
     {
         public static readonly IdentityNamedCreator Instance = new IdentityNamedCreator();
@@ -22,7 +31,7 @@ namespace Ao.SavableConfig.Binder
             foreach (var item in properties)
             {
                 var configPath = item.GetCustomAttribute<ConfigPathAttribute>();
-                if (IsStepable(item)&&(force || CanStepIn(item)))
+                if (IsStepable(item) && (force || CanStepIn(item)))
                 {
                     var transfer = IdentityMapNameTransfer.FromTypeAttributes(configPath?.Name ?? item.Name, item.PropertyType, true);
                     map.Add(item, transfer);

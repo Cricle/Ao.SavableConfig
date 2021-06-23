@@ -34,11 +34,8 @@ namespace Ao.SavableConfig.Binder
         }
         public TValue GetCompiled(TKey info)
         {
-            if (compileds.TryGetValue(info, out var c))
-            {
-                return c;
-            }
-            return default;
+            compileds.TryGetValue(info, out var c);
+            return c;
         }
         protected abstract TValue Compile(TKey key);
 

@@ -58,32 +58,37 @@ namespace Ao.SavableConfig.Binder
         }
         protected virtual ObjectNamedCreator CreateCreator(PropertyInfo info, INameTransfer transfer)
         {
-            var obj = new ObjectNamedCreator(info.PropertyType,
+            return new ObjectNamedCreator(info.PropertyType,
                         transfer,
                         NamedCreator,
                         PropertyVisitor);
-            return obj;
         }
-        private IEnumerable<PropertyInfo> AnalysisCore(Type type)
+        private PropertyInfo[] AnalysisCore(Type type)
         {
-            IEnumerable<PropertyInfo> props = type.GetProperties();
+            var props = type.GetProperties();
             var map = NamedCreator.Create(type, IsForceStepIn);
             foreach (var item in props)
             {
                 var config = item.GetCustomAttribute<ConfigPathAttribute>();
-                var name = item.Name;
-                if (config != null && !string.IsNullOrEmpty(config.Name))
-                {
-                    name = config.Name;
-                }
                 var info = new PropertyProxyInfo();
-                map.TryGetValue(item, out var transfer);
-                info.NameTransfer = transfer ?? NullNameTransfer.Instance;
+                if (map.TryGetValue(item, out var transfer))
+                {
+                    info.NameTransfer = transfer;
+                }
+                else
+                {
+                    info.NameTransfer = NullNameTransfer.Instance;
+                }
                 if (!TypeHelper.IsBaseType(item.PropertyType) && (IsForceStepIn || CanStepIn(item)))
                 {
                     BuildType(item.PropertyType);
                     info.ProxyCreator = CreateCreator(item, info.NameTransfer);
                     info.ProxyCreator.Analysis();
+                }
+                var name = item.Name;
+                if (!string.IsNullOrEmpty(config?.Name))
+                {
+                    name = config.Name;
                 }
                 info.Key = ConfigPath?.Name ?? name;
                 info.ParentProxyCreator = this;
@@ -105,7 +110,7 @@ namespace Ao.SavableConfig.Binder
                 var selectConfig = configuration.GetSection(item.Key);
                 var value = selectConfig.Value;
 
-                if (item.ProxyCreator == null)
+                if (item.ProxyCreator is null)
                 {
                     if (!string.IsNullOrEmpty(value) &&
                         TypeHelper.TryChangeType(value, item.PropertyInfo.PropertyType, out _, out var res))
@@ -116,7 +121,7 @@ namespace Ao.SavableConfig.Binder
                 else
                 {
                     var propVal = PropertyVisitor.GetValue(inst, item.PropertyInfo);
-                    if (propVal == null)
+                    if (propVal is null)
                     {
                         var val = item.ProxyCreator.Build(selectConfig);
                         PropertyVisitor.SetValue(inst, val, item.PropertyInfo);

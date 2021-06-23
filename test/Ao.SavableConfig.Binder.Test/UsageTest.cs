@@ -36,7 +36,7 @@ namespace Ao.SavableConfig.Binder.Test
             {
                 inst = new ThemeService();
             }
-            root.BindTwoWay(inst, JsonChangeTransferCondition.Instance);
+            root.BindNotifyTwoWay(inst, JsonChangeTransferCondition.Instance);
 
             var ser = new ThemeService
             {
@@ -77,7 +77,7 @@ namespace Ao.SavableConfig.Binder.Test
             builder.AddJsonFile(fi.FullName, true, true);
             var root = builder.BuildSavable();
             var inst = root.AutoCreateProxy<ThemeService>();
-            root.BindTwoWay(inst, JsonChangeTransferCondition.Instance);
+            root.BindNotifyTwoWay(inst, JsonChangeTransferCondition.Instance);
 
             inst.Age = 123;
             inst.ButtonEnable = true;

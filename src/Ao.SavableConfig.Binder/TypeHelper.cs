@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace Ao.SavableConfig.Binder
 {
@@ -9,11 +11,13 @@ namespace Ao.SavableConfig.Binder
         internal static readonly Type StringType = typeof(string);
         internal static readonly Type DecimalType = typeof(decimal);
         internal static readonly Type ByteArrayType = typeof(byte[]);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsNullable(Type type)
         {
             return type.IsGenericType &&
                 type.GetGenericTypeDefinition() == NullableType;
         }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static object SafeChangeType(string value, Type type)
         {
             if (TryChangeType(value, type, out _, out var res))
@@ -26,11 +30,11 @@ namespace Ao.SavableConfig.Binder
         {
             ex = null;
             result = null;
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+            if (IsConvertableType(type))
             {
                 try
                 {
-                    result = TryChangeType(value, Nullable.GetUnderlyingType(type), out ex, out result);
+                    result = Convert.ChangeType(value, type);
                     return true;
                 }
                 catch (Exception e)
@@ -38,6 +42,10 @@ namespace Ao.SavableConfig.Binder
                     ex = e;
                     return false;
                 }
+            }
+            if (IsNullable(type))
+            {
+                return TryChangeType(value, Nullable.GetUnderlyingType(type), out ex, out result);
             }
             if (type.IsEnum)
             {
@@ -52,32 +60,17 @@ namespace Ao.SavableConfig.Binder
                     return false;
                 }
             }
-            if (type.IsPrimitive || type == StringType || type == DecimalType)
-            {
-                try
-                {
-                    result = Convert.ChangeType(value, type);
-                    return true;
-                }
-                catch (Exception e)
-                {
-                    ex = e;
-                    return false;
-                }
-            }
             return false;
+        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static bool IsConvertableType(Type type)
+        {
+            Debug.Assert(type != null);
+            return type.IsPrimitive || type == typeof(string) || type == typeof(decimal);
         }
         public static bool IsBaseType(Type type)
         {
-            if (type.IsPrimitive)
-            {
-                return true;
-            }
-            if (type == StringType)
-            {
-                return true;
-            }
-            if (type == DecimalType)
+            if (IsConvertableType(type))
             {
                 return true;
             }

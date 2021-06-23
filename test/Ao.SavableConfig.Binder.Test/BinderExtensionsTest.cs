@@ -1,5 +1,6 @@
 ﻿using Ao.SavableConfig.Binder.Annotations;
 using Ao.SavableConfig.Saver;
+using GalaSoft.MvvmLight;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -14,6 +15,9 @@ namespace Ao.SavableConfig.Binder.Test
     public class BinderExtensionsTest
     {
 
+        class NotifyObject:ObservableObject
+        {
+        }
         public class ComplexClass
         {
             [ConfigStepIn]
@@ -33,12 +37,21 @@ namespace Ao.SavableConfig.Binder.Test
 
             var root = ConfigHelper.CreateEmptyRoot();
             var setting = new BindSettings(null, default, null);
+            var nofiyObj = new NotifyObject();
+            var notifySetting = new BindSettings(nofiyObj, default, null);
             Assert.ThrowsException<ArgumentNullException>(() => BinderExtensions.Bind(null, setting, ConfigBindMode.TwoWay));
             Assert.ThrowsException<ArgumentNullException>(() => BinderExtensions.Bind(root, null, ConfigBindMode.TwoWay));
+            
+            Assert.ThrowsException<ArgumentNullException>(() => BinderExtensions.BindNotifyNotify(null, setting, ConfigBindMode.TwoWay));
+            Assert.ThrowsException<ArgumentNullException>(() => BinderExtensions.BindNotifyNotify(root, null, ConfigBindMode.TwoWay));
 
             Assert.ThrowsException<ArgumentNullException>(() => BinderExtensions.BindTwoWay(null, setting));
-            Assert.ThrowsException<ArgumentNullException>(() => BinderExtensions.BindTwoWay(root, null));
+            Assert.ThrowsException<ArgumentNullException>(() => BinderExtensions.BindNotifyTwoWay(root, null));
             Assert.ThrowsException<ArgumentNullException>(() => BinderExtensions.BindTwoWay(root, setting, null));
+
+            Assert.ThrowsException<ArgumentNullException>(() => BinderExtensions.BindTwoWay(null, notifySetting));
+            Assert.ThrowsException<ArgumentNullException>(() => BinderExtensions.BindNotifyTwoWay(root, null));
+            Assert.ThrowsException<ArgumentNullException>(() => BinderExtensions.BindTwoWay(root, notifySetting, null));
         }
 
         [TestMethod]
@@ -48,6 +61,33 @@ namespace Ao.SavableConfig.Binder.Test
             var dy = BinderExtensions.CreateDynamic(root);
             Assert.IsNotNull(dy);
         }
+        [TestMethod]
+        public void CreateNotifyBind_MustBinded()
+        {
+            var root = ConfigHelper.CreateEmptyRoot();
+            var notify = new NotifyObject();
+            var setting = new BindSettings(notify, BindSettings.DefaultDelayTime, new IChangeTransferCondition[0]);
+            var box = BinderExtensions.BindNotifyNotify(root, setting, ConfigBindMode.OneTime);
+            box.Bind();
+            Assert.AreEqual(notify, box.NotifyObject);
+            Assert.AreEqual(setting, box.BindSettings);
+            Assert.AreEqual(ConfigBindMode.OneTime, box.Mode);
+            Assert.AreEqual(root, box.Configuration);
+            Assert.AreEqual(root, box.ChangeNotifyable);
+            box.UnBind();
+            box.Dispose();
+
+            box = BinderExtensions.BindNotifyTwoWay(root, notify);
+            box.Bind();
+            Assert.AreEqual(notify, box.NotifyObject);
+            Assert.AreEqual(notify, box.BindSettings.Value);
+            Assert.AreEqual(ConfigBindMode.TwoWay, box.Mode);
+            Assert.AreEqual(root, box.Configuration);
+            Assert.AreEqual(root, box.ChangeNotifyable);
+            box.UnBind();
+            box.Dispose();
+        }
+
         [TestMethod]
         public void CreateBind_MustBinded()
         {
@@ -93,7 +133,7 @@ namespace Ao.SavableConfig.Binder.Test
             Assert.AreEqual("789", val.Name);
             val.Name = "999";
             Assert.AreEqual("999", root["Name"]);
-            BindBox rd = null;
+            BindBoxBase rd = null;
             box.Reloaded += (e) =>
             {
                 rd = e;

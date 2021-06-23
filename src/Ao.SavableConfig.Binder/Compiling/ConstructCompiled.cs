@@ -36,7 +36,7 @@ namespace Ao.SavableConfig.Binder
             return other.Constructor == Constructor;
         }
 
-        protected virtual ObjectCreator BuildCreate()
+        protected ObjectCreator BuildCreate()
         {
             var constPars = Constructor.GetParameters();
             var par = Expression.Parameter(ObjectArrayType);

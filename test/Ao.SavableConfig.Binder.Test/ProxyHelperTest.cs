@@ -37,7 +37,12 @@ namespace Ao.SavableConfig.Binder.Test
 
             public virtual NullStruct? Any { get; set; }
         }
-       
+        [TestMethod]
+        public void Create_MustUsingDefault()
+        {
+            var val = ObjectNamedCreator.Create(typeof(Setting1));
+            Assert.AreEqual(typeof(Setting1), val.Type);
+        }
         [TestMethod]
         public void GivenNullInit_MustThrowException()
         {

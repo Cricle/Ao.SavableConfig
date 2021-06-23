@@ -20,6 +20,7 @@ namespace TwoWayBindWpf
     public class ButtonStyle : ObservableObject
     {
         private string background;
+        private ObjectStyle objectStyle;
 
         public virtual string Background
         {
@@ -27,7 +28,11 @@ namespace TwoWayBindWpf
             set => Set(ref background, value);
         }
         [ConfigStepIn]
-        public ObjectStyle ObjectStyle { get; set; }
+        public ObjectStyle ObjectStyle
+        {
+            get => objectStyle;
+            set => Set(ref objectStyle, value);
+        }
     }
     public class ThemeService : ObservableObject
     {
@@ -35,6 +40,7 @@ namespace TwoWayBindWpf
         private WindowStyle windowStyle;
         private bool buttonEnable;
         private int age;
+        private ButtonStyle buttonStyle;
 
         public virtual int Age
         {
@@ -61,6 +67,10 @@ namespace TwoWayBindWpf
             set => Set(ref title, value);
         }
         [ConfigStepIn]
-        public ButtonStyle ButtonStyle { get; set; }
+        public ButtonStyle ButtonStyle
+        {
+            get => buttonStyle;
+            set => Set(ref buttonStyle, value);
+        }
     }
 }

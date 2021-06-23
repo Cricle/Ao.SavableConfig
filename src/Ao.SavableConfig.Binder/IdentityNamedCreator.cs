@@ -6,15 +6,6 @@ using System.Runtime.CompilerServices;
 
 namespace Ao.SavableConfig.Binder
 {
-    public class NullNamedCreator : INamedCreator
-    {
-        public static readonly NullNamedCreator Instance = new NullNamedCreator();
-
-        public IReadOnlyDictionary<PropertyInfo, INameTransfer> Create(Type type, bool force)
-        {
-            return new Dictionary<PropertyInfo, INameTransfer>(0);
-        }
-    }
     public class IdentityNamedCreator : INamedCreator
     {
         public static readonly IdentityNamedCreator Instance = new IdentityNamedCreator();

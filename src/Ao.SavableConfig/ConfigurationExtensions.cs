@@ -23,11 +23,7 @@ namespace Ao.SavableConfig
             var providers = builder.Sources.Select(x => x.Build(builder)).ToArray();
             return new SavableConfigurationRoot(providers);
         }
-        /// <summary>
-        /// 创建更改观察者
-        /// </summary>
-        /// <param name="configuration"></param>
-        /// <returns></returns>
+
         public static ChangeWatcher CreateWatcher(this IConfiguration configuration)
         {
             if (configuration is null)

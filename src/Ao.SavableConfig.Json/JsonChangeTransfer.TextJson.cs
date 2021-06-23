@@ -26,7 +26,7 @@ namespace Ao.SavableConfig.Saver
                 visitor.IgnoreAdd = IgnoreAdd;
                 visitor.VisitWrite();
             }
-            return tk.ToString();
+            return tk.ToJsonString();
         }
     }
 }

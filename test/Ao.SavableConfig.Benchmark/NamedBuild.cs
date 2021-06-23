@@ -41,10 +41,12 @@ namespace Ao.SavableConfig.Benchmark
             objectNamedCreatorRef = new ObjectNamedCreator(type, nameTransfer,
                 IdentityNamedCreator.Instance, ReflectionPropertyVisitor.Instance);
             valueReflection = objectNamedCreatorRef.Build(config);
+            valueReflection = objectNamedCreatorRef.Build(valueReflection, config);
 
             objectNamedCreatorCom = new ObjectNamedCreator(type, nameTransfer,
                 IdentityNamedCreator.Instance, ReflectionPropertyVisitor.Instance);
             valueCompiled = objectNamedCreatorCom.Build(config);
+            valueCompiled = objectNamedCreatorCom.Build(valueCompiled, config);
         }
         private const int opCount = 100;
         [Benchmark(Baseline =true,OperationsPerInvoke = opCount)]

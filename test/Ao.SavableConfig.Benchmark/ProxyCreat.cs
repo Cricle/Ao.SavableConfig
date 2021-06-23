@@ -8,7 +8,7 @@ using System.Reflection.Emit;
 namespace Ao.SavableConfig.Benchmark
 {
     [MemoryDiagnoser]
-    [SimpleJob(RunStrategy.ColdStart)]
+    //[SimpleJob(RunStrategy.ColdStart)]
     public class ProxyCreat
     {
         private IConfiguration configuration;

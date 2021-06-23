@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace Ao.SavableConfig.Binder
 {
-    public readonly struct PropertyIdentity : IEquatable<PropertyIdentity>
+    public class PropertyIdentity : IEquatable<PropertyIdentity>
     {
         public readonly Type Type;
         public readonly string PropertyName;
@@ -42,6 +43,10 @@ namespace Ao.SavableConfig.Binder
 
         public bool Equals(PropertyIdentity other)
         {
+            if (other is null)
+            {
+                return false;
+            }
             return other.Type == Type &&
                 other.PropertyName == PropertyName;
         }

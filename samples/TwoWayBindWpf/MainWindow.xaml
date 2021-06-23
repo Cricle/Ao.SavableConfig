@@ -6,12 +6,28 @@
         xmlns:local="clr-namespace:TwoWayBindWpf"
         mc:Ignorable="d"
         Title="{Binding Title}" Height="450" Width="800">
-    <StackPanel>
-        <TextBox Text="{Binding Title,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"/>
-        <Button>ok</Button>
-        <CheckBox IsChecked="{Binding ButtonEnable,Mode=TwoWay}"/>
-        <Button IsEnabled="{Binding ButtonEnable}" Click="Button_Click">hello</Button>
-        <TextBox DataContext="{Binding ButtonStyle}" Text="{Binding Background,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></TextBox>
-        <TextBox DataContext="{Binding ButtonStyle.ObjectStyle}" Text="{Binding Order,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></TextBox>
+    <StackPanel Orientation="Vertical">
+        <StackPanel.Style>
+            <Style TargetType="FrameworkElement">
+                <Setter Property="Margin" Value="0,10"/>
+            </Style>
+        </StackPanel.Style>
+        <StackPanel x:Name="Normal">
+            <TextBox Text="{Binding Title,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"/>
+            <Button>ok</Button>
+            <CheckBox IsChecked="{Binding ButtonEnable,Mode=TwoWay}"/>
+            <Button IsEnabled="{Binding ButtonEnable}" Click="Button_Click">hello</Button>
+            <TextBox DataContext="{Binding ButtonStyle}" Text="{Binding Background,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></TextBox>
+            <TextBox DataContext="{Binding ButtonStyle.ObjectStyle}" Text="{Binding Order,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></TextBox>
+        </StackPanel>
+        <Rectangle Height="2" Margin="0,10" Fill="Red"></Rectangle>
+        <StackPanel x:Name="Proxy">
+            <TextBox Text="{Binding Title,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"/>
+            <Button>ok</Button>
+            <CheckBox IsChecked="{Binding ButtonEnable,Mode=TwoWay}"/>
+            <Button IsEnabled="{Binding ButtonEnable}" Click="Button_Click">hello</Button>
+            <TextBox DataContext="{Binding ButtonStyle}" Text="{Binding Background,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></TextBox>
+            <TextBox DataContext="{Binding ButtonStyle.ObjectStyle}" Text="{Binding Order,Mode=TwoWay,UpdateSourceTrigger=LostFocus}"></TextBox>
+        </StackPanel>
     </StackPanel>
 </Window>

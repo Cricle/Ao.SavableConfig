@@ -43,6 +43,10 @@ namespace Ao.SavableConfig
             }
             else
             {
+                if (_providers.Count==0)
+                {
+                    throw new InvalidOperationException("No providers, can't do this");
+                }
                 var allNotSet = true;
                 var providers = _providers;
                 var count = providers.Count;

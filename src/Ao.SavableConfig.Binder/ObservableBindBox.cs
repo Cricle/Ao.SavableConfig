@@ -15,8 +15,9 @@ namespace Microsoft.Extensions.Configuration
         private static readonly string INotifyPropertyChangedTypeName = typeof(INotifyPropertyChanged).FullName;
         private readonly IPropertyVisitor propertyVisitor;
         private readonly Dictionary<string, PropertyBindBox> propertyConfigMap;
+        private readonly Dictionary<string, PropertyBindBox> notifyPropertyMap;
 
-        public IReadOnlyDictionary<string, PropertyBindBox> NotifyPropertyMap { get; }
+        public IReadOnlyDictionary<string, PropertyBindBox> NotifyPropertyMap => notifyPropertyMap;
 
         public IReadOnlyDictionary<string, PropertyBindBox> PropertyConfigMap => propertyConfigMap;
 
@@ -47,7 +48,7 @@ namespace Microsoft.Extensions.Configuration
             {
                 throw new InvalidCastException($"Can't case {changeNotifyable.GetType().FullName} to {typeof(INotifyPropertyChanged).FullName}");
             }
-            NotifyPropertyMap = NotifyObject.GetType().GetProperties()
+            notifyPropertyMap = NotifyObject.GetType().GetProperties()
                 .ToDictionary(x => x.Name, x => new PropertyBindBox(x));
 
             propertyConfigMap = new Dictionary<string, PropertyBindBox>();
@@ -56,10 +57,6 @@ namespace Microsoft.Extensions.Configuration
         protected override IConfiguration GetConfiguration()
         {
             return Configuration;
-        }
-        ~ObservableBindBox()
-        {
-            Dispose();
         }
         protected override void OnConfigChanged(IReadOnlyList<IConfigurationChangeInfo> changeInfos)
         {
@@ -170,6 +167,7 @@ namespace Microsoft.Extensions.Configuration
             {
                 item.BindBox?.Dispose();
             }
+            notifyPropertyMap.Clear();
             GC.SuppressFinalize(this);
         }
     }

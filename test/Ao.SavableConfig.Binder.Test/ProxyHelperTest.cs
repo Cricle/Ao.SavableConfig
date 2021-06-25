@@ -1,12 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using System.Reflection.Emit;
 using System.Reflection;
+using System.Reflection.Emit;
 
 namespace Ao.SavableConfig.Binder.Test
 {
@@ -49,7 +45,7 @@ namespace Ao.SavableConfig.Binder.Test
             var ass = AssemblyBuilder.DefineDynamicAssembly(new AssemblyName("NullInit"), AssemblyBuilderAccess.RunAndCollect);
             var md = ass.DefineDynamicModule("dy");
             Assert.ThrowsException<ArgumentNullException>(() => new ProxyHelper(null, md));
-            Assert.ThrowsException<ArgumentNullException>(() => new ProxyHelper(ass,null));
+            Assert.ThrowsException<ArgumentNullException>(() => new ProxyHelper(ass, null));
             Assert.ThrowsException<ArgumentNullException>(() => new ProxyHelper(null, null));
         }
         [TestMethod]
@@ -57,7 +53,7 @@ namespace Ao.SavableConfig.Binder.Test
         {
             var prox = ProxyUtil.CreateProx();
             var root = ConfigHelper.CreateEmptyRoot();
-            var val=prox.CreateProxy(typeof(Setting1), root, NullNameTransfer.Instance);
+            var val = prox.CreateProxy(typeof(Setting1), root, NullNameTransfer.Instance);
             Assert.IsNull(val);
         }
         [TestMethod]
@@ -75,9 +71,9 @@ namespace Ao.SavableConfig.Binder.Test
         [TestMethod]
         public void InitWithArgs_PropertyValueMustEqualInput()
         {
-            var ass = AssemblyBuilder.DefineDynamicAssembly(new AssemblyName("WithArgs" ), AssemblyBuilderAccess.RunAndCollect);
+            var ass = AssemblyBuilder.DefineDynamicAssembly(new AssemblyName("WithArgs"), AssemblyBuilderAccess.RunAndCollect);
             var md = ass.DefineDynamicModule("dy");
-            var prox=new ProxyHelper(ass, md);
+            var prox = new ProxyHelper(ass, md);
             Assert.AreEqual(ass, prox.DynamicAssembly);
             Assert.AreEqual(md, prox.DynamicModule);
         }

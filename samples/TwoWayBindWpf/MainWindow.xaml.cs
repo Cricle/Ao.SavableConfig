@@ -1,10 +1,10 @@
 ﻿using Ao.SavableConfig;
 using Ao.SavableConfig.Binder;
+using Ao.SavableConfig.Saver;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Windows;
 using System.Windows.Input;
-using Microsoft.Extensions.Configuration;
-using Ao.SavableConfig.Saver;
 
 namespace TwoWayBindWpf
 {

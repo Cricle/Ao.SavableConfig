@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Ao.SavableConfig.Saver
 {
@@ -55,7 +55,7 @@ namespace Ao.SavableConfig.Saver
                     if (trans != null)
                     {
                         var str = trans.Transfe(item);
-                        var res = new ChangeEmitResult(item,transfer, trans,str);
+                        var res = new ChangeEmitResult(item, transfer, trans, str);
                         map.Add(item, res);
                     }
                 }

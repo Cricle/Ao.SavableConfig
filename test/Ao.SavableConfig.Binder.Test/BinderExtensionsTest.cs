@@ -4,10 +4,6 @@ using GalaSoft.MvvmLight;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ao.SavableConfig.Binder.Test
 {
@@ -15,7 +11,7 @@ namespace Ao.SavableConfig.Binder.Test
     public class BinderExtensionsTest
     {
 
-        class NotifyObject:ObservableObject
+        class NotifyObject : ObservableObject
         {
         }
         public class ComplexClass
@@ -41,7 +37,7 @@ namespace Ao.SavableConfig.Binder.Test
             var notifySetting = new BindSettings(nofiyObj, default, null);
             Assert.ThrowsException<ArgumentNullException>(() => BinderExtensions.Bind(null, setting, ConfigBindMode.TwoWay));
             Assert.ThrowsException<ArgumentNullException>(() => BinderExtensions.Bind(root, null, ConfigBindMode.TwoWay));
-            
+
             Assert.ThrowsException<ArgumentNullException>(() => BinderExtensions.BindNotifyNotify(null, setting, ConfigBindMode.TwoWay));
             Assert.ThrowsException<ArgumentNullException>(() => BinderExtensions.BindNotifyNotify(root, null, ConfigBindMode.TwoWay));
 

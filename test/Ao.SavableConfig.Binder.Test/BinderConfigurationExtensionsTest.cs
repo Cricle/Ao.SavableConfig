@@ -1,10 +1,6 @@
 ﻿using Ao.SavableConfig.Binder.Annotations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ao.SavableConfig.Binder.Test
 {
@@ -32,14 +28,14 @@ namespace Ao.SavableConfig.Binder.Test
 
             var root = ConfigHelper.CreateEmptyRoot();
             Assert.ThrowsException<ArgumentException>(() => BinderConfigurationExtensions.AutoCreateProxy<object>(root, (string)null));
-            Assert.ThrowsException<ArgumentException>(() => BinderConfigurationExtensions.AutoCreateProxy<object>(root, (string)null,NullNameTransfer.Instance));
+            Assert.ThrowsException<ArgumentException>(() => BinderConfigurationExtensions.AutoCreateProxy<object>(root, null, NullNameTransfer.Instance));
             Assert.ThrowsException<ArgumentNullException>(() => BinderConfigurationExtensions.CreateProxy<object>(null, NullNameTransfer.Instance));
         }
         [TestMethod]
         public void CreateComplex_MustOk()
         {
             var root = ConfigHelper.CreateEmptyRoot();
-            var c=BinderConfigurationExtensions.CreateComplexProxy<ComplexClass>(root);
+            var c = BinderConfigurationExtensions.CreateComplexProxy<ComplexClass>(root);
             Assert.IsNotNull(c);
         }
         [TestMethod]
@@ -48,7 +44,7 @@ namespace Ao.SavableConfig.Binder.Test
             var root = ConfigHelper.CreateEmptyRoot();
             var c = BinderConfigurationExtensions.CreateProxy<NullClass>(root);
             Assert.IsNotNull(c);
-            c = BinderConfigurationExtensions.CreateProxy<NullClass>(root,NullNameTransfer.Instance);
+            c = BinderConfigurationExtensions.CreateProxy<NullClass>(root, NullNameTransfer.Instance);
             Assert.IsNotNull(c);
         }
         [TestMethod]
@@ -57,15 +53,15 @@ namespace Ao.SavableConfig.Binder.Test
             var root = ConfigHelper.CreateEmptyRoot();
             var c = BinderConfigurationExtensions.AutoCreateProxy<NullClass>(root);
             Assert.IsNotNull(c);
-            c = BinderConfigurationExtensions.AutoCreateProxy<NullClass>(root,"T");
+            c = BinderConfigurationExtensions.AutoCreateProxy<NullClass>(root, "T");
             Assert.IsNotNull(c);
-            c = BinderConfigurationExtensions.AutoCreateProxy<NullClass>(root, "T",NullNameTransfer.Instance);
+            c = BinderConfigurationExtensions.AutoCreateProxy<NullClass>(root, "T", NullNameTransfer.Instance);
             Assert.IsNotNull(c);
             var d = BinderConfigurationExtensions.AutoCreateProxy<ComplexClass>(root);
             Assert.IsNotNull(d);
-            d = BinderConfigurationExtensions.AutoCreateProxy<ComplexClass>(root,"T");
+            d = BinderConfigurationExtensions.AutoCreateProxy<ComplexClass>(root, "T");
             Assert.IsNotNull(d);
-            d = BinderConfigurationExtensions.AutoCreateProxy<ComplexClass>(root,NullNameTransfer.Instance);
+            d = BinderConfigurationExtensions.AutoCreateProxy<ComplexClass>(root, NullNameTransfer.Instance);
             Assert.IsNotNull(d);
         }
     }

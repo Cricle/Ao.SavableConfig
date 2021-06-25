@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Ao.SavableConfig.Binder
 {
@@ -10,6 +9,8 @@ namespace Ao.SavableConfig.Binder
         public static readonly ComplexProxyHelper Default = new ComplexProxyHelper(ProxyHelper.Default);
 
         private readonly Dictionary<Type, ProxyCreator> creators;
+
+        public IReadOnlyDictionary<Type, ProxyCreator> Creators => creators;
 
         public ProxyHelper ProxyHelper { get; }
 

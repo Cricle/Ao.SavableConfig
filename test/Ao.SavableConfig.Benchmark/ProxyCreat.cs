@@ -1,9 +1,6 @@
 ﻿using Ao.SavableConfig.Binder;
 using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Engines;
 using Microsoft.Extensions.Configuration;
-using System.Reflection;
-using System.Reflection.Emit;
 
 namespace Ao.SavableConfig.Benchmark
 {
@@ -15,7 +12,7 @@ namespace Ao.SavableConfig.Benchmark
         private readonly ProxyCreator proxyCreator;
         public ProxyCreat()
         {
-            proxyCreator= ProxyHelper.Default.CreateComplexProxy<DbConnection>();
+            proxyCreator = ProxyHelper.Default.CreateComplexProxy<DbConnection>();
             ProxyHelper.Default.BuildProx(typeof(MConnection));
             configuration = new ConfigurationBuilder()
                 .AddInMemoryCollection()
@@ -34,7 +31,7 @@ namespace Ao.SavableConfig.Benchmark
         [Benchmark]
         public void CreateProxySimple()
         {
-            ProxyHelper.Default.CreateProxy(typeof(MConnection), configuration,NullNameTransfer.Instance);
+            ProxyHelper.Default.CreateProxy(typeof(MConnection), configuration, NullNameTransfer.Instance);
         }
         [Benchmark]
         public void CreateProxyComplex()

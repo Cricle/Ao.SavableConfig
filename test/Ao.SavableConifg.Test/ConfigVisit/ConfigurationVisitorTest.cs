@@ -3,8 +3,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ao.SavableConfig.Test.ConfigVisit
 {
@@ -54,7 +52,7 @@ namespace Ao.SavableConfig.Test.ConfigVisit
             var ag = new ValueConfigurationVisitor(set);
             Assert.AreEqual(set, ag.Parts);
             var type = ag.GetPartType(part);
-            Assert.AreEqual(ConfigurationPartTypes.ArrayIndex,type);
+            Assert.AreEqual(ConfigurationPartTypes.ArrayIndex, type);
         }
         [TestMethod]
         [DataRow("你好")]
@@ -82,9 +80,9 @@ namespace Ao.SavableConfig.Test.ConfigVisit
             ag.VisitOk = true;
             ag.VisitWrite();
             var notVisitPart = set.Except(ag.Parts).ToArray();
-            if (notVisitPart.Length!=0)
+            if (notVisitPart.Length != 0)
             {
-                Assert.Fail("The parts {0} does not visited",string.Join(",",notVisitPart));
+                Assert.Fail("The parts {0} does not visited", string.Join(",", notVisitPart));
             }
         }
     }

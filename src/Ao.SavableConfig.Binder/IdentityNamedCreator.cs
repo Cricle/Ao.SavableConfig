@@ -39,7 +39,7 @@ namespace Ao.SavableConfig.Binder
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private bool CanStepIn(PropertyInfo info)
         {
-            return  info.GetCustomAttribute<ConfigStepInAttribute>() != null;
+            return info.GetCustomAttribute<ConfigStepInAttribute>() != null;
         }
     }
 }

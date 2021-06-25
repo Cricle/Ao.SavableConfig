@@ -10,7 +10,7 @@ namespace Ao.SavableConfig
         /// <summary>
         /// 键
         /// </summary>
-        string Key { get;}
+        string Key { get; }
         /// <summary>
         /// 新值
         /// </summary>
@@ -18,7 +18,7 @@ namespace Ao.SavableConfig
         /// <summary>
         /// 旧值
         /// </summary>
-        string Old { get;}
+        string Old { get; }
         /// <summary>
         /// 修改的提供者
         /// </summary>

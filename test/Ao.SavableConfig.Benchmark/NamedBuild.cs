@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using Ao.SavableConfig.Binder;
-using BenchmarkDotNet.Attributes;
+﻿using Ao.SavableConfig.Binder;
 using Ao.SavableConfig.Binder.Visitors;
+using BenchmarkDotNet.Attributes;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 
 namespace Ao.SavableConfig.Benchmark
 {
@@ -49,7 +49,7 @@ namespace Ao.SavableConfig.Benchmark
             valueCompiled = objectNamedCreatorCom.Build(valueCompiled, config);
         }
         private const int opCount = 100;
-        [Benchmark(Baseline =true,OperationsPerInvoke = opCount)]
+        [Benchmark(Baseline = true, OperationsPerInvoke = opCount)]
         public void BindRef()
         {
             for (int i = 0; i < opCount; i++)

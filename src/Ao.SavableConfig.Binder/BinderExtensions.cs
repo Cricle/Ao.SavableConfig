@@ -1,14 +1,7 @@
 ﻿using Ao.SavableConfig;
-using Ao.SavableConfig.Binder;
 using Ao.SavableConfig.Saver;
 using System;
-using System.Linq;
-using System.Text;
-using System.Reflection.Emit;
-using System.Reflection;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 
 namespace Microsoft.Extensions.Configuration
 {
@@ -101,7 +94,7 @@ namespace Microsoft.Extensions.Configuration
             {
                 updater = a => a();
             }
-            var box= new BindBox(notifyable, bindSettings, configBindMode, updater);
+            var box = new BindBox(notifyable, bindSettings, configBindMode, updater);
             box.Bind();
             return box;
         }

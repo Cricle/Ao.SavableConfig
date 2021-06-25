@@ -2,10 +2,6 @@
 using Ao.SavableConfig.Binder.Visitors;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ao.SavableConfig.Binder.Test
 {
@@ -21,7 +17,7 @@ namespace Ao.SavableConfig.Binder.Test
         public class WithPathClass
         {
             public virtual int Age { get; set; }
-            
+
             public virtual string Name { get; set; }
         }
         public class ComplexClass
@@ -69,7 +65,7 @@ namespace Ao.SavableConfig.Binder.Test
         {
             var root = ConfigHelper.CreateEmptyRoot();
             var proxy = ProxyUtil.CreateProx();
-            var val= proxy.EnsureCreateProx<NullClass>(root,IdentityMapNameTransfer.FromTypeAttributes(typeof(NullClass)));
+            var val = proxy.EnsureCreateProx<NullClass>(root, IdentityMapNameTransfer.FromTypeAttributes(typeof(NullClass)));
             Assert.IsTrue(proxy.ProxMap.ContainsKey(typeof(NullClass)));
             Assert.IsNotNull(val);
         }

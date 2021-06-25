@@ -3,7 +3,7 @@
 </div>
 
 <div align='center' >
-	<h5>Can bind two way configuration</h5>
+	<h5>Can two bind way configuration</h5>
 </div>
 
 <div align='center'>
@@ -43,6 +43,8 @@ Can reversal store is i modify the MS configuration lib to make it support, and 
 
 >The `NameTransfer` is very import to provider find configuration path!
 
+### You can use auto proxy
+
 You can watch `sample\TwoWayBind`
 
 Or wpf project `sample\TwoWayBindWpf` use in wpf binding
@@ -56,6 +58,61 @@ var root = builder.BuildSavable();
 var value = root.AutoCreateProxy<DbConnection>();
 root.BindTwoWay(value, JsonChangeTransferCondition.Instance);
 ```
+### You can use observable object
+
+You can watch `sample\TwoWayBindWpf`
+
+ThemeService.cs
+```csharp
+public class ThemeService : ObservableObject
+{
+	private string title;
+	private WindowStyle windowStyle;
+	private bool buttonEnable;
+	private int age;
+	private ButtonStyle buttonStyle;
+
+	public int Age
+	{
+		get => age;
+		set => Set(ref age, value);
+	}
+
+	public virtual bool ButtonEnable
+	{
+		get { return buttonEnable; }
+		set => Set(ref buttonEnable, value);
+	}
+
+	public WindowStyle WindowStyle
+	{
+		get { return windowStyle; }
+		set => Set(ref windowStyle, value);
+	}
+
+
+	public string Title
+	{
+		get { return title; }
+		set => Set(ref title, value);
+	}
+
+	public ButtonStyle ButtonStyle
+	{
+		get => buttonStyle;
+		set => Set(ref buttonStyle, value);
+	}
+}
+```
+```csharp
+var inst = new ThemeService();
+var box=root.BindNotifyTwoWay(inst, JsonChangeTransferCondition.Instance);
+
+//If you want detch binding, you can
+box.Dispose();
+```
+
+When you change CLR properties or config, it will two way binding also!
 
 # Features
 

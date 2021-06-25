@@ -1,10 +1,6 @@
 ﻿using Ao.SavableConfig.Binder.Annotations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ao.SavableConfig.Binder.Test
 {
@@ -51,7 +47,7 @@ namespace Ao.SavableConfig.Binder.Test
             Assert.AreEqual(prox, cp.ProxyHelper);
             var cr = cp.GetCreatorOrDefault<ComplexClass>();
             Assert.IsNull(cr);
-            var c=cp.Build<ComplexClass>(root);
+            var c = cp.Build<ComplexClass>(root);
             Assert.IsNotNull(c);
             _ = cp.GetCreatorOrDefault<ComplexClass>();
             Assert.IsNotNull(c);

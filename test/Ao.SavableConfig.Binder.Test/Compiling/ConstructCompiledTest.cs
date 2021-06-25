@@ -1,10 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ao.SavableConfig.Binder.Test.Compiling
 {
@@ -37,25 +32,25 @@ namespace Ao.SavableConfig.Binder.Test.Compiling
             Assert.IsTrue(a.Equals((object)b));
             Assert.IsFalse(a.Equals(c));
             Assert.IsFalse(a.Equals((object)null));
-            Assert.IsFalse(a.Equals((ConstructCompiled)null));
+            Assert.IsFalse(a.Equals(null));
 
             Assert.AreEqual(a.GetHashCode(), b.GetHashCode());
             Assert.AreNotEqual(a.GetHashCode(), c.GetHashCode());
         }
-        private void Run(Type[] types,object[] values)
+        private void Run(Type[] types, object[] values)
         {
             var construct = typeof(ValueBox).GetConstructor(types);
             var c = new ConstructCompiled(construct);
             Assert.AreEqual(construct, c.Constructor);
             var val = c.Creator(values);
-            Assert.IsNotNull(val,"arg count"+values.Length);
+            Assert.IsNotNull(val, "arg count" + values.Length);
         }
         [TestMethod]
         public void BuildConstruct_Create_MustInstanceValue()
         {
             Run(new Type[0], new object[0]);
-            Run(new Type[] { typeof(int) }, new object[] { 1});
-            Run(new Type[] { typeof(object) }, new object[] { 123});
+            Run(new Type[] { typeof(int) }, new object[] { 1 });
+            Run(new Type[] { typeof(object) }, new object[] { 123 });
             Run(new Type[] { typeof(int), typeof(object), typeof(double) }, new object[] { 1, 2, 3.4 });
         }
     }

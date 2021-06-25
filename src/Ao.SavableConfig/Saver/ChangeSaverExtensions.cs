@@ -11,10 +11,10 @@ namespace Ao.SavableConfig.Saver
                 throw new System.ArgumentNullException(nameof(saver));
             }
 
-            var vals=saver.Emit();
+            var vals = saver.Emit();
             foreach (var item in vals)
             {
-                if (item.Value.SelectCondition!=null)
+                if (item.Value.SelectCondition != null)
                 {
                     item.Value.SelectCondition.Save(item.Value.Report,
                         item.Value.Transfed);

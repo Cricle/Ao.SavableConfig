@@ -1,7 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Ao.SavableConfig.Test
@@ -29,7 +27,7 @@ namespace Ao.SavableConfig.Test
         public async Task RunOnce_MustReturnTrue()
         {
             var once = new ConcurrentOnce();
-            var ok=await once.WaitAsync(TimeSpan.Zero);
+            var ok = await once.WaitAsync(TimeSpan.Zero);
             Assert.IsTrue(ok);
 
             once.ToString();

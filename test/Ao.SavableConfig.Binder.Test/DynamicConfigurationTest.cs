@@ -1,11 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ao.SavableConfig.Binder.Test
 {
@@ -26,7 +21,7 @@ namespace Ao.SavableConfig.Binder.Test
             };
             helloSection.world = "123";
             Assert.AreEqual("hello:world", changePath);
-            var val=dy.a.b.c();
+            var val = dy.a.b.c();
             Assert.IsNull(val);
             dy.a.b.c = "123";
             val = dy.a.b.c();
@@ -39,7 +34,7 @@ namespace Ao.SavableConfig.Binder.Test
 
             dy[1] = 456;
             Assert.AreEqual("456", root["1"]);
-           
+
             root["qwerty"] = "123";
             var v = dy.qwerty(typeof(int));
             Assert.AreEqual(123, v);

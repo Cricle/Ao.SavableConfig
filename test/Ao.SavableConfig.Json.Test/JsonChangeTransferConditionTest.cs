@@ -1,15 +1,13 @@
 ﻿using Ao.SavableConfig.Saver;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.FileProviders;
-using System.IO;
 using Microsoft.Extensions.Primitives;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace Ao.SavableConfig.Json.Test
 {
@@ -77,11 +75,11 @@ namespace Ao.SavableConfig.Json.Test
             var condition = new JsonChangeTransferCondition();
             var prov = new NullConfigurationProvider();
             var rep = new ChangeReport(root, prov, new ConfigurationChangeInfo[0]);
-            var val=condition.GetTransfe(rep);
+            var val = condition.GetTransfe(rep);
             Assert.IsNull(val);
             var f = new JsonConfigurationProvider(new JsonConfigurationSource
             {
-                 Path="a.xml"
+                Path = "a.xml"
             });
             rep = new ChangeReport(root, f, new ConfigurationChangeInfo[0]);
             val = condition.GetTransfe(rep);
@@ -92,7 +90,7 @@ namespace Ao.SavableConfig.Json.Test
         public void TransferChanged_SaveIt_ButFileNotFound_MustWrited()
         {
             var root = CreateRoot(out var fn);
-            File.Delete(Path.Combine(SettingPath,fn));
+            File.Delete(Path.Combine(SettingPath, fn));
             var condition = new JsonChangeTransferCondition();
             var prov = root.Providers.First();
             var changeInfos = new ConfigurationChangeInfo[]

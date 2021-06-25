@@ -10,7 +10,7 @@ namespace Ao.SavableConfig.Saver
             {
                 return ConfigurationTypes.Null;
             }
-            if (value ==string.Empty)
+            if (value == string.Empty)
             {
                 return ConfigurationTypes.String;
             }
@@ -19,11 +19,11 @@ namespace Ao.SavableConfig.Saver
             {
                 return ConfigurationTypes.Boolean;
             }
-            if (long.TryParse(value,out _))
+            if (long.TryParse(value, out _))
             {
                 return ConfigurationTypes.Number;
             }
-            if (double.TryParse(value ,out _))
+            if (double.TryParse(value, out _))
             {
                 return ConfigurationTypes.Single;
             }

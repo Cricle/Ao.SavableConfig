@@ -5,8 +5,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ao.SavableConfig.Test.Saver
 {
@@ -21,13 +19,13 @@ namespace Ao.SavableConfig.Test.Saver
             {
                 new ConfigurationChangeInfo()
             };
-            var rep = ChangeReport.FromChanges(root,infos);
+            var rep = ChangeReport.FromChanges(root, infos);
             Assert.AreEqual(1, rep.Count());
             var changes = rep.First();
             Assert.IsNull(changes.Provider);
             Assert.AreEqual(root, changes.Configuration);
-            Assert.AreEqual(1,changes.IncludeChangeInfo.Count);
-            Assert.IsTrue(changes.IncludeChangeInfo.Any(x=>x==infos[0]));
+            Assert.AreEqual(1, changes.IncludeChangeInfo.Count);
+            Assert.IsTrue(changes.IncludeChangeInfo.Any(x => x == infos[0]));
         }
         [TestMethod]
         public void GivenNotSameProvider_MustThrowException()
@@ -46,14 +44,14 @@ namespace Ao.SavableConfig.Test.Saver
 
         }
         [TestMethod]
-        [DataRow("hello",null, ConfigurationTypes.Null,false)]
+        [DataRow("hello", null, ConfigurationTypes.Null, false)]
         [DataRow("hello", "1", ConfigurationTypes.Number, false)]
         [DataRow("hello", "false", ConfigurationTypes.Boolean, false)]
         [DataRow("hello", "true", ConfigurationTypes.Boolean, false)]
         [DataRow("hello", "1.123", ConfigurationTypes.Single, false)]
         [DataRow("hello", "dsagkj@#", ConfigurationTypes.String, false)]
         [DataRow("hello:0", "aa", ConfigurationTypes.Array, true)]
-        public void Init_GetVarableReport(string name,string val, ConfigurationTypes type,bool isArray)
+        public void Init_GetVarableReport(string name, string val, ConfigurationTypes type, bool isArray)
         {
             var root = new ConfigurationRoot(new IConfigurationProvider[0]);
             var infos = new IConfigurationChangeInfo[]
@@ -72,8 +70,8 @@ namespace Ao.SavableConfig.Test.Saver
             var c = rep.First().GetValueReport();
             Assert.AreEqual(name, c.Keys.Single());
             var r = c.Values.Single();
-            Assert.AreEqual(isArray,r.IsArray);
-            Assert.AreEqual(type,r.TypeCode);
+            Assert.AreEqual(isArray, r.IsArray);
+            Assert.AreEqual(type, r.TypeCode);
             Assert.AreEqual(root, r.Configuration);
             Assert.AreEqual(infos[0], r.Info);
         }

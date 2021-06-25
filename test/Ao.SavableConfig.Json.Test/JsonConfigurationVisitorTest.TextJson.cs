@@ -1,12 +1,7 @@
 ﻿using Ao.SavableConfig.Saver;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Text.Json;
 using System.Text.Json.Node;
+using System.Text.Json;
 
 namespace Ao.SavableConfig.Json.Test
 {
@@ -21,13 +16,13 @@ namespace Ao.SavableConfig.Json.Test
         [TestMethod]
         public void RaiseModifyProperty_MustModified()
         {
-            var origin = CreateObject(new 
+            var origin = CreateObject(new
             {
-                Name="jho"
+                Name = "jho"
             });
             var path = new string[] { "Name" };
             JsonNode val = ("pite");
-            var visitor = new JsonConfigurationVisitor(path,origin,val);
+            var visitor = new JsonConfigurationVisitor(path, origin, val);
             visitor.VisitWrite();
             var modified = origin["Name"].ToString();
             Assert.AreEqual(val.ToString(), modified);
@@ -47,7 +42,7 @@ namespace Ao.SavableConfig.Json.Test
         public void RaiseAddObject_MustAdded()
         {
             var origin = CreateObject(new { });
-            var path = new string[] { "Name","Text" };
+            var path = new string[] { "Name", "Text" };
             JsonNode val = ("pite");
             var visitor = new JsonConfigurationVisitor(path, origin, val);
             visitor.VisitWrite();
@@ -58,7 +53,7 @@ namespace Ao.SavableConfig.Json.Test
         public void RaiseAddObjectWithArray_MustAdded()
         {
             var origin = CreateObject(new { });
-            var path = new string[] { "Name", "Text","2","Hello" };
+            var path = new string[] { "Name", "Text", "2", "Hello" };
             JsonNode val = ("pite");
             var visitor = new JsonConfigurationVisitor(path, origin, val);
             visitor.VisitWrite();
@@ -69,7 +64,7 @@ namespace Ao.SavableConfig.Json.Test
         public void RaiseAddObjectWithIgnoreAdd_MustNotAdded()
         {
             var origin = CreateObject(new { });
-            var path = new string[] { "Name", "Text"};
+            var path = new string[] { "Name", "Text" };
             JsonNode val = ("pite");
             var visitor = new JsonConfigurationVisitor(path, origin, val);
             visitor.IgnoreAdd = true;
@@ -79,16 +74,16 @@ namespace Ao.SavableConfig.Json.Test
         [TestMethod]
         public void RaiseModifyObject_WhenArray_NothingToDo()
         {
-            var origin = CreateObject(new 
+            var origin = CreateObject(new
             {
-                Name=new string[0]
+                Name = new string[0]
             });
             var path = new string[] { "Name", "Text" };
             JsonNode val = ("pite");
             var visitor = new JsonConfigurationVisitor(path, origin, val);
             visitor.VisitWrite();
             var modified = origin["Name"];
-            Assert.IsInstanceOfType(modified,typeof(JsonArray));
+            Assert.IsInstanceOfType(modified, typeof(JsonArray));
         }
         [TestMethod]
         public void RaiseModifyArray_MustModified()
@@ -97,7 +92,7 @@ namespace Ao.SavableConfig.Json.Test
             {
                 Ids = new int[] { 1, 2, 3, 4, 5 }
             });
-            var path = new string[] { "Ids","2" };
+            var path = new string[] { "Ids", "2" };
             JsonNode val = ("a");
             var visitor = new JsonConfigurationVisitor(path, origin, val);
             visitor.VisitWrite();
@@ -109,7 +104,7 @@ namespace Ao.SavableConfig.Json.Test
         {
             var origin = CreateObject(new
             {
-                Ids = new int[] { 1,2}
+                Ids = new int[] { 1, 2 }
             });
             var path = new string[] { "Ids", "4" };
             JsonNode val = ("a");

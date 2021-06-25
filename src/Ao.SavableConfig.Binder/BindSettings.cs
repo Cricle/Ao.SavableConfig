@@ -1,8 +1,6 @@
-﻿using Ao.SavableConfig.Binder;
-using Ao.SavableConfig.Saver;
+﻿using Ao.SavableConfig.Saver;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 
 namespace Microsoft.Extensions.Configuration
 {
@@ -11,7 +9,7 @@ namespace Microsoft.Extensions.Configuration
         public static readonly TimeSpan DefaultDelayTime = TimeSpan.FromMilliseconds(250);
 
         public BindSettings(object value, TimeSpan delayTime, IEnumerable<IChangeTransferCondition> conditions)
-            :this(value,delayTime,conditions,null)
+            : this(value, delayTime, conditions, null)
         {
         }
         public BindSettings(object value, TimeSpan delayTime, IEnumerable<IChangeTransferCondition> conditions, Action<Action> updater)

@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Configuration;
-using System;
 
 namespace Ao.SavableConfig.Saver
 {
@@ -7,7 +6,7 @@ namespace Ao.SavableConfig.Saver
     {
         public ChangeValueInfo(
             IConfiguration configuration,
-            IConfigurationChangeInfo info, 
+            IConfigurationChangeInfo info,
             ConfigurationTypes typeCode,
             bool isArray)
         {

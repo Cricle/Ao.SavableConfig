@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Ao.SavableConfig.Binder.Annotations;
 using Ao.SavableConfig.Binder;
 using BenchmarkDotNet.Attributes;
 using Ao.SavableConfig.Binder.Visitors;
-using Microsoft.Extensions.Configuration;
-using BenchmarkDotNet.Engines;
 
 namespace Ao.SavableConfig.Benchmark
 {
@@ -43,7 +37,7 @@ namespace Ao.SavableConfig.Benchmark
         {
             type = typeof(StudentClass);
             nameTransfer = IdentityMapNameTransfer.FromTypeAttributes(type);
-            objectNamedCreator= new ObjectNamedCreator(type, nameTransfer,
+            objectNamedCreator = new ObjectNamedCreator(type, nameTransfer,
                 IdentityNamedCreator.Instance, ReflectionPropertyVisitor.Instance);
 
         }

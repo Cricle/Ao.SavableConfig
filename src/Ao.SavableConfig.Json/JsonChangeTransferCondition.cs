@@ -1,6 +1,6 @@
-﻿using System.IO;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace Ao.SavableConfig.Saver
 {
@@ -16,7 +16,7 @@ namespace Ao.SavableConfig.Saver
         {
             return File.ReadAllText(path);
         }
-        protected virtual void WriteFile(string path,string datas)
+        protected virtual void WriteFile(string path, string datas)
         {
             File.WriteAllText(path, datas);
         }

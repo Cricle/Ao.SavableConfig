@@ -21,9 +21,9 @@ namespace Ao.SavableConfig.Binder
 
         public PropertyInfo Member { get; }
 
-        public Action<object,object> Setter { get; }
+        public Action<object, object> Setter { get; }
 
-        public Func<object,object> Getter { get; }
+        public Func<object, object> Getter { get; }
 
         public override bool Equals(object obj)
         {
@@ -42,7 +42,7 @@ namespace Ao.SavableConfig.Binder
         {
             return Member.GetHashCode();
         }
-        protected virtual Func<object,object> BuildGetter()
+        protected virtual Func<object, object> BuildGetter()
         {
             if (Member.CanRead)
             {
@@ -51,11 +51,11 @@ namespace Ao.SavableConfig.Binder
                 var body = Expression.Convert(Expression.Call(
                     Expression.Convert(par, DeclareType),
                     Member.GetMethod), ObjectType);
-                return Expression.Lambda<Func<object,object>>(body,par).Compile();
+                return Expression.Lambda<Func<object, object>>(body, par).Compile();
             }
             return null;
         }
-        protected virtual Action<object,object> BuildSetter()
+        protected virtual Action<object, object> BuildSetter()
         {
             if (Member.CanWrite)
             {
@@ -65,9 +65,9 @@ namespace Ao.SavableConfig.Binder
                 var convPar1 = Expression.Convert(par1, DeclareType);
                 var convPar2 = Expression.Convert(par2, Member.PropertyType);
 
-                var body = Expression.Call(convPar1, Member.SetMethod,convPar2);
+                var body = Expression.Call(convPar1, Member.SetMethod, convPar2);
 
-                return Expression.Lambda<Action<object,object>>(body,par1,par2).Compile();
+                return Expression.Lambda<Action<object, object>>(body, par1, par2).Compile();
             }
             return null;
         }

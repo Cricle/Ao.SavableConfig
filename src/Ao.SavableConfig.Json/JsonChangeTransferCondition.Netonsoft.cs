@@ -1,7 +1,6 @@
-﻿using System.IO;
+﻿using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace Ao.SavableConfig.Saver
 {

@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
-
-namespace Ao.SavableConfig.Binder
+﻿namespace Ao.SavableConfig.Binder
 {
     public class PropertyCompiledManager : CompiledManager<PropertyIdentity, PropertyCompiled>
     {

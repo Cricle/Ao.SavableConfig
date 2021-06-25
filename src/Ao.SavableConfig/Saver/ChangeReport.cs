@@ -64,12 +64,12 @@ namespace Ao.SavableConfig.Saver
                 var isArray = item.Key.TrimEnd(numberChars).EndsWith(ConfigurationPath.KeyDelimiter);
                 if (isArray)
                 {
-                    map[item.Key]= new ChangeValueInfo(Configuration,item,  ConfigurationTypes.Array,true);
+                    map[item.Key] = new ChangeValueInfo(Configuration, item, ConfigurationTypes.Array, true);
                 }
                 else
                 {
                     var type = TypeHelper.GetTypeCode(item.New);
-                    map[item.Key]= new ChangeValueInfo(Configuration, item, type, false);
+                    map[item.Key] = new ChangeValueInfo(Configuration, item, type, false);
                 }
             }
             return map;
@@ -80,9 +80,9 @@ namespace Ao.SavableConfig.Saver
         /// <param name="configuration"></param>
         /// <param name="datas"></param>
         /// <returns></returns>
-        public static IEnumerable<ChangeReport> FromChanges(IConfiguration configuration,IReadOnlyList<IConfigurationChangeInfo> datas)
+        public static IEnumerable<ChangeReport> FromChanges(IConfiguration configuration, IReadOnlyList<IConfigurationChangeInfo> datas)
         {
-            foreach (var item in datas.GroupBy(x=>x.Provider))
+            foreach (var item in datas.GroupBy(x => x.Provider))
             {
                 yield return new ChangeReport(configuration, item.Key, item.ToArray());
             }

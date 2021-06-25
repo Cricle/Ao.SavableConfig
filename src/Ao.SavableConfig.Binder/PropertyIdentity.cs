@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
 
 namespace Ao.SavableConfig.Binder
 {
@@ -31,7 +29,7 @@ namespace Ao.SavableConfig.Binder
         public override int GetHashCode()
         {
 #if NET452
-            return Type.GetHashCode()+ PropertyName.GetHashCode();
+            return Type.GetHashCode() + PropertyName.GetHashCode();
 #else
             return HashCode.Combine(Type, PropertyName);
 #endif

@@ -1,9 +1,25 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿
+/* 项目“Ao.SavableConfig.Json (net452)”的未合并的更改
+在此之前:
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Linq;
 using Newtonsoft.Json.Linq;
-using System.Diagnostics;
+在此之后:
 using Ao.SavableConfig.ConfigVisit;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json.Linq;
+using System;
+*/
+using Newtonsoft.Json.Linq;
+using System
+/* 项目“Ao.SavableConfig.Json (net452)”的未合并的更改
+在此之前:
+using Ao.SavableConfig.ConfigVisit;
+在此之后:
+using System.Linq;
+*/
+;
 
 namespace Ao.SavableConfig.Saver
 {
@@ -22,7 +38,7 @@ namespace Ao.SavableConfig.Saver
             foreach (var item in report.IncludeChangeInfo)
             {
                 var jtoken = item.Key.Split(splitToken, StringSplitOptions.RemoveEmptyEntries);
-                var visitor = new JsonConfigurationVisitor(jtoken,tk,item.New);
+                var visitor = new JsonConfigurationVisitor(jtoken, tk, item.New);
                 visitor.IgnoreAdd = IgnoreAdd;
                 visitor.VisitWrite();
             }

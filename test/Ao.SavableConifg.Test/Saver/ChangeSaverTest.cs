@@ -3,8 +3,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ao.SavableConfig.Test.Saver
 {
@@ -16,8 +14,8 @@ namespace Ao.SavableConfig.Test.Saver
         {
             var reports = new ChangeReport[0];
             Assert.ThrowsException<ArgumentNullException>(() => new ChangeSaver(null));
-            Assert.ThrowsException<ArgumentNullException>(() => new ChangeSaver(null,null));
-            Assert.ThrowsException<ArgumentNullException>(() => new ChangeSaver(reports,null));
+            Assert.ThrowsException<ArgumentNullException>(() => new ChangeSaver(null, null));
+            Assert.ThrowsException<ArgumentNullException>(() => new ChangeSaver(reports, null));
             Assert.ThrowsException<ArgumentNullException>(() => new ChangeSaver(reports, (IEnumerable<IChangeTransferCondition>)null));
             Assert.ThrowsException<ArgumentNullException>(() => new ChangeSaver(null, Enumerable.Empty<IChangeTransferCondition>()));
         }
@@ -26,11 +24,11 @@ namespace Ao.SavableConfig.Test.Saver
         {
             var reports = new ChangeReport[0];
             var condition = new IChangeTransferCondition[0];
-            var saver = new ChangeSaver(reports,condition);
+            var saver = new ChangeSaver(reports, condition);
             Assert.AreEqual(reports, saver.Reports);
             Assert.AreEqual(condition, saver.Transfers);
 
-            saver = new ChangeSaver(reports,(IEnumerable<IChangeTransferCondition>)condition);
+            saver = new ChangeSaver(reports, (IEnumerable<IChangeTransferCondition>)condition);
             Assert.AreEqual(reports, saver.Reports);
             Assert.AreEqual(condition, saver.Transfers);
         }
@@ -40,7 +38,7 @@ namespace Ao.SavableConfig.Test.Saver
             var reports = new ChangeReport[0];
             var condition = new IChangeTransferCondition[0];
             var saver = new ChangeSaver(reports, condition);
-            var map=saver.Emit();
+            var map = saver.Emit();
             Assert.AreEqual(0, map.Count);
         }
         [TestMethod]
@@ -51,7 +49,7 @@ namespace Ao.SavableConfig.Test.Saver
                 new ChangeReport(null,null,new IConfigurationChangeInfo[0])
             };
             var saver = new ChangeSaver(reports, new NullTransfer());
-            var res=saver.Emit();
+            var res = saver.Emit();
             Assert.AreEqual(0, res.Count);
         }
         [TestMethod]
@@ -64,7 +62,7 @@ namespace Ao.SavableConfig.Test.Saver
                     new ConfigurationChangeInfo()
                 })
             };
-            var condition = new IChangeTransferCondition[] 
+            var condition = new IChangeTransferCondition[]
             {
                 new NullTransfer()
             };

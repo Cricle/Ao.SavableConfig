@@ -1,8 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.Linq;
-using System.Diagnostics;
-using Ao.SavableConfig.ConfigVisit;
+﻿using System;
 using System.Text.Json.Node;
 
 namespace Ao.SavableConfig.Saver
@@ -22,7 +18,7 @@ namespace Ao.SavableConfig.Saver
             foreach (var item in report.IncludeChangeInfo)
             {
                 var jtoken = item.Key.Split(splitToken, StringSplitOptions.RemoveEmptyEntries);
-                var visitor = new JsonConfigurationVisitor(jtoken,tk,item.New);
+                var visitor = new JsonConfigurationVisitor(jtoken, tk, item.New);
                 visitor.IgnoreAdd = IgnoreAdd;
                 visitor.VisitWrite();
             }

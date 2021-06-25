@@ -1,9 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ao.SavableConfig.Binder.Test
 {
@@ -45,7 +41,7 @@ namespace Ao.SavableConfig.Binder.Test
         public void ChangeType_MustBeChanged(string input, Type type, object value)
         {
             var t = type;
-            if (type.IsGenericType&&type.GetGenericTypeDefinition()==typeof(Nullable<>))
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
             {
                 t = Nullable.GetUnderlyingType(t);
             }

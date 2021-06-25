@@ -1,5 +1,4 @@
 ﻿using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Engines;
 using Microsoft.Extensions.Configuration;
 
 namespace Ao.SavableConfig.Benchmark
@@ -29,12 +28,12 @@ namespace Ao.SavableConfig.Benchmark
             msbuilder.AddJsonFile("appsettings.json", true, false);
             msroot = msbuilder.Build();
         }
-        [Benchmark(Baseline =true,OperationsPerInvoke =LoopCount)]
+        [Benchmark(Baseline = true, OperationsPerInvoke = LoopCount)]
         public void MsChange()
         {
             for (int i = 0; i < LoopCount; i++)
             {
-                msroot["DbConnections:Mysql:Connection"+i] = i.ToString();
+                msroot["DbConnections:Mysql:Connection" + i] = i.ToString();
             }
         }
         [Benchmark(OperationsPerInvoke = LoopCount)]

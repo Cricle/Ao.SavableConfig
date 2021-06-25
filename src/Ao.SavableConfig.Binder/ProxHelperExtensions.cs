@@ -1,10 +1,6 @@
-﻿using Ao.SavableConfig.Binder.Annotations;
-using Ao.SavableConfig.Binder.Visitors;
+﻿using Ao.SavableConfig.Binder.Visitors;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 
 namespace Ao.SavableConfig.Binder
 {
@@ -50,10 +46,10 @@ namespace Ao.SavableConfig.Binder
                 throw new ArgumentNullException(nameof(namedCreator));
             }
 
-            return CreateComplexProxy<T>(proxyHelper, nameTransfer, namedCreator,CompilePropertyVisitor.Instance);
+            return CreateComplexProxy<T>(proxyHelper, nameTransfer, namedCreator, CompilePropertyVisitor.Instance);
         }
 
-        public static ProxyCreator CreateComplexProxy<T>(this ProxyHelper proxyHelper, INameTransfer nameTransfer, INamedCreator namedCreator,IPropertyVisitor propertyVisitor)
+        public static ProxyCreator CreateComplexProxy<T>(this ProxyHelper proxyHelper, INameTransfer nameTransfer, INamedCreator namedCreator, IPropertyVisitor propertyVisitor)
         {
             if (proxyHelper is null)
             {
@@ -75,12 +71,12 @@ namespace Ao.SavableConfig.Binder
                 throw new ArgumentNullException(nameof(propertyVisitor));
             }
 
-            var creator= new ProxyCreator(proxyHelper, typeof(T), nameTransfer, namedCreator, propertyVisitor);
+            var creator = new ProxyCreator(proxyHelper, typeof(T), nameTransfer, namedCreator, propertyVisitor);
             creator.Analysis();
             return creator;
         }
         public static T EnsureCreateProxWithAttribute<T>(this ProxyHelper proxHelper, IConfiguration configuration)
-            where T:class
+            where T : class
         {
             if (proxHelper is null)
             {
@@ -96,7 +92,7 @@ namespace Ao.SavableConfig.Binder
             return EnsureCreateProx<T>(proxHelper, configuration, nameTransfer);
         }
         public static T EnsureCreateProx<T>(this ProxyHelper proxHelper, IConfiguration configuration, INameTransfer nameTransfer)
-            where T:class
+            where T : class
         {
             if (proxHelper is null)
             {
@@ -118,7 +114,7 @@ namespace Ao.SavableConfig.Binder
             {
                 proxHelper.BuildProx(type);
             }
-            return (T)proxHelper.CreateProxy(typeof(T),configuration,nameTransfer);
+            return (T)proxHelper.CreateProxy(typeof(T), configuration, nameTransfer);
         }
     }
 }

@@ -1,10 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ao.SavableConfig.Test
 {
@@ -15,9 +11,9 @@ namespace Ao.SavableConfig.Test
         public void CallCreateWatcherWithNull_MustThrowException()
         {
             Assert.ThrowsException<ArgumentNullException>(() => ConfigurationExtensions.CreateWatcher((IConfiguration)null));
-            Assert.ThrowsException<ArgumentNullException>(() => ConfigurationExtensions.CreateWatcher((IConfigurationChangeNotifyable)null));
+            Assert.ThrowsException<ArgumentNullException>(() => ConfigurationExtensions.CreateWatcher(null));
             Assert.ThrowsException<ArgumentNullException>(() => ConfigurationExtensions.CreateEmptyWatcher((IConfiguration)null));
-            Assert.ThrowsException<ArgumentNullException>(() => ConfigurationExtensions.CreateEmptyWatcher((IConfigurationChangeNotifyable)null));
+            Assert.ThrowsException<ArgumentNullException>(() => ConfigurationExtensions.CreateEmptyWatcher(null));
             Assert.ThrowsException<ArgumentNullException>(() => ConfigurationExtensions.BuildSavable(null));
         }
         [TestMethod]

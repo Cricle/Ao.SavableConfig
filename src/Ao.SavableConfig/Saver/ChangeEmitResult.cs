@@ -2,7 +2,7 @@
 {
     public class ChangeEmitResult
     {
-        public ChangeEmitResult(ChangeReport report,IChangeTransferCondition selectCondition, IChangeTransfer transfer, string transfed)
+        public ChangeEmitResult(ChangeReport report, IChangeTransferCondition selectCondition, IChangeTransfer transfer, string transfed)
         {
             Report = report;
             SelectCondition = selectCondition;

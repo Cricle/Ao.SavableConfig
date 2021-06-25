@@ -1,7 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Ao.SavableConfig.Binder.Annotations;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Linq;
-using Ao.SavableConfig.Binder.Annotations;
 using System.Reflection;
 
 namespace Ao.SavableConfig.Binder

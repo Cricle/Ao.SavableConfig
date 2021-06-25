@@ -29,7 +29,7 @@ namespace Ao.SavableConfig.Binder
         }
         public bool Equals(ConstructCompiled other)
         {
-            if (other==null)
+            if (other == null)
             {
                 return false;
             }

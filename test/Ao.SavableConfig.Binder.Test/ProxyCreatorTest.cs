@@ -3,9 +3,6 @@ using Ao.SavableConfig.Binder.Visitors;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ao.SavableConfig.Binder.Test
 {
@@ -52,7 +49,7 @@ namespace Ao.SavableConfig.Binder.Test
         [TestMethod]
         [DataRow(typeof(RedirectBox), "P:")]
         [DataRow(typeof(NullPathRedirectBox), "")]
-        public void CreateWithRedirectPath_MustProxThatPaths(Type type,string prefx)
+        public void CreateWithRedirectPath_MustProxThatPaths(Type type, string prefx)
         {
             var root = ConfigHelper.CreateEmptyRoot();
             var prox = ProxyUtil.CreateProx();
@@ -63,18 +60,18 @@ namespace Ao.SavableConfig.Binder.Test
                 [new PropertyIdentity(typeof(double), nameof(RedirectClass.Score))] = prefx + "Score",
             };
             var map = new IdentityMapNameTransfer(named);
-            var creator = new ProxyCreator(prox, type,map,IdentityNamedCreator.Instance,ReflectionPropertyVisitor.Instance);
+            var creator = new ProxyCreator(prox, type, map, IdentityNamedCreator.Instance, ReflectionPropertyVisitor.Instance);
             creator.Analysis();
             var x = (dynamic)creator.Build(root);
             x.Red.Age = 123;
             x.Red.Name = "456";
             x.Red.Score = 789.123d;
             root["Age"] = "123";
-            root[prefx+"Name"] = "456";
-            root[prefx+"Score"] = "789.123";
-            Assert.AreEqual("123",root["Age"]);
-            Assert.AreEqual("456", root[prefx+"Name"]);
-            Assert.AreEqual("789.123", root[prefx+"Score"]);
+            root[prefx + "Name"] = "456";
+            root[prefx + "Score"] = "789.123";
+            Assert.AreEqual("123", root["Age"]);
+            Assert.AreEqual("456", root[prefx + "Name"]);
+            Assert.AreEqual("789.123", root[prefx + "Score"]);
         }
         [TestMethod]
         public void GivenArgsInit_PopertyValueMustEqualInput()

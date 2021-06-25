@@ -4,8 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Ao.SavableConfig.Binder.Test
@@ -25,7 +23,7 @@ namespace Ao.SavableConfig.Binder.Test
         {
             var root = ConfigHelper.CreateEmptyRoot();
             var setting = new BindSettings(new object(), TimeSpan.FromSeconds(1), new IChangeTransferCondition[0]);
-            Assert.ThrowsException<InvalidCastException>(() => new ObservableBindBox(root,root, setting, ConfigBindMode.TwoWay, a => a()));
+            Assert.ThrowsException<InvalidCastException>(() => new ObservableBindBox(root, root, setting, ConfigBindMode.TwoWay, a => a()));
         }
         class Class : ObservableObject
         {
@@ -37,7 +35,7 @@ namespace Ao.SavableConfig.Binder.Test
             {
                 get => count;
                 set => Set(ref count, value);
-            } 
+            }
 
 
             public Student Student1
@@ -51,7 +49,7 @@ namespace Ao.SavableConfig.Binder.Test
                 set => Set(ref student2, value);
             }
         }
-        class Student:ObservableObject
+        class Student : ObservableObject
         {
             private string name;
             private int age;

@@ -1,7 +1,6 @@
 ﻿using Ao.SavableConfig.Binder;
 using Ao.SavableConfig.Saver;
 using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Engines;
 using Microsoft.Extensions.Configuration;
 
 namespace Ao.SavableConfig.Benchmark
@@ -12,7 +11,7 @@ namespace Ao.SavableConfig.Benchmark
     {
         private readonly TwoWayDbConnection conn;
 
-        [Params(10,100,1000)]
+        [Params(10, 100, 1000)]
         public int Count { get; set; }
 
         public BindTwoWay()
@@ -31,6 +30,6 @@ namespace Ao.SavableConfig.Benchmark
                 conn.Mssql.Connection = i.ToString();
             }
         }
-        
+
     }
 }

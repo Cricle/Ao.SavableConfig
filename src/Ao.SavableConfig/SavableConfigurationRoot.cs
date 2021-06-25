@@ -1,12 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Ao.SavableConfig
 {
@@ -43,7 +37,7 @@ namespace Ao.SavableConfig
             }
             else
             {
-                if (_providers.Count==0)
+                if (_providers.Count == 0)
                 {
                     throw new InvalidOperationException("No providers, can't do this");
                 }
@@ -54,8 +48,7 @@ namespace Ao.SavableConfig
                 for (int i = 0; i < count; i++)
                 {
                     var provider = providers[i];
-                    var ok = provider.TryGet(key, out old);
-                    if (ok)
+                    if (provider.TryGet(key, out old))
                     {
                         provider.Set(key, value);
                         var changeInfo = new ConfigurationChangeInfo

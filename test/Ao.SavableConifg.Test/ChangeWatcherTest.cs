@@ -1,12 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Ao.SavableConfig.Test.Saver;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Primitives;
-using Ao.SavableConfig.Test.Saver;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace Ao.SavableConfig.Test
 {
@@ -40,7 +35,7 @@ namespace Ao.SavableConfig.Test
             equal = a.Equals((object)null);
             Assert.IsFalse(equal);
 
-            equal = a.Equals((ChangeWatcher.ChangeIdentity)null);
+            equal = a.Equals(null);
             Assert.IsFalse(equal);
 
             var aHash = a.GetHashCode();

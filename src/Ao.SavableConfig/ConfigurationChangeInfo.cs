@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
+using System;
+
 namespace Ao.SavableConfig
 {
     internal class ConfigurationChangeInfo : IConfigurationChangeInfo
@@ -14,6 +16,5 @@ namespace Ao.SavableConfig
         public string New { get; set; }
 
         public bool IsCreate { get; set; }
-
     }
 }

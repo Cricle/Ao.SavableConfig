@@ -1,10 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 
 namespace Ao.SavableConfig.Test
 {
@@ -25,7 +22,7 @@ namespace Ao.SavableConfig.Test
                 New = "a",
                 Old = "b"
             };
-            var ud= ConfigurationChangeInfoExtensions.CreateUndo(info);
+            var ud = ConfigurationChangeInfoExtensions.CreateUndo(info);
             Assert.AreEqual("a", ud.Old);
             Assert.AreEqual("b", ud.New);
         }
@@ -38,7 +35,7 @@ namespace Ao.SavableConfig.Test
             var root = builder.BuildSavable();
             var info = new ConfigurationChangeInfo
             {
-                Key="hello",
+                Key = "hello",
                 New = "a",
                 Old = "b",
                 Provider = root.Providers.First()

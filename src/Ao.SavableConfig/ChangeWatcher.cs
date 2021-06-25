@@ -1,11 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
-using System.Threading;
 
 namespace Ao.SavableConfig
 {
@@ -34,6 +32,8 @@ namespace Ao.SavableConfig
 
             public ChangeIdentity(string key, IConfigurationProvider provder)
             {
+                Debug.Assert(!string.IsNullOrEmpty(key));
+                Debug.Assert(provder != null);
                 Key = key;
                 Provder = provder;
             }
@@ -136,7 +136,7 @@ namespace Ao.SavableConfig
                 if (Condition(info))
                 {
                     var tk = new ChangeIdentity(info.Key, info.Provider);
-                    changeInfos[tk] = info;
+                    changeInfos.AddOrUpdate(tk, info, (a, b) => info);
                     ChangePushed?.Invoke(this, info);
                 }
             }

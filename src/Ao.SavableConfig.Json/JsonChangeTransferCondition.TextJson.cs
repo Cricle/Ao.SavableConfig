@@ -1,8 +1,6 @@
-﻿using System.IO;
-using System.Text.Json;
+﻿using Microsoft.Extensions.Configuration;
+using System.IO;
 using System.Text.Json.Node;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.FileProviders;
 
 namespace Ao.SavableConfig.Saver
 {

@@ -1,9 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ao.SavableConfig.Binder.Test
 {
@@ -14,7 +10,7 @@ namespace Ao.SavableConfig.Binder.Test
         public void GivenNullInit_MuthThrowException()
         {
             Assert.ThrowsException<ArgumentNullException>(() => new PropertyIdentity(null, "a"));
-            Assert.ThrowsException<ArgumentException>(() => new PropertyIdentity(typeof(object),null));
+            Assert.ThrowsException<ArgumentException>(() => new PropertyIdentity(typeof(object), null));
         }
         [TestMethod]
         public void GivenSameProperyIdentity_MustEqual()

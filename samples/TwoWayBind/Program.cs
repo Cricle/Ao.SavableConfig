@@ -1,11 +1,10 @@
 ﻿using Ao.SavableConfig;
-using Ao.SavableConfig.Binder.Annotations;
 using Ao.SavableConfig.Binder;
+using Ao.SavableConfig.Binder.Annotations;
+using Ao.SavableConfig.Saver;
 using Microsoft.Extensions.Configuration;
 using System;
-using Ao.SavableConfig.Saver;
 using System.Linq;
-using System.Diagnostics;
 
 namespace TwoWayBind
 {
@@ -54,7 +53,7 @@ namespace TwoWayBind
             builder.AddJsonFile("appsettings2.json", false, true);
             var root = builder.BuildSavable();
             var value = root.AutoCreateProxy<DbConnection>();
-            var box=root.BindTwoWay(value, JsonChangeTransferCondition.Instance);
+            var box = root.BindTwoWay(value, JsonChangeTransferCondition.Instance);
             while (true)
             {
                 var str = Console.ReadLine();

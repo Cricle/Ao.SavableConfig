@@ -3,7 +3,7 @@
 namespace Ao.SavableConfig.ConfigVisit
 {
     public abstract class ConfigurationVisitor<TKeyPart>
-        where TKeyPart: IConfigurationKeyPart
+        where TKeyPart : IConfigurationKeyPart
     {
         protected ConfigurationVisitor(string[] parts)
         {

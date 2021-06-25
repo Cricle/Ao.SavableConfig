@@ -1,9 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ao.SavableConfig.Binder.Test.Compiling
 {
@@ -20,7 +16,7 @@ namespace Ao.SavableConfig.Binder.Test.Compiling
         public void GivenNullInit_MustThrowException()
         {
             Assert.ThrowsException<ArgumentNullException>(() => new PropertyCompiled(typeof(ValueBox), null));
-            Assert.ThrowsException<ArgumentNullException>(() => new PropertyCompiled(null,typeof(ValueBox).GetProperty(nameof(ValueBox.Value))));
+            Assert.ThrowsException<ArgumentNullException>(() => new PropertyCompiled(null, typeof(ValueBox).GetProperty(nameof(ValueBox.Value))));
         }
         [TestMethod]
         public void GetOrSetValue_ValueMustBeVisitOrSet()
@@ -41,7 +37,7 @@ namespace Ao.SavableConfig.Binder.Test.Compiling
         {
             var prop = typeof(ValueBox).GetProperty(nameof(ValueBox.ReadOnly));
 
-            var pc = new PropertyCompiled(typeof(ValueBox),prop);
+            var pc = new PropertyCompiled(typeof(ValueBox), prop);
             Assert.IsNull(pc.Setter);
             Assert.IsNotNull(pc.Getter);
         }
@@ -59,7 +55,7 @@ namespace Ao.SavableConfig.Binder.Test.Compiling
             Assert.IsTrue(a.Equals((object)b));
             Assert.IsFalse(b.Equals(c));
             Assert.IsFalse(b.Equals((object)null));
-            Assert.IsFalse(b.Equals((PropertyCompiled)null));
+            Assert.IsFalse(b.Equals(null));
 
             Assert.AreEqual(a.GetHashCode(), b.GetHashCode());
             Assert.AreNotEqual(a.GetHashCode(), c.GetHashCode());

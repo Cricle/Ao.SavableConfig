@@ -1,9 +1,5 @@
 ﻿using Ao.SavableConfig.Binder.Annotations;
 using GalaSoft.MvvmLight;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
 
 namespace Ao.SavableConfig.Binder.Test
 {
@@ -12,7 +8,7 @@ namespace Ao.SavableConfig.Binder.Test
         None,
         SingleButton
     }
-    public class ObjectStyle: ObservableObject
+    public class ObjectStyle : ObservableObject
     {
         private int order;
 

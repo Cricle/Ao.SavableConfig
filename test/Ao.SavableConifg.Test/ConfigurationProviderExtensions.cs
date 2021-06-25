@@ -22,9 +22,9 @@ namespace Microsoft.Extensions.Configuration.Test
 #endif
     internal static class ConfigurationProviderExtensions
     {
-        public static string Get(this IConfigurationProvider provider,string name)
+        public static string Get(this IConfigurationProvider provider, string name)
         {
-            if (provider.TryGet(name,out var val))
+            if (provider.TryGet(name, out var val))
             {
                 return val;
             }

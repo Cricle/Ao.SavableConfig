@@ -1,11 +1,11 @@
-﻿using Newtonsoft.Json.Linq;
-using Ao.SavableConfig.ConfigVisit;
+﻿using Ao.SavableConfig.ConfigVisit;
+using Newtonsoft.Json.Linq;
 
 namespace Ao.SavableConfig.Saver
 {
     public class JsonConfigurationVisitor : ConfigurationVisitor<ConfigurationKeyPart>
     {
-        public JsonConfigurationVisitor(string[] parts,JToken origin,JToken value)
+        public JsonConfigurationVisitor(string[] parts, JToken origin, JToken value)
             : base(parts)
         {
             originTk = origin;

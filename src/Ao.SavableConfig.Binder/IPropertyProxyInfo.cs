@@ -12,7 +12,7 @@ namespace Ao.SavableConfig.Binder
 
         PropertyInfo PropertyInfo { get; }
 
-        INameTransfer NameTransfer { get;  }
+        INameTransfer NameTransfer { get; }
 
         string Key { get; }
     }

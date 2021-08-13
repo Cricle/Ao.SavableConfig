@@ -1,5 +1,4 @@
-﻿
-using Ao.SavableConfig.Saver;
+﻿using Ao.SavableConfig.Saver;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
 

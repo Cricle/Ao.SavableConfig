@@ -21,15 +21,20 @@ namespace Ao.SavableConfig.Binder.Test
         [TestMethod]
         public void GivenNullCall_MustThrowException()
         {
+            var root = ConfigHelper.CreateEmptyRoot();
+
             Assert.ThrowsException<ArgumentNullException>(() => BinderConfigurationExtensions.AutoCreateProxy<object>(null));
+            Assert.ThrowsException<ArgumentNullException>(() => BinderConfigurationExtensions.AutoCreateProxy(root,null));
             Assert.ThrowsException<ArgumentNullException>(() => BinderConfigurationExtensions.CreateComplexProxy<object>(null));
+            Assert.ThrowsException<ArgumentNullException>(() => BinderConfigurationExtensions.CreateComplexProxy(root,null));
             Assert.ThrowsException<ArgumentNullException>(() => BinderConfigurationExtensions.CreateProxy<object>(null));
             Assert.ThrowsException<ArgumentNullException>(() => BinderConfigurationExtensions.CreateProxy<object>(null, null));
+            Assert.ThrowsException<ArgumentNullException>(() => BinderConfigurationExtensions.CreateProxy(root, null));
 
-            var root = ConfigHelper.CreateEmptyRoot();
             Assert.ThrowsException<ArgumentException>(() => BinderConfigurationExtensions.AutoCreateProxy<object>(root, (string)null));
             Assert.ThrowsException<ArgumentException>(() => BinderConfigurationExtensions.AutoCreateProxy<object>(root, null, NullNameTransfer.Instance));
             Assert.ThrowsException<ArgumentNullException>(() => BinderConfigurationExtensions.CreateProxy<object>(null, NullNameTransfer.Instance));
+            Assert.ThrowsException<ArgumentNullException>(() => BinderConfigurationExtensions.CreateProxy(root,null, NullNameTransfer.Instance));
         }
         [TestMethod]
         public void CreateComplex_MustOk()

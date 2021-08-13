@@ -24,11 +24,20 @@ namespace Ao.SavableConfig.Binder.Test
             var a = ComplexProxyHelper.Default;
             var b = ComplexProxyHelper.Default;
             Assert.AreEqual(a, b);
+
+            Assert.IsNotNull(a.Creators);
         }
         [TestMethod]
         public void GivenNull_MustThrowException()
         {
             Assert.ThrowsException<ArgumentNullException>(() => new ComplexProxyHelper(null));
+           
+            var helper = ComplexProxyHelper.Default;
+            var config = ConfigHelper.CreateEmptyRoot();
+            Assert.ThrowsException<ArgumentNullException>(() => helper.Build(null,typeof(object)));
+            Assert.ThrowsException<ArgumentNullException>(() => helper.Build(config,null));
+            Assert.ThrowsException<ArgumentNullException>(() => helper.GetCreatorOrDefault(null));
+            Assert.ThrowsException<ArgumentNullException>(() => helper.IsCreated(null));
         }
         [TestMethod]
         public void InitWithSimple_AutoAnalysisMustTrue()

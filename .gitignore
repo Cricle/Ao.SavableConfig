@@ -435,3 +435,4 @@ $RECYCLE.BIN/
 nuget.config
 results.xml
 uploadtest.cmd
+uploadnuget.ps1

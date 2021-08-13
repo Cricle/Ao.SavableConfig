@@ -3,6 +3,7 @@ using Ao.SavableConfig.Binder;
 using Ao.SavableConfig.Saver;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 

@@ -7,19 +7,40 @@ namespace Ao.SavableConfig.Binder
     public static class ProxHelperExtensions
     {
         public static ProxyCreator CreateComplexProxy<T>(this ProxyHelper proxyHelper)
+            where T : class
+        {
+            return CreateComplexProxy(proxyHelper, typeof(T));
+        }
+        public static ProxyCreator CreateComplexProxy(this ProxyHelper proxyHelper, Type type)
         {
             if (proxyHelper is null)
             {
                 throw new ArgumentNullException(nameof(proxyHelper));
             }
-            var nameTransfer = IdentityMapNameTransfer.FromTypeAttributes(typeof(T));
-            return CreateComplexProxy<T>(proxyHelper, nameTransfer);
+
+            if (type is null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
+
+            var nameTransfer = IdentityMapNameTransfer.FromTypeAttributes(type);
+            return CreateComplexProxy(proxyHelper, type, nameTransfer);
         }
         public static ProxyCreator CreateComplexProxy<T>(this ProxyHelper proxyHelper, INameTransfer nameTransfer)
+            where T : class
+        {
+            return CreateComplexProxy(proxyHelper, typeof(T), nameTransfer);
+        }
+        public static ProxyCreator CreateComplexProxy(this ProxyHelper proxyHelper, Type type, INameTransfer nameTransfer)
         {
             if (proxyHelper is null)
             {
                 throw new ArgumentNullException(nameof(proxyHelper));
+            }
+
+            if (type is null)
+            {
+                throw new ArgumentNullException(nameof(type));
             }
 
             if (nameTransfer is null)
@@ -27,13 +48,23 @@ namespace Ao.SavableConfig.Binder
                 throw new ArgumentNullException(nameof(nameTransfer));
             }
 
-            return CreateComplexProxy<T>(proxyHelper, nameTransfer, IdentityNamedCreator.Instance);
+            return CreateComplexProxy(proxyHelper, type, nameTransfer, IdentityNamedCreator.Instance);
         }
         public static ProxyCreator CreateComplexProxy<T>(this ProxyHelper proxyHelper, INameTransfer nameTransfer, INamedCreator namedCreator)
+            where T : class
+        {
+            return CreateComplexProxy(proxyHelper, typeof(T), nameTransfer, namedCreator);
+        }
+        public static ProxyCreator CreateComplexProxy(this ProxyHelper proxyHelper, Type type, INameTransfer nameTransfer, INamedCreator namedCreator)
         {
             if (proxyHelper is null)
             {
                 throw new ArgumentNullException(nameof(proxyHelper));
+            }
+
+            if (type is null)
+            {
+                throw new ArgumentNullException(nameof(type));
             }
 
             if (nameTransfer is null)
@@ -46,14 +77,23 @@ namespace Ao.SavableConfig.Binder
                 throw new ArgumentNullException(nameof(namedCreator));
             }
 
-            return CreateComplexProxy<T>(proxyHelper, nameTransfer, namedCreator, CompilePropertyVisitor.Instance);
+            return CreateComplexProxy(proxyHelper, type, nameTransfer, namedCreator, CompilePropertyVisitor.Instance);
         }
-
         public static ProxyCreator CreateComplexProxy<T>(this ProxyHelper proxyHelper, INameTransfer nameTransfer, INamedCreator namedCreator, IPropertyVisitor propertyVisitor)
+            where T : class
+        {
+            return CreateComplexProxy(proxyHelper, typeof(T), nameTransfer, namedCreator, propertyVisitor);
+        }
+        public static ProxyCreator CreateComplexProxy(this ProxyHelper proxyHelper, Type type, INameTransfer nameTransfer, INamedCreator namedCreator, IPropertyVisitor propertyVisitor)
         {
             if (proxyHelper is null)
             {
                 throw new ArgumentNullException(nameof(proxyHelper));
+            }
+
+            if (type is null)
+            {
+                throw new ArgumentNullException(nameof(type));
             }
 
             if (nameTransfer is null)
@@ -71,16 +111,25 @@ namespace Ao.SavableConfig.Binder
                 throw new ArgumentNullException(nameof(propertyVisitor));
             }
 
-            var creator = new ProxyCreator(proxyHelper, typeof(T), nameTransfer, namedCreator, propertyVisitor);
+            var creator = new ProxyCreator(proxyHelper, type, nameTransfer, namedCreator, propertyVisitor);
             creator.Analysis();
             return creator;
         }
         public static T EnsureCreateProxWithAttribute<T>(this ProxyHelper proxHelper, IConfiguration configuration)
             where T : class
         {
+            return (T)EnsureCreateProxWithAttribute(proxHelper, typeof(T), configuration);
+        }
+        public static object EnsureCreateProxWithAttribute(this ProxyHelper proxHelper, Type type, IConfiguration configuration)
+        {
             if (proxHelper is null)
             {
                 throw new ArgumentNullException(nameof(proxHelper));
+            }
+
+            if (type is null)
+            {
+                throw new ArgumentNullException(nameof(type));
             }
 
             if (configuration is null)
@@ -88,15 +137,24 @@ namespace Ao.SavableConfig.Binder
                 throw new ArgumentNullException(nameof(configuration));
             }
 
-            var nameTransfer = IdentityMapNameTransfer.FromTypeAttributes(typeof(T));
-            return EnsureCreateProx<T>(proxHelper, configuration, nameTransfer);
+            var nameTransfer = IdentityMapNameTransfer.FromTypeAttributes(type);
+            return EnsureCreateProx(proxHelper, type, configuration, nameTransfer);
         }
         public static T EnsureCreateProx<T>(this ProxyHelper proxHelper, IConfiguration configuration, INameTransfer nameTransfer)
             where T : class
         {
+            return (T)EnsureCreateProx(proxHelper, typeof(T), configuration, nameTransfer);
+        }
+        public static object EnsureCreateProx(this ProxyHelper proxHelper, Type type, IConfiguration configuration, INameTransfer nameTransfer)
+        {
             if (proxHelper is null)
             {
                 throw new ArgumentNullException(nameof(proxHelper));
+            }
+
+            if (type is null)
+            {
+                throw new ArgumentNullException(nameof(type));
             }
 
             if (configuration is null)
@@ -109,12 +167,11 @@ namespace Ao.SavableConfig.Binder
                 throw new ArgumentNullException(nameof(nameTransfer));
             }
 
-            var type = typeof(T);
             if (!proxHelper.HasTypeProxy(type))
             {
                 proxHelper.BuildProx(type);
             }
-            return (T)proxHelper.CreateProxy(typeof(T), configuration, nameTransfer);
+            return proxHelper.CreateProxy(type, configuration, nameTransfer);
         }
     }
 }

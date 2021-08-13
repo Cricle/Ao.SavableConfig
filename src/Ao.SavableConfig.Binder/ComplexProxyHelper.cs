@@ -28,27 +28,56 @@ namespace Ao.SavableConfig.Binder
         }
 
         public bool IsCreated<T>()
+            where T : class
         {
-            return creators.ContainsKey(typeof(T));
+            return IsCreated(typeof(T));
         }
-        public ProxyCreator GetCreatorOrDefault<T>()
+        public bool IsCreated(Type type)
         {
-            if (creators.TryGetValue(typeof(T), out var creator))
+            if (type is null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
+
+            return creators.ContainsKey(type);
+        }
+        public ProxyCreator GetCreatorOrDefault(Type type)
+        {
+            if (type is null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
+
+            if (creators.TryGetValue(type, out var creator))
             {
                 return creator;
             }
             return null;
         }
-
-        public T Build<T>(IConfiguration configuration)
+        public ProxyCreator GetCreatorOrDefault<T>()
+            where T : class
         {
-            var type = typeof(T);
+            return GetCreatorOrDefault(typeof(T));
+        }
+
+        public object Build(IConfiguration configuration, Type type)
+        {
+            if (configuration is null)
+            {
+                throw new ArgumentNullException(nameof(configuration));
+            }
+
             if (!creators.TryGetValue(type, out var creator))
             {
-                creator = ProxyHelper.CreateComplexProxy<T>();
+                creator = ProxyHelper.CreateComplexProxy(type);
                 creators.Add(type, creator);
             }
-            return (T)creator.Build(configuration);
+            return creator.Build(configuration);
+        }
+        public T Build<T>(IConfiguration configuration)
+            where T : class
+        {
+            return (T)Build(configuration, typeof(T));
         }
     }
 }

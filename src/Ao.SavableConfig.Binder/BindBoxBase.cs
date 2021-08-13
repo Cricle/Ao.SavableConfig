@@ -42,16 +42,16 @@ namespace Microsoft.Extensions.Configuration
             Mode = mode;
             once = new ConcurrentOnce();
         }
-        protected virtual ObjectNamedCreator CreateNamedCreator()
-        {
-            var type = BindSettings.Value.GetType();
-            var creator = new ObjectNamedCreator(type,
-               NameTransfer ?? IdentityMapNameTransfer.FromTypeAttributes(type),
-               NamedCreator ?? IdentityNamedCreator.Instance,
-               CompilePropertyVisitor.Instance);
-            creator.Analysis();
-            return creator;
-        }
+        //protected virtual ObjectNamedCreator CreateNamedCreator()
+        //{
+        //    var type = BindSettings.Value.GetType();
+        //    var creator = new ObjectNamedCreator(type,
+        //       NameTransfer ?? IdentityMapNameTransfer.FromTypeAttributes(type),
+        //       NamedCreator ?? IdentityNamedCreator.Instance,
+        //       CompilePropertyVisitor.Instance);
+        //    creator.Analysis();
+        //    return creator;
+        //}
         protected virtual IConfiguration GetConfiguration()
         {
             return ChangeNotifyable;
@@ -110,7 +110,10 @@ namespace Microsoft.Extensions.Configuration
                 .RegisterChangeCallback(Reload, null);
             Reloaded?.Invoke(this);
         }
-
+        public void Reload()
+        {
+            Reload(null);
+        }
         private void Handler(object o, IConfigurationChangeInfo e)
         {
             _ = CoreHandler();

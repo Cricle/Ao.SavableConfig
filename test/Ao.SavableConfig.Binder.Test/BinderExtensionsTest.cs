@@ -25,6 +25,17 @@ namespace Ao.SavableConfig.Binder.Test
 
             public virtual string Name { get; set; }
         }
+        class NullCondition : IChangeTransferCondition
+        {
+            public IChangeTransfer GetTransfe(ChangeReport report)
+            {
+                return null;
+            }
+
+            public void Save(ChangeReport report, string transfed)
+            {
+            }
+        }
         private readonly object locker = new object();
         [TestMethod]
         public void GivenNullCall_MustThrowException()
@@ -34,16 +45,21 @@ namespace Ao.SavableConfig.Binder.Test
             var root = ConfigHelper.CreateEmptyRoot();
             var setting = new BindSettings(null, default, null);
             var nofiyObj = new NotifyObject();
+            var condition = new NullCondition();
             var notifySetting = new BindSettings(nofiyObj, default, null);
             Assert.ThrowsException<ArgumentNullException>(() => BinderExtensions.Bind(null, setting, ConfigBindMode.TwoWay));
             Assert.ThrowsException<ArgumentNullException>(() => BinderExtensions.Bind(root, null, ConfigBindMode.TwoWay));
 
             Assert.ThrowsException<ArgumentNullException>(() => BinderExtensions.BindNotifyNotify(null, setting, ConfigBindMode.TwoWay));
             Assert.ThrowsException<ArgumentNullException>(() => BinderExtensions.BindNotifyNotify(root, null, ConfigBindMode.TwoWay));
+            Assert.ThrowsException<ArgumentNullException>(() => BinderExtensions.BindNotifyNotify(root, null, ConfigBindMode.TwoWay));
 
             Assert.ThrowsException<ArgumentNullException>(() => BinderExtensions.BindTwoWay(null, setting));
             Assert.ThrowsException<ArgumentNullException>(() => BinderExtensions.BindNotifyTwoWay(root, null));
+            Assert.ThrowsException<ArgumentNullException>(() => BinderExtensions.BindNotifyTwoWay(root, nofiyObj, null));
+            Assert.ThrowsException<ArgumentNullException>(() => BinderExtensions.BindNotifyTwoWay(null, nofiyObj, condition));
             Assert.ThrowsException<ArgumentNullException>(() => BinderExtensions.BindTwoWay(root, setting, null));
+            Assert.ThrowsException<ArgumentNullException>(() => BinderExtensions.BindTwoWay(root, null));
 
             Assert.ThrowsException<ArgumentNullException>(() => BinderExtensions.BindTwoWay(null, notifySetting));
             Assert.ThrowsException<ArgumentNullException>(() => BinderExtensions.BindNotifyTwoWay(root, null));

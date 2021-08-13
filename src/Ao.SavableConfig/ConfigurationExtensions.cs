@@ -9,10 +9,8 @@ namespace Ao.SavableConfig
     /// </summary>
     public static class ConfigurationExtensions
     {
-        private static void ThrowCanNotCaseType(Type type)
-        {
-            throw new InvalidCastException($"Can't case {type} to IConfigurationChangeNotifyable");
-        }
+        private static readonly string CantCaseToIConfigurationChangeNotifyable =
+            "Can't case {0} to IConfigurationChangeNotifyable";
         public static SavableConfigurationRoot BuildSavable(this IConfigurationBuilder builder)
         {
             if (builder is null)
@@ -35,8 +33,7 @@ namespace Ao.SavableConfig
             {
                 return new ChangeWatcher(notifyable);
             }
-            ThrowCanNotCaseType(configuration?.GetType());
-            return null;
+            throw new InvalidCastException(string.Format(CantCaseToIConfigurationChangeNotifyable,configuration.GetType().FullName));
         }
         /// <summary>
         /// 创建空观察者
@@ -68,8 +65,7 @@ namespace Ao.SavableConfig
             {
                 return new EmptyChangeWatcher(notifyable);
             }
-            ThrowCanNotCaseType(configuration?.GetType());
-            return null;
+            throw new InvalidCastException(string.Format(CantCaseToIConfigurationChangeNotifyable, configuration.GetType().FullName));
         }
         /// <summary>
         /// 创建更改观察者

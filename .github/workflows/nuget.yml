@@ -22,8 +22,8 @@ jobs:
             NUGET_TOKEN: ${{ secrets.MYGET_TOKEN }}
             RUN_NUMBER: ${{ github.run_number }}
           run: |
-            $version="2.6.${{ RUN_NUMBER }}"
-            $accessToken="${{ NUGET_TOKEN }}"
+            $version="2.6.${{ env.RUN_NUMBER }}"
+            $accessToken="${{ env.NUGET_TOKEN }}"
             $paths=@("Ao.SavableConfig","Ao.SavableConfig.Binder","Ao.SavableConfig.Json");
             for($x=0;$x -lt $paths.length; $x=$x+1)
             {

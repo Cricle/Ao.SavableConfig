@@ -36,12 +36,35 @@ jobs:
         run: |
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+      - name: Install choco
+        shell: powershell
+        run: |
+          Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+          choco -v
+      - name: Install opencover&codecov
+        shell: powershell
+        run: |
+          choco install opencover.portable
+          choco install codecov
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"Cricle_Ao.SavableConfig" /o:"cricle" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet build Ao.SaveableConfig.sln -c Release 
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"Cricle_Ao.ObjectDesign" /o:"cricle" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="results.xml"
+          dotnet build Ao.ObjectDesign.sln -c Release 
+          OpenCover.Console.exe -target:test.bat -register:user
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+      - name: Upload to codecov
+        shell: powershell
+        run: |
+          codecov --version
+          codecov -f "results.xml" -t "${{ secrets.CODECOV }}"
+      - name: Upload to codacy
+        shell: bash
+        run: |
+          export CODACY_PROJECT_TOKEN="${{ secrets.CODACY_PROJECT_TOKEN }}";
+          bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r results.xml
+
+

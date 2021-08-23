@@ -1,0 +1,35 @@
+name: Publish to nuget
+on:
+  push:
+    branches:
+      - nuget
+jobs:
+  build:
+      runs-on: windows-latest
+      steps:
+        - uses: actions/checkout@v2
+        - name: Setup .NET
+          uses: actions/setup-dotnet@v1
+          with:
+            dotnet-version: 5.0.x
+        - name: Restore dependencies
+          run: dotnet restore
+        - name: Build release
+          run: dotnet build -c Release
+        - name: Publish to myget 
+          shell: powershell
+          env:
+            NUGET_TOKEN: ${{ secrets.MYGET_TOKEN }}
+            RUN_NUMBER: ${{ github.run_number }}
+          run: |
+            $version="2.6.${{ RUN_NUMBER }}"
+            $accessToken="${{ NUGET_TOKEN }}"
+            $paths=@("Ao.SavableConfig","Ao.SavableConfig.Binder","Ao.SavableConfig.Json");
+            for($x=0;$x -lt $paths.length; $x=$x+1)
+            {
+              $l=pwd;
+              $fp=-join ($l.Path,"\src\",$paths[$x],"\bin\Release\",$paths[$x],".",$version,".nupkg");
+              nuget push $fp -ApiKey $accessToken -Source https://api.nuget.org/v3/index.json
+            }
+
+

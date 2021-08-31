@@ -1,4 +1,4 @@
-name: Build
+name: Build to SonarClound
 on:
   push:
     branches:
@@ -52,19 +52,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"Cricle_Ao.ObjectDesign" /o:"cricle" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="results.xml"
-          dotnet build Ao.ObjectDesign.sln -c Release 
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"Cricle_Ao.SavableConfig" /o:"cricle" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="results.xml"
+          dotnet build Ao.SavableConfig.sln -c Release 
           OpenCover.Console.exe -target:test.bat -register:user
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
-      - name: Upload to codecov
-        shell: powershell
-        run: |
-          codecov --version
-          codecov -f "results.xml" -t "${{ secrets.CODECOV }}"
-      - name: Upload to codacy
-        shell: bash
-        run: |
-          export CODACY_PROJECT_TOKEN="${{ secrets.CODACY_PROJECT_TOKEN }}";
-          bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r results.xml
-
 

@@ -1,12 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <Import Project="..\..\eng\pkg.props" />
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard1.3;net452;net461</TargetFrameworks>
-    <Description>Can save dynamic bind configuration. Json transfer</Description>
+    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
+    <Description>Can save dynamic bind configuration.System.Text.Json transfer</Description>
   </PropertyGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\Ao.SavableConfig\Ao.SavableConfig.csproj" />
+    <Compile Include="..\Shared\Json\JsonChangeTransferCondition.Part.cs" />
+    <Compile Include="..\Shared\Json\JsonChangeTransfer.Part.cs" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.3' or '$(TargetFramework)' == 'net452'">
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="1.1.2" />
@@ -15,10 +16,10 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="5.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Shared\Json\JsonChangeTransferCondition.Part.cs" />
-    <Compile Include="..\Shared\Json\JsonChangeTransfer.Part.cs" />
+    <PackageReference Include="System.Text.Json" Version="6.0.0-rc.2.21480.5" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <ProjectReference Include="..\Ao.SavableConfig\Ao.SavableConfig.csproj" />
   </ItemGroup>
+
 </Project>

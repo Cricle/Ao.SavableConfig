@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json.Linq;
 using System.IO;
+using System.Text.Json.Nodes;
 
 namespace Ao.SavableConfig.Saver
 {
@@ -15,12 +15,12 @@ namespace Ao.SavableConfig.Saver
                 if (IsFileExist(path))
                 {
                     var datas = ReadFile(path);
-                    var obj = JObject.Parse(datas);
+                    var obj = JsonNode.Parse(datas);
                     return new JsonChangeTransfer(obj);
                 }
                 else
                 {
-                    return new JsonChangeTransfer(new JObject());
+                    return new JsonChangeTransfer(new JsonObject());
                 }
             }
             return null;

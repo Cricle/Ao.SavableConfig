@@ -1,20 +1,20 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
+using System.Text.Json.Nodes;
 
 namespace Ao.SavableConfig.Saver
 {
     public partial class JsonChangeTransfer : IChangeTransfer
     {
-        public JsonChangeTransfer(JToken origin)
+        public JsonChangeTransfer(JsonNode origin)
         {
             Origin = origin;
         }
 
-        public JToken Origin { get; }
+        public JsonNode Origin { get; }
 
         public string Transfe(ChangeReport report)
         {
-            var tk = Origin.DeepClone();
+            var tk = JsonNode.Parse(Origin.ToJsonString());
             foreach (var item in report.IncludeChangeInfo)
             {
                 var jtoken = item.Key.Split(splitToken, StringSplitOptions.RemoveEmptyEntries);
@@ -22,7 +22,7 @@ namespace Ao.SavableConfig.Saver
                 visitor.IgnoreAdd = IgnoreAdd;
                 visitor.VisitWrite();
             }
-            return tk.ToString();
+            return tk.ToJsonString();
         }
     }
 }

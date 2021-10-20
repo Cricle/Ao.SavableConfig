@@ -1,6 +1,6 @@
 ﻿using Ao.SavableConfig.Saver;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Text.Json.Nodes;
+using System.Text.Json.Node;
 using System.Text.Json;
 
 namespace Ao.SavableConfig.Json.Test

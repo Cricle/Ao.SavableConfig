@@ -1,24 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\..\eng\pkg.props" />
+  <Import Project="..\..\eng\pkg.props"/>
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard1.3;net452;net461</TargetFrameworks>
     <Description>Can save dynamic bind configuration. Json transfer</Description>
   </PropertyGroup>
 
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.3' or '$(TargetFramework)' == 'net452'">
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="1.1.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <Compile Remove="JsonConfigurationVisitor.TextJson.cs"></Compile>
+    <Compile Remove="JsonChangeTransfer.TextJson.cs"></Compile>
+    <Compile Remove="JsonChangeTransferCondition.TextJson.cs"></Compile>
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' != 'netstandard1.3' and '$(TargetFramework)' != 'net452'">
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.8" />
+    <PackageReference Include="System.Text.Json" Version="6.0.0-preview.4.21253.7" />
+    <Compile Remove="JsonConfigurationVisitor.Newtonsoft.cs"></Compile>
+    <Compile Remove="JsonChangeTransfer.Netonsoft.cs"></Compile>
+    <Compile Remove="JsonChangeTransferCondition.Netonsoft.cs"></Compile>
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ao.SavableConfig\Ao.SavableConfig.csproj" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.3' or '$(TargetFramework)' == 'net452'">
-    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="1.1.2" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' != 'netstandard1.3' and '$(TargetFramework)' != 'net452'">
-    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="5.0.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\Shared\Json\JsonChangeTransferCondition.Part.cs" />
-    <Compile Include="..\Shared\Json\JsonChangeTransfer.Part.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-  </ItemGroup>
+
 </Project>

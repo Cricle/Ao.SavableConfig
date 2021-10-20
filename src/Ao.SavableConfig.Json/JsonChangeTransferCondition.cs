@@ -1,29 +1,41 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json.Linq;
+using Microsoft.Extensions.FileProviders;
 using System.IO;
 
 namespace Ao.SavableConfig.Saver
 {
     public partial class JsonChangeTransferCondition : IChangeTransferCondition
     {
-        public IChangeTransfer GetTransfe(ChangeReport report)
+        public readonly static JsonChangeTransferCondition Instance = new JsonChangeTransferCondition();
+
+        protected virtual bool IsFileExist(string path)
         {
-            if (report.Provider is FileConfigurationProvider provider
-                && string.Equals(Path.GetExtension(provider.Source.Path), ".json", System.StringComparison.OrdinalIgnoreCase))
+            return File.Exists(path);
+        }
+        protected virtual string ReadFile(string path)
+        {
+            return File.ReadAllText(path);
+        }
+        protected virtual void WriteFile(string path, string datas)
+        {
+            File.WriteAllText(path, datas);
+        }
+        private string GetPath(FileConfigurationSource source)
+        {
+            var path = source.Path;
+            if (source.FileProvider is PhysicalFileProvider physicalFileProvider)
+            {
+                path = Path.Combine(physicalFileProvider.Root, path);
+            }
+            return path;
+        }
+        public void Save(ChangeReport report, string transfed)
+        {
+            if (report.Provider is FileConfigurationProvider provider)
             {
                 var path = GetPath(provider.Source);
-                if (IsFileExist(path))
-                {
-                    var datas = ReadFile(path);
-                    var obj = JObject.Parse(datas);
-                    return new JsonChangeTransfer(obj);
-                }
-                else
-                {
-                    return new JsonChangeTransfer(new JObject());
-                }
+                WriteFile(path, transfed);
             }
-            return null;
         }
     }
 }

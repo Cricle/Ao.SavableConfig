@@ -136,7 +136,7 @@ namespace Ao.SavableConfig.Json.Test
             condition.Save(rep, t);
 
             var destFile = File.ReadAllText(Path.Combine(SettingPath, fn));
-            var jobj = System.Text.Json.Nodes.JsonNode.Parse(destFile);
+            var jobj = System.Text.Json.Node.JsonNode.Parse(destFile);
             var oldTitle = jobj["Title"];
             Assert.AreEqual("world", oldTitle.ToString());
         }

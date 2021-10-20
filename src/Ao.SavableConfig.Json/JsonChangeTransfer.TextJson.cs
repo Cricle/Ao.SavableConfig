@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Text.Json.Nodes;
+using System.Text.Json.Node;
 
 namespace Ao.SavableConfig.Saver
 {

@@ -1,17 +1,3 @@
-<<<<<<< HEAD
-<Project>
-    <PropertyGroup>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Version>2.5.1</Version>
-        <Authors>Cricle</Authors>
-        <PackageProjectUrl>https://github.com/Cricle/Ao.SavableConfig</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/Cricle/Ao.SavableConfig</RepositoryUrl>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)'=='Release'">
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    </PropertyGroup>
-=======
 <Project>
     <PropertyGroup>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -24,5 +10,4 @@
     <PropertyGroup Condition="'$(Configuration)'=='Release'">
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
->>>>>>> refs/remotes/origin/github/master
 </Project>

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System.IO;
-using System.Text.Json.Node;
+using System.Text.Json.Nodes;
 
 namespace Ao.SavableConfig.Saver
 {

@@ -50,21 +50,13 @@ namespace TwoWayBindWpf
                     root["ButtonStyle:ObjectStyle:Order"] = rand.Next(100, 99999).ToString();
                 }
             }
-            else if (e.Key == Key.Q)
+            else if (e.Key == Key.Q&& Proxy.DataContext is ThemeService ser)
             {
-                if (Proxy.DataContext is ThemeService ser)
+                for (int i = 0; i < 100; i++)
                 {
-                    for (int i = 0; i < 100; i++)
-                    {
-                        ser.ButtonStyle = new ButtonStyle();
-                    }
+                    ser.ButtonStyle = new ButtonStyle();
                 }
             }
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

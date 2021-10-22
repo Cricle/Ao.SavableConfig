@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
 
 namespace Ao.SavableConfig.Test
 {
@@ -53,6 +54,5 @@ namespace Ao.SavableConfig.Test
             watcher = ConfigurationExtensions.CreateEmptyWatcher((IConfiguration)config);
             Assert.IsNotNull(watcher);
         }
-
     }
 }

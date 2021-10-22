@@ -7,7 +7,7 @@ namespace Ao.SavableConfig.Binder
     {
         private readonly Dictionary<TKey, TValue> compileds;
 
-        public CompiledManager()
+        protected CompiledManager()
         {
             compileds = new Dictionary<TKey, TValue>();
         }

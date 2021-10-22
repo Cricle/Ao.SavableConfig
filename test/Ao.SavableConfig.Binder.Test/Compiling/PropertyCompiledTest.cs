@@ -10,6 +10,14 @@ namespace Ao.SavableConfig.Binder.Test.Compiling
         {
             public int ReadOnly { get; }
 
+            public int WriteOnly
+            {
+                set
+                {
+
+                }
+            }
+
             public int Value { get; set; }
         }
         [TestMethod]
@@ -17,6 +25,16 @@ namespace Ao.SavableConfig.Binder.Test.Compiling
         {
             Assert.ThrowsException<ArgumentNullException>(() => new PropertyCompiled(typeof(ValueBox), null));
             Assert.ThrowsException<ArgumentNullException>(() => new PropertyCompiled(null, typeof(ValueBox).GetProperty(nameof(ValueBox.Value))));
+        }
+        [TestMethod]
+        public void SetOnlyValue_MustNotGetter()
+        {
+            var prop = typeof(ValueBox).GetProperty(nameof(ValueBox.WriteOnly));
+
+            var pc = new PropertyCompiled(typeof(ValueBox), prop);
+
+            Assert.IsNull(pc.Getter);
+            Assert.IsNotNull(pc.Setter);
         }
         [TestMethod]
         public void GetOrSetValue_ValueMustBeVisitOrSet()

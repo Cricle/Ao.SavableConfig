@@ -13,14 +13,12 @@ namespace Ao.SavableConfig.Binder
         private static readonly Type ObjectType = typeof(object);
         private static readonly Type StringType = typeof(string);
         private static readonly Type IConfigurationType = typeof(IConfiguration);
-        private static readonly Type NullableType = typeof(Nullable<>);
         private static readonly Type[] ProxyConstructTypes = new Type[] { INameTransferType, IConfigurationType };
 
-        private static readonly PropertyInfo ConfigurationIndexProperty = IConfigurationType.GetProperties().Where(x => x.GetIndexParameters().Length == 1).First();
+        private static readonly PropertyInfo ConfigurationIndexProperty = IConfigurationType.GetProperties().First(x => x.GetIndexParameters().Length == 1);
         private static readonly MethodInfo NameTransferTransferMethod = INameTransferType.GetMethod(nameof(INameTransfer.Transfer));
         private static readonly MethodInfo ConfigurationBinderGetValueMethod = typeof(ConfigurationBinder).GetMethod(nameof(ConfigurationBinder.GetValue), new Type[] { typeof(IConfiguration), typeof(string) });
         private static readonly MethodAttributes PropertyMethodAttr = MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.SpecialName | MethodAttributes.HideBySig;
-        private static readonly MethodInfo ToStringMethod = ObjectType.GetMethod(nameof(object.ToString), Type.EmptyTypes);
         private static readonly AssemblyBuilder DefaultDynamicAssembly = AssemblyBuilder.DefineDynamicAssembly(new AssemblyName("AoDynamicAssembly"), AssemblyBuilderAccess.Run);
         private static readonly ModuleBuilder DefaultDynamicModule = DefaultDynamicAssembly.DefineDynamicModule("AoDyModule");
 
@@ -99,8 +97,11 @@ namespace Ao.SavableConfig.Binder
             constractIl.Emit(OpCodes.Stfld, configurationField);
             constractIl.Emit(OpCodes.Ret);
 
-            foreach (var item in properties)
+            var len = properties.Length;
+
+            for (var i = 0; i < len; i++)
             {
+                var item = properties[i];
                 if (!TypeHelper.IsBaseType(item.PropertyType))
                 {
                     continue;

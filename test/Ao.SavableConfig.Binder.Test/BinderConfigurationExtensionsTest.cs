@@ -33,6 +33,8 @@ namespace Ao.SavableConfig.Binder.Test
 
             Assert.ThrowsException<ArgumentException>(() => BinderConfigurationExtensions.AutoCreateProxy<object>(root, (string)null));
             Assert.ThrowsException<ArgumentException>(() => BinderConfigurationExtensions.AutoCreateProxy<object>(root, null, NullNameTransfer.Instance));
+            Assert.ThrowsException<ArgumentNullException>(() => BinderConfigurationExtensions.AutoCreateProxy(root, null, "dwadw"));
+            Assert.ThrowsException<ArgumentNullException>(() => BinderConfigurationExtensions.AutoCreateProxy(root, null, "dwadw", NullNameTransfer.Instance));
             Assert.ThrowsException<ArgumentNullException>(() => BinderConfigurationExtensions.CreateProxy<object>(null, NullNameTransfer.Instance));
             Assert.ThrowsException<ArgumentNullException>(() => BinderConfigurationExtensions.CreateProxy(root,null, NullNameTransfer.Instance));
         }

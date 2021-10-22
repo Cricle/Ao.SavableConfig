@@ -35,7 +35,7 @@ namespace Microsoft.Extensions.Configuration
         public event Action<BindBoxBase, IReadOnlyList<IConfigurationChangeInfo>> Saved;
 
 
-        public BindBoxBase(IConfigurationChangeNotifyable changeNotifyable, BindSettings bindSettings, ConfigBindMode mode)
+        protected BindBoxBase(IConfigurationChangeNotifyable changeNotifyable, BindSettings bindSettings, ConfigBindMode mode)
         {
             ChangeNotifyable = changeNotifyable ?? throw new ArgumentNullException(nameof(changeNotifyable));
             BindSettings = bindSettings ?? throw new ArgumentNullException(nameof(bindSettings));

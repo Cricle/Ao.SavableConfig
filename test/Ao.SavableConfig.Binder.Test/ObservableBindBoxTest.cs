@@ -72,6 +72,7 @@ namespace Ao.SavableConfig.Binder.Test
             var root = ConfigHelper.CreateEmptyRoot();
             var setting = new BindSettings(stu, TimeSpan.FromSeconds(1), new IChangeTransferCondition[0]);
             var box = new ObservableBindBox(root, root, setting, ConfigBindMode.TwoWay, a => a());
+            Assert.IsNotNull(box.PropertyConfigMap);
             Assert.AreEqual(root, box.Configuration);
             Assert.AreEqual(stu, box.NotifyObject);
             Assert.AreEqual(2, box.NotifyPropertyMap.Count);

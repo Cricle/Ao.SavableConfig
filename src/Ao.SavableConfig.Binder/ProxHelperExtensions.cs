@@ -33,21 +33,6 @@ namespace Ao.SavableConfig.Binder
         }
         public static ProxyCreator CreateComplexProxy(this ProxyHelper proxyHelper, Type type, INameTransfer nameTransfer)
         {
-            if (proxyHelper is null)
-            {
-                throw new ArgumentNullException(nameof(proxyHelper));
-            }
-
-            if (type is null)
-            {
-                throw new ArgumentNullException(nameof(type));
-            }
-
-            if (nameTransfer is null)
-            {
-                throw new ArgumentNullException(nameof(nameTransfer));
-            }
-
             return CreateComplexProxy(proxyHelper, type, nameTransfer, IdentityNamedCreator.Instance);
         }
         public static ProxyCreator CreateComplexProxy<T>(this ProxyHelper proxyHelper, INameTransfer nameTransfer, INamedCreator namedCreator)

@@ -75,5 +75,19 @@ namespace Ao.SavableConfig.Binder.Test
                 Assert.IsNull(res);
             }
         }
+        [TestMethod]
+        public void FalseCase()
+        {
+            var val = TypeHelper.TryChangeType("123.123", typeof(int), out var ex, out _);
+            Assert.IsFalse(val);
+            Assert.IsNotNull(ex);
+        }
+        [TestMethod]
+        public void FalseCaseEnum()
+        {
+            var val = TypeHelper.TryChangeType("123.123", typeof(ConsoleKey), out var ex, out _);
+            Assert.IsFalse(val);
+            Assert.IsNotNull(ex);
+        }
     }
 }

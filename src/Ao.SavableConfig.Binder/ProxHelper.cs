@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -44,6 +45,8 @@ namespace Ao.SavableConfig.Binder
 
         public bool HasTypeProxy(Type type)
         {
+
+            Debug.Assert(proxMap != null);
             return proxMap.ContainsKey(type);
         }
         public Type GetProxyType(Type type)
@@ -56,6 +59,21 @@ namespace Ao.SavableConfig.Binder
         }
         public object CreateProxy(Type type, IConfiguration configuration, INameTransfer nameTransfer)
         {
+            if (type is null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
+
+            if (configuration is null)
+            {
+                throw new ArgumentNullException(nameof(configuration));
+            }
+
+            if (nameTransfer is null)
+            {
+                throw new ArgumentNullException(nameof(nameTransfer));
+            }
+
             if (proxMap.TryGetValue(type, out var proxType))
             {
                 return CreateInstance(proxType, configuration, nameTransfer);
@@ -64,6 +82,11 @@ namespace Ao.SavableConfig.Binder
         }
         public bool BuildProx(Type type)
         {
+            if (type is null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
+
             if (!HasTypeProxy(type))
             {
                 Build(type);
@@ -78,10 +101,10 @@ namespace Ao.SavableConfig.Binder
         }
         private Type Build(Type type)
         {
+            Debug.Assert(type != null);
             var @class = DynamicModule.DefineType("Prox" + type.Name + type.GetHashCode(), TypeAttributes.NotPublic | TypeAttributes.Sealed);
             @class.SetParent(type);
-            var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                .ToArray();
+            var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
             var transferField = @class.DefineField("transfer", INameTransferType, FieldAttributes.Private | FieldAttributes.InitOnly);
             var configurationField = @class.DefineField("configuration", IConfigurationType, FieldAttributes.Private | FieldAttributes.InitOnly);
             var constract = @class.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, ProxyConstructTypes);

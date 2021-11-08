@@ -18,9 +18,9 @@ namespace TwoWayBindWpf
         public MainWindow()
         {
             InitializeComponent();
-            var builder = new ConfigurationBuilder();
-            builder.AddJsonFile("app.json", true, true);
-            root = builder.BuildSavable();
+            root = new ConfigurationBuilder()
+                .AddJsonFile("app.json", true, true)
+                .BuildSavable();
             GoNormalBind();
             GoProxy();
             KeyDown += MainWindow_KeyDown;

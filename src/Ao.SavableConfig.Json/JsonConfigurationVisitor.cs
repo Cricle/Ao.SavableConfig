@@ -49,7 +49,7 @@ namespace Ao.SavableConfig.Saver
                         if (!IgnoreAdd)
                         {
                             var next = Parts[keyPart.PartIndex + 1];
-                            JToken ctk = null;
+                            JToken ctk;
                             if (int.TryParse(next, out _))
                             {
                                 ctk = new JArray();

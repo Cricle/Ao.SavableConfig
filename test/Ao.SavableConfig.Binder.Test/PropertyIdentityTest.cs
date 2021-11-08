@@ -47,6 +47,7 @@ namespace Ao.SavableConfig.Binder.Test
             Assert.AreNotEqual(pi1, pi2);
             Assert.AreNotEqual(pi1.GetHashCode(), pi2.GetHashCode());
 
+            Assert.IsFalse(pi1.Equals(null));
         }
     }
 }

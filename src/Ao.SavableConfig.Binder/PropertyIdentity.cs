@@ -29,7 +29,9 @@ namespace Ao.SavableConfig.Binder
         public override int GetHashCode()
         {
 #if NET452
-            return Type.GetHashCode() + PropertyName.GetHashCode();
+            var h = 31 * 7 + Type.GetHashCode();
+            h = h * 7 + PropertyName.GetHashCode();
+            return h;
 #else
             return HashCode.Combine(Type, PropertyName);
 #endif

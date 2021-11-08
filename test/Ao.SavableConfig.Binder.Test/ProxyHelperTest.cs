@@ -44,9 +44,14 @@ namespace Ao.SavableConfig.Binder.Test
         {
             var ass = AssemblyBuilder.DefineDynamicAssembly(new AssemblyName("NullInit"), AssemblyBuilderAccess.RunAndCollect);
             var md = ass.DefineDynamicModule("dy");
+            var root = ConfigHelper.CreateEmptyRoot();
+            var transfer = NullNameTransfer.Instance;
             Assert.ThrowsException<ArgumentNullException>(() => new ProxyHelper(null, md));
             Assert.ThrowsException<ArgumentNullException>(() => new ProxyHelper(ass, null));
-            Assert.ThrowsException<ArgumentNullException>(() => new ProxyHelper(null, null));
+            Assert.ThrowsException<ArgumentNullException>(() => new ProxyHelper(ass, md).BuildProx(null));
+            Assert.ThrowsException<ArgumentNullException>(() => new ProxyHelper(ass, md).CreateProxy(null, root, transfer));
+            Assert.ThrowsException<ArgumentNullException>(() => new ProxyHelper(ass, md).CreateProxy(typeof(object), null, transfer));
+            Assert.ThrowsException<ArgumentNullException>(() => new ProxyHelper(ass, md).CreateProxy(typeof(object), root, null));
         }
         [TestMethod]
         public void CreateWhenNotBuild_MustReturnNull()

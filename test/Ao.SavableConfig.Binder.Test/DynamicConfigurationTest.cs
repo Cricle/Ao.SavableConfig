@@ -46,6 +46,13 @@ namespace Ao.SavableConfig.Binder.Test
             var section = root.GetSection("W");
             dynamic dy = new DynamicConfiguration(section);
 
+            var a = dy.a();
+            Assert.IsNull(a);
+            dy.a = "dw123";
+            a = dy.a();
+            Assert.AreEqual("dw123", a);
+            Assert.AreEqual("dw123", section["a"]);
+
             var val = dy.a.b.c();
             Assert.IsNull(val);
             dy.a.b.c = "123";

@@ -1,4 +1,5 @@
-﻿using Ao.SavableConfig.Binder.Annotations;
+﻿using Ao.ObjectDesign;
+using Ao.SavableConfig.Binder.Annotations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -23,17 +24,21 @@ namespace Ao.SavableConfig.Binder.Test
             var val = transfer.Transfer(null, "a");
             Assert.AreEqual("a", val);
         }
+        class ABox
+        {
+            public string A { get; set; }
+        }
         [TestMethod]
         public void GivenBasePath_TransterIt_ReturnMustCombinedBasePath()
         {
             var basePath = "BasePath";
             var map = new Dictionary<PropertyIdentity, string>
             {
-                [new PropertyIdentity(typeof(object), "A")] = "B"
+                [new PropertyIdentity(typeof(ABox), "A")] = "B"
             };
             var transfer = new IdentityMapNameTransfer(basePath, map);
             Assert.AreEqual(basePath, transfer.BasePath);
-            var n = transfer.Transfer(new object(), "A");
+            var n = transfer.Transfer(new ABox(), "A");
             Assert.AreEqual("B", n);
         }
         [TestMethod]

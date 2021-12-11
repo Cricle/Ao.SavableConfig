@@ -44,7 +44,7 @@ namespace Ao.SavableConfig.Benchmark
             valueReflection = objectNamedCreatorRef.Build(valueReflection, config);
 
             objectNamedCreatorCom = new ObjectNamedCreator(type, nameTransfer,
-                IdentityNamedCreator.Instance, ReflectionPropertyVisitor.Instance);
+                IdentityNamedCreator.Instance, CompilePropertyVisitor.Instance);
             valueCompiled = objectNamedCreatorCom.Build(config);
             valueCompiled = objectNamedCreatorCom.Build(valueCompiled, config);
         }

@@ -93,7 +93,7 @@ namespace Ao.SavableConfig.Binder
                 info.Key = ConfigPath?.Name ?? name;
                 info.ParentProxyCreator = this;
                 info.PropertyInfo = item;
-                info.Identity = new PropertyIdentity(Type, item.Name);
+                info.Identity = new ObjectDesign.PropertyIdentity(Type, item.Name);
                 propertyInfos.Add(item, info);
             }
             return props;

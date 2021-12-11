@@ -1,4 +1,5 @@
-﻿using Ao.SavableConfig.Binder.Visitors;
+﻿using Ao.ObjectDesign;
+using Ao.SavableConfig.Binder.Visitors;
 using Microsoft.Extensions.Configuration;
 using System;
 
@@ -64,12 +65,12 @@ namespace Ao.SavableConfig.Binder
 
             return CreateComplexProxy(proxyHelper, type, nameTransfer, namedCreator, CompilePropertyVisitor.Instance);
         }
-        public static ProxyCreator CreateComplexProxy<T>(this ProxyHelper proxyHelper, INameTransfer nameTransfer, INamedCreator namedCreator, IPropertyVisitor propertyVisitor)
+        public static ProxyCreator CreateComplexProxy<T>(this ProxyHelper proxyHelper, INameTransfer nameTransfer, INamedCreator namedCreator, Visitors.IPropertyVisitor propertyVisitor)
             where T : class
         {
             return CreateComplexProxy(proxyHelper, typeof(T), nameTransfer, namedCreator, propertyVisitor);
         }
-        public static ProxyCreator CreateComplexProxy(this ProxyHelper proxyHelper, Type type, INameTransfer nameTransfer, INamedCreator namedCreator, IPropertyVisitor propertyVisitor)
+        public static ProxyCreator CreateComplexProxy(this ProxyHelper proxyHelper, Type type, INameTransfer nameTransfer, INamedCreator namedCreator, Visitors.IPropertyVisitor propertyVisitor)
         {
             if (proxyHelper is null)
             {

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Ao.SavableConfig.Binder;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Dynamic;
 using System.Linq;
@@ -6,7 +9,7 @@ using System.Runtime.CompilerServices;
 
 namespace Microsoft.Extensions.Configuration
 {
-    public class DynamicConfiguration : DynamicObject, INotifyPropertyChanged
+    public class DynamicConfiguration : DynamicObject, INotifyPropertyChanged,IEnumerable<IConfigurationSection>, IEnumerable<KeyValuePair<string, string>>
     {
         private readonly IConfiguration configuration;
 
@@ -57,11 +60,34 @@ namespace Microsoft.Extensions.Configuration
         {
             if (args.Length != 0 && args[0] is Type type)
             {
-                result = configuration.Get(type);
+                result = configuration.FastGet(type);
                 return true;
             }
-            result = configuration.Get(binder.ReturnType);
+            if (configuration is IConfigurationSection section && section.Value is null)
+            {
+                result = null;
+            }
+            else
+            {
+                result = configuration.FastGet(binder.ReturnType);
+            }
             return true;
         }
+
+        public IEnumerator<IConfigurationSection> GetEnumerator()
+        {
+            return configuration.GetChildren().GetEnumerator();
+        }
+
+        IEnumerator<KeyValuePair<string, string>> IEnumerable<KeyValuePair<string,string>>.GetEnumerator()
+        {
+            return configuration.AsEnumerable().GetEnumerator();
+        } 
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
     }
 }

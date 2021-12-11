@@ -18,7 +18,7 @@ namespace Ao.SavableConfig.Binder
 
         private static readonly PropertyInfo ConfigurationIndexProperty = IConfigurationType.GetProperties().First(x => x.GetIndexParameters().Length == 1);
         private static readonly MethodInfo NameTransferTransferMethod = INameTransferType.GetMethod(nameof(INameTransfer.Transfer));
-        private static readonly MethodInfo ConfigurationBinderGetValueMethod = typeof(ConfigurationBinder).GetMethod(nameof(ConfigurationBinder.GetValue), new Type[] { typeof(IConfiguration), typeof(string) });
+        private static readonly MethodInfo ConfigurationBinderGetValueMethod = typeof(FastConfigurationBinder).GetMethod(nameof(FastConfigurationBinder.FastGetValue), new Type[] { typeof(IConfiguration), typeof(string) });
         private static readonly MethodAttributes PropertyMethodAttr = MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.SpecialName | MethodAttributes.HideBySig;
         private static readonly AssemblyBuilder DefaultDynamicAssembly = AssemblyBuilder.DefineDynamicAssembly(new AssemblyName("AoDynamicAssembly"), AssemblyBuilderAccess.Run);
         private static readonly ModuleBuilder DefaultDynamicModule = DefaultDynamicAssembly.DefineDynamicModule("AoDyModule");

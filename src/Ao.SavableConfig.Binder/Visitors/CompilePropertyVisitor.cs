@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using Ao.ObjectDesign;
+using System.Reflection;
 
 namespace Ao.SavableConfig.Binder.Visitors
 {
@@ -6,25 +7,19 @@ namespace Ao.SavableConfig.Binder.Visitors
     {
         public static readonly CompilePropertyVisitor Instance = new CompilePropertyVisitor();
 
-        private readonly PropertyCompiledManager propertyCompiledManager;
-
-        public CompilePropertyVisitor()
-        {
-            propertyCompiledManager = new PropertyCompiledManager();
-        }
-
+        private CompilePropertyVisitor() { }
         public object GetValue(object instance, PropertyInfo info)
         {
-            var identity = new PropertyIdentity(instance.GetType(), info.Name);
-            var c = propertyCompiledManager.EnsureGetCompiled(identity);
-            return c.Getter(instance);
+            var identity=new PropertyIdentity(instance.GetType(),info.Name);
+            var getter=CompiledPropertyInfo.GetGetter(identity);
+            return getter(instance);
         }
 
         public void SetValue(object instance, object value, PropertyInfo info)
         {
             var identity = new PropertyIdentity(instance.GetType(), info.Name);
-            var c = propertyCompiledManager.EnsureGetCompiled(identity);
-            c.Setter(instance, value);
+            var setter = CompiledPropertyInfo.GetSetter(identity);
+            setter(instance,value);
         }
     }
 }

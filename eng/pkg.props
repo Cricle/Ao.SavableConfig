@@ -2,7 +2,7 @@
     <PropertyGroup>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Version>2.6.0</Version>
+        <Version>2.7.0</Version>
         <Authors>Cricle</Authors>
         <PackageProjectUrl>https://github.com/Cricle/Ao.SavableConfig</PackageProjectUrl>
         <RepositoryUrl>https://github.com/Cricle/Ao.SavableConfig</RepositoryUrl>

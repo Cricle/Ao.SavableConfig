@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace Ao.SavableConfig.Binder.Test
@@ -63,6 +65,44 @@ namespace Ao.SavableConfig.Binder.Test
             dy["w:q"] = 123;
             Assert.AreEqual("123", dy["w:q"]);
             Assert.AreEqual("123", dy.w.q());
+        }
+        [TestMethod]
+        public void GetCaseNull_ReturnNull()
+        {
+            var builder = new ConfigurationBuilder();
+            builder.AddInMemoryCollection();
+
+            var root = builder.Build();
+            var val = root.FastGetValue<BindBox>("aaa");
+
+            Assert.IsNull(val);
+        }
+        [TestMethod]
+        public void Foreach()
+        {
+            var builder = new ConfigurationBuilder();
+            builder.AddInMemoryCollection(new KeyValuePair<string, string>[]
+            {
+                new KeyValuePair<string, string>("a:0","1"),
+                new KeyValuePair<string, string>("a:1","2"),
+                new KeyValuePair<string, string>("a:2","3"),
+            });
+
+            var root = builder.Build();
+            var dyn = root.CreateDynamic();
+
+            var enu = (IEnumerable< IConfigurationSection>)dyn.a;
+
+            Assert.IsNotNull(enu);
+
+            foreach (var item in enu)
+            {
+            }
+
+            foreach (var item in dyn.a)
+            {
+                Assert.IsInstanceOfType(item, typeof(IConfigurationSection));
+            }
         }
     }
 }

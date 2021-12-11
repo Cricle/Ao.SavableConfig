@@ -1,4 +1,5 @@
-﻿using Ao.SavableConfig.Binder.Annotations;
+﻿using Ao.ObjectDesign;
+using Ao.SavableConfig.Binder.Annotations;
 using Ao.SavableConfig.Binder.Visitors;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -46,6 +47,14 @@ namespace Ao.SavableConfig.Binder.Test
             Assert.ThrowsException<ArgumentNullException>(() => new ProxyCreator(prox, type, nameTransfer, null, propVisitor));
             Assert.ThrowsException<ArgumentNullException>(() => new ProxyCreator(prox, type, nameTransfer, nameCreator, null));
         }
+        class SomeBox
+        {
+            public string Age { get; set; }
+
+            public string Name { get; set; }
+
+            public string Score { get; set; }
+        }
         [TestMethod]
         [DataRow(typeof(RedirectBox), "P:")]
         [DataRow(typeof(NullPathRedirectBox), "")]
@@ -55,12 +64,12 @@ namespace Ao.SavableConfig.Binder.Test
             var prox = ProxyUtil.CreateProx();
             var named = new Dictionary<PropertyIdentity, string>
             {
-                [new PropertyIdentity(typeof(int), nameof(RedirectClass.Age))] = "Age",
-                [new PropertyIdentity(typeof(string), nameof(RedirectClass.Name))] = prefx + "Name",
-                [new PropertyIdentity(typeof(double), nameof(RedirectClass.Score))] = prefx + "Score",
+                [new PropertyIdentity(typeof(SomeBox), nameof(RedirectClass.Age))] = "Age",
+                [new PropertyIdentity(typeof(SomeBox), nameof(RedirectClass.Name))] = prefx + "Name",
+                [new PropertyIdentity(typeof(SomeBox), nameof(RedirectClass.Score))] = prefx + "Score",
             };
             var map = new IdentityMapNameTransfer(named);
-            var creator = new ProxyCreator(prox, type, map, IdentityNamedCreator.Instance, ReflectionPropertyVisitor.Instance);
+            var creator = new ProxyCreator(prox, type, map, IdentityNamedCreator.Instance, CompilePropertyVisitor.Instance);
             creator.Analysis();
             var x = (dynamic)creator.Build(root);
             x.Red.Age = 123;

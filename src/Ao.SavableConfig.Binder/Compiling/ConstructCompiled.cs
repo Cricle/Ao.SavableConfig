@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FastExpressionCompiler;
+using System;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -53,7 +54,7 @@ namespace Ao.SavableConfig.Binder
             var newBlock = Expression.New(Constructor, convs);
 
             var lambda = Expression.Lambda<ObjectCreator>(newBlock,
-                par).Compile();
+                par).CompileSys();
 
             return lambda;
         }
